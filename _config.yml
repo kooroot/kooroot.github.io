@@ -3,8 +3,8 @@ title: kooroot
 subtitle: kooroot
 email: alswo9085@gmail.com
 description: I'm kooroot
-baseurl: "" # the subpath of your site, e.g. /blog
-url: # the base hostname & protocol for your site
+baseurl: # the subpath of your site, e.g. /blog
+URL: "kooroot.github.io" # the base hostname & protocol for your site
 author:
 street_address: 
 city: Seoul
