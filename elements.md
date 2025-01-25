@@ -108,6 +108,7 @@ Finally, this is a <a href="#">link</a>.</p>
 			<li><a href="#" class="icon alt fa-twitter"><span class="label">Twitter</span></a></li>
 			<li><a href="#" class="icon alt fa-facebook"><span class="label">Facebook</span></a></li>
 			<li><a href="#" class="icon alt fa-instagram"><span class="label">Instagram</span></a></li>
+  			<li><a href="#" class="icon alt fa-telegram"><span class="label">Telegram</span></a></li>
 		</ul>
 
 	</div>
