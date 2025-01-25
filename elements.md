@@ -102,6 +102,7 @@ Finally, this is a <a href="#">link</a>.</p>
 			<li><a href="#" class="icon fa-github"><span class="label">Github</span></a></li>
 			<li><a href="#" class="icon fa-dribbble"><span class="label">Dribbble</span></a></li>
 			<li><a href="#" class="icon fa-tumblr"><span class="label">Tumblr</span></a></li>
+   			<li><a href="#" class="icon fa-telegram"><span class="label">Telegram</span></a></li>
 		</ul>
 		<ul class="icons">
 			<li><a href="#" class="icon alt fa-twitter"><span class="label">Twitter</span></a></li>
