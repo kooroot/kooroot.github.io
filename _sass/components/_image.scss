@@ -7,7 +7,7 @@
 /* Image */
 
 img {
-    max-width: 100%;
+    max-width: initial
 }
 
 .image {
@@ -62,6 +62,13 @@ img {
 			@include breakpoint(small) {
 				margin: (_size(element-margin) * 0.75) 0;
 			}
+		}
+		&.original {
+			width: auto;
+			height: auto;
+			max-width: initial;
+			display: block;
+			margin: 0 auto;
 		}
 
 	}

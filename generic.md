@@ -11,7 +11,7 @@ nav-menu: true
     <div class="inner">
         <!-- 이미지 섹션 -->
         <div style="text-align: center; margin: 2em 0;">
-            <span class="image main">
+            <span class="image original">
                 <img src="assets/images/kooroot.jpg" alt="kooroot profile">
             </span>
         </div>
