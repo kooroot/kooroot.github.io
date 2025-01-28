@@ -63,19 +63,19 @@ img {
 				margin: (_size(element-margin) * 0.75) 0;
 			}
 		}
+		&.original {
+			display: block;
+			margin: 0 auto;
+			
+			img {
+				width: auto;
+				height: auto;
+				max-width: initial;
+				display: block;
+				margin: 0 auto;
+			}
+		}
+
+			
 
 	}
-
-/* Generic Page Image */
-#main #generic span.image.main img {
-	max-width: 400px !important;
-	width: 400px !important;
-	height: 400px !important;
-	object-fit: cover !important;
-	margin: 0 auto !important;
-	display: block !important;
-	transform: scale(1) !important;
-	image-rendering: -webkit-optimize-contrast !important;
-	-webkit-transform: translateZ(0) !important;
-	backface-visibility: hidden !important;
-}
