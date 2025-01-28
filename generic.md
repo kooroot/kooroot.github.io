@@ -7,9 +7,11 @@ image-size: contain
 nav-menu: true
 style: >
   #generic .image.main img {
-    max-width: 300px;
-    margin: 0 auto;
-    display: block;
+    max-width: 300px !important;
+    width: 300px !important;
+    margin: 0 auto !important;
+    display: block !important;
+    height: auto !important;
   }
 ---
 
