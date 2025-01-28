@@ -10,6 +10,15 @@ img {
     max-width: 100%;
 }
 
+#generic .image.main img {
+	max-width: 400px !important;
+	width: 400px !important;
+	height: 400px !important;
+	object-fit: cover !important;
+	margin: 0 auto !important;
+	display: block !important;
+}
+
 .image {
 		border: 0;
 		display: inline-block;
@@ -63,19 +72,5 @@ img {
 				margin: (_size(element-margin) * 0.75) 0;
 			}
 		}
-		&.original {
-			display: block;
-			margin: 0 auto;
-			
-			img {
-				width: auto;
-				height: auto;
-				max-width: initial;
-				display: block;
-				margin: 0 auto;
-			}
-		}
-
-			
 
 	}
