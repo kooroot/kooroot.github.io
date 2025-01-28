@@ -16,7 +16,7 @@ nav-menu: true
             </span>
         </div>
         <section>
-            <h2>안녕하세요, Kooroot입니다 👋</h2>
+            <h2>I'm Kooroot 👋</h2>
             
             <p>
                 TEST
