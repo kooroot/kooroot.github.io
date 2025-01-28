@@ -3,7 +3,7 @@ layout: post
 title: Generic
 description: OMG
 image: assets/images/kooroot.jpg
-image-size: contain
+image-size: 100%
 nav-menu: true
 ---
 
