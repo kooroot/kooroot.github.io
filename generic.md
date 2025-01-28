@@ -8,7 +8,6 @@ nav-menu: true
 
 <!-- Main -->
 <div id="main">
-    <div class="inner">
         <!-- 이미지 섹션 -->
         <div style="text-align: center; margin: 2em 0;">
             <span class="image original">
@@ -40,5 +39,4 @@ nav-menu: true
                 TEST
             </ul>
         </section>
-    </div>
 </div>
