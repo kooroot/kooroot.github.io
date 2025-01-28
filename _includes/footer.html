@@ -1,25 +1,23 @@
 <!-- Footer -->
 <footer id="footer">
     <div class="inner">
-        <div class="grid-container">
-            <div class="left-column">
-                <a href="mailto:{{ site.email }}"><span class="icon alt fa-envelope"></span> {{ site.email }}</a>
-                <a href="tel:{{ site.phone }}"><span class="icon alt fa-phone"></span> {{ site.phone }}</a>
-                <span><span class="icon alt fa-home"></span> {{ site.city }}, {{ site.country }}</span>
-            </div>
-            <div class="right-column">
-                <ul class="icons">
-                    {% for key_value in site.socials %}
-                        {% if key_value[1] %}
-                            <li>
-                                <a href="{{ key_value[1] }}" class="icon alt fa-{{ key_value[0] | downcase }}" target="_blank" rel="noopener noreferrer" aria-label="{{ key_value[0] }}">
-                                    <span class="label">{{ key_value[0] }}</span>
-                                </a>
-                            </li>
-                        {% endif %}
-                    {% endfor %}
-                </ul>
-            </div>
+        <div class="contact-info">
+            <a href="mailto:{{ site.email }}"><span class="icon alt fa-envelope"></span> {{ site.email }}</a>
+            <a href="tel:{{ site.phone }}"><span class="icon alt fa-phone"></span> {{ site.phone }}</a>
+            <span><span class="icon alt fa-home"></span> {{ site.city }}, {{ site.country }}</span>
+        </div>
+        <div class="social-icons">
+            <ul class="icons">
+                {% for key_value in site.socials %}
+                    {% if key_value[1] %}
+                        <li>
+                            <a href="{{ key_value[1] }}" class="icon alt fa-{{ key_value[0] | downcase }}" target="_blank" rel="noopener noreferrer" aria-label="{{ key_value[0] }}">
+                                <span class="label">{{ key_value[0] }}</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
         </div>
         <ul class="copyright">
             <li>&copy; {{ site.title }} {{ site.subtitle }}</li>
@@ -39,28 +37,33 @@
 	<script src="{{ "assets/js/main.js" | absolute_url }}"></script>
 
 <style>
-.grid-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2em;
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
     margin-bottom: 2em;
 }
 
-.left-column {
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-}
-
-.left-column a, .left-column span {
+.contact-info a, .contact-info span {
     display: flex;
     align-items: center;
     gap: 0.5em;
 }
 
-.right-column {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+.social-icons {
+    text-align: center;
+    margin-bottom: 2em;
+}
+
+.social-icons ul.icons {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.social-icons ul.icons li {
+    display: inline-block;
+    margin: 0 0.5em;
 }
 </style>
