@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Generic
+title: Introduction
 description: OMG
 image: assets/images/kooroot.jpg
 nav-menu: true
