@@ -1,6 +1,6 @@
 ---
 layout: home
-title: Home
+title: kooroot
 landing-title: "Hi, I'm KOOROOT"
 description: null
 image: null
