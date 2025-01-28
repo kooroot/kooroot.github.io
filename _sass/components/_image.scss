@@ -10,15 +10,6 @@ img {
     max-width: 100%;
 }
 
-#generic .image.main img {
-	max-width: 400px !important;
-	width: 400px !important;
-	height: 400px !important;
-	object-fit: cover !important;
-	margin: 0 auto !important;
-	display: block !important;
-}
-
 .image {
 		border: 0;
 		display: inline-block;
@@ -62,10 +53,13 @@ img {
 		&.main {
 			display: block;
 			margin: (_size(element-margin) * 1.25) 0;
-			width: 100%;
+			text-align: center;
 
 			img {
-				width: 100%;
+				width: auto;
+				height: auto;
+				max-width: initial;
+				display: inline-block;
 			}
 
 			@include breakpoint(small) {
