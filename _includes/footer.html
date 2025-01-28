@@ -2,31 +2,23 @@
 <footer id="footer">
     <div class="inner">
         <div class="contact-info">
-            <div class="contact-item">
-                <a href="mailto:{{ site.email }}"><span class="icon alt fa-envelope"></span>{{ site.email }}</a>
-            </div>
-            <div class="contact-item">
-                <span><span class="icon alt fa-home"></span>{{ site.city }}, {{ site.country }}</span>
-            </div>
+            <a href="mailto:{{ site.email }}"><span class="icon alt fa-envelope"></span>{{ site.email }}</a>
+            <span><span class="icon alt fa-home"></span>{{ site.city }}, {{ site.country }}</span>
         </div>
-        <div class="social-icons">
-            <ul class="icons">
-                {% for key_value in site.socials %}
-                    {% if key_value[1] %}
-                        <li>
-                            <a href="{{ key_value[1] }}" class="icon alt fa-{{ key_value[0] | downcase }}" target="_blank" rel="noopener noreferrer">
-                                <span class="label">{{ key_value[0] }}</span>
-                            </a>
-                        </li>
-                    {% endif %}
-                {% endfor %}
-            </ul>
+        <div class="social-links">
+            {% for key_value in site.socials %}
+                {% if key_value[1] %}
+                    <a href="{{ key_value[1] }}" class="icon alt fa-{{ key_value[0] | downcase }}" target="_blank" rel="noopener noreferrer">
+                        <span class="label">{{ key_value[0] }}</span>
+                    </a>
+                {% endif %}
+            {% endfor %}
         </div>
-        <ul class="copyright">
-            <li>&copy; {{ site.title }}</li>
-            <li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
-            <li>Jekyll integration: <a href="https://github.com/andrewbanchich">Andrew Banchich</a></li>
-        </ul>
+        <div class="footer-credits">
+            <span>&copy; {{ site.title }}</span>
+            <span>Design: <a href="https://html5up.net">HTML5 UP</a></span>
+            <span>Jekyll: <a href="https://github.com/andrewbanchich">Andrew Banchich</a></span>
+        </div>
     </div>
 </footer>
 
@@ -41,70 +33,59 @@
 
 <style>
 .contact-info {
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8em;
     margin-bottom: 1.5em;
-    padding: 1em 0;
 }
 
-.contact-item {
-    margin: 0.5em 0;
-}
-
-.contact-item a, .contact-item span {
+.contact-info a, .contact-info span {
     color: rgba(255, 255, 255, 0.8);
     text-decoration: none;
-    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
 }
 
-.contact-item .icon {
-    margin-right: 0.5em;
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5em;
+    margin-bottom: 1.5em;
+    padding: 1em 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.social-links a {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.2em;
+}
+
+.social-links a:hover, .contact-info a:hover {
+    color: #47D3E5;
+    transition: color 0.2s ease;
+}
+
+.footer-credits {
+    display: flex;
+    justify-content: center;
+    gap: 1.5em;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.8em;
+}
+
+.footer-credits a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+}
+
+.footer-credits a:hover {
     color: #47D3E5;
 }
 
-.social-icons {
-    text-align: center;
-    margin-bottom: 1.5em;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 1em 0;
-}
-
-.social-icons ul.icons {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-.social-icons ul.icons li {
-    display: inline-block;
-    margin: 0 1em;
-}
-
-.social-icons .icon {
-    font-size: 1.25em;
-    color: rgba(255, 255, 255, 0.8);
-}
-
-.copyright {
-    text-align: center;
-    font-size: 0.8em;
-    color: rgba(255, 255, 255, 0.5);
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-.copyright li {
-    display: inline-block;
-    margin: 0 0.5em;
-}
-
-.copyright a {
-    color: rgba(255, 255, 255, 0.8);
-    text-decoration: none;
-}
-
-.copyright a:hover {
+.icon {
     color: #47D3E5;
 }
 </style>
