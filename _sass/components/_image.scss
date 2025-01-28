@@ -7,7 +7,7 @@
 /* Image */
 
 img {
-    max-width: 100%;
+    max-width: initial !important;
 }
 
 .image {
@@ -56,10 +56,12 @@ img {
 			text-align: center;
 
 			img {
-				width: auto;
-				height: auto;
-				max-width: initial;
+				width: auto !important;
+				height: auto !important;
+				max-width: initial !important;
 				display: inline-block;
+				transform: scale(1) !important;
+				-webkit-transform: translateZ(0) !important;
 			}
 
 			@include breakpoint(small) {
