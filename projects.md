@@ -22,94 +22,68 @@ weight: 1
 </section>
 
 <!-- Two -->
-<section id="two" class="spotlights">
-	<section>
-		<a href="#" class="image">
-			<img src="{% link assets/images/pic08.jpg %}" alt="" data-position="center center" />
-		</a>
-		<div class="content">
-			<div class="inner">
-				<header class="major">
-					<h3>Layer 2 Solutions Research</h3>
-				</header>
-				<p>Research and development of Layer 2 solutions to address Ethereum's scalability challenges</p>
-				<ul class="project-details">
-					<li><strong>Key Achievements:</strong>
-						<ul>
-							<li>Implementation and analysis of Optimistic Rollup technology</li>
-							<li>Research on ZK Rollup protocols</li>
-							<li>Security analysis of Layer 2 bridges</li>
-						</ul>
-					</li>
-					<li><strong>Technologies Used:</strong>
-						<ul>
-							<li>Ethereum</li>
-							<li>Solidity</li>
-							<li>Python</li>
-						</ul>
-					</li>
-				</ul>
+<section id="two">
+	<div class="inner">
+		<div class="project-category">
+			<h2><i class="fa-solid fa-microscope"></i> Blockchain Research</h2>
+			<div class="project-grid">
+			{% assign research_posts = site.posts | where: "category", "Blockchain Research" %}
+			{% for post in research_posts %}
+				<a href="{{ post.url | relative_url }}" class="project-card">
+					<div class="card-content">
+						<h3>{{ post.title }}</h3>
+						<p>{{ post.description }}</p>
+						<div class="tech-stack">
+							{% for tech in post.tech_stack %}
+							<span>{{ tech }}</span>
+							{% endfor %}
+						</div>
+					</div>
+				</a>
+			{% endfor %}
 			</div>
 		</div>
-	</section>
-	<section>
-		<a href="#" class="image">
-			<img src="{% link assets/images/pic09.jpg %}" alt="" data-position="top center" />
-		</a>
-		<div class="content">
-			<div class="inner">
-				<header class="major">
-					<h3>Blockchain Node Operation</h3>
-				</header>
-				<p>Operation and monitoring of validator nodes across various blockchain networks</p>
-				<ul class="project-details">
-					<li><strong>Key Achievements:</strong>
-						<ul>
-							<li>Ethereum validator node operation</li>
-							<li>Solana RPC node deployment</li>
-							<li>Development of automated node monitoring systems</li>
-						</ul>
-					</li>
-					<li><strong>Technologies Used:</strong>
-						<ul>
-							<li>Go</li>
-							<li>Rust</li>
-							<li>Docker</li>
-						</ul>
-					</li>
-				</ul>
+
+		<div class="project-category">
+			<h2><i class="fa-solid fa-code"></i> Blockchain Development</h2>
+			<div class="project-grid">
+			{% assign dev_posts = site.posts | where: "category", "Blockchain Development" %}
+			{% for post in dev_posts %}
+				<a href="{{ post.url | relative_url }}" class="project-card">
+					<div class="card-content">
+						<h3>{{ post.title }}</h3>
+						<p>{{ post.description }}</p>
+						<div class="tech-stack">
+							{% for tech in post.tech_stack %}
+							<span>{{ tech }}</span>
+							{% endfor %}
+						</div>
+					</div>
+				</a>
+			{% endfor %}
 			</div>
 		</div>
-	</section>
-	<section>
-		<a href="#" class="image">
-			<img src="{% link assets/images/pic10.jpg %}" alt="" data-position="25% 25%" />
-		</a>
-		<div class="content">
-			<div class="inner">
-				<header class="major">
-					<h3>DeFi Protocol Development</h3>
-				</header>
-				<p>Development of DeFi protocols and smart contract implementation on Solana</p>
-				<ul class="project-details">
-					<li><strong>Key Achievements:</strong>
-						<ul>
-							<li>Development of AMM DEX protocol</li>
-							<li>Implementation of Yield Farming system</li>
-							<li>Creation of token staking contracts</li>
-						</ul>
-					</li>
-					<li><strong>Technologies Used:</strong>
-						<ul>
-							<li>Rust</li>
-							<li>Anchor Framework</li>
-							<li>TypeScript</li>
-						</ul>
-					</li>
-				</ul>
+
+		<div class="project-category">
+			<h2><i class="fa-solid fa-server"></i> Blockchain Node Operation</h2>
+			<div class="project-grid">
+			{% assign node_posts = site.posts | where: "category", "Blockchain Node Operation" %}
+			{% for post in node_posts %}
+				<a href="{{ post.url | relative_url }}" class="project-card">
+					<div class="card-content">
+						<h3>{{ post.title }}</h3>
+						<p>{{ post.description }}</p>
+						<div class="tech-stack">
+							{% for tech in post.tech_stack %}
+							<span>{{ tech }}</span>
+							{% endfor %}
+						</div>
+					</div>
+				</a>
+			{% endfor %}
 			</div>
 		</div>
-	</section>
+	</div>
 </section>
 
 <!-- Three -->
@@ -130,53 +104,131 @@ weight: 1
 </div>
 
 <style>
-.project-details {
-    margin: 1em 0;
-    padding-left: 0;
+.project-category {
+    margin: 4em 0;
+    padding: 3em;
+    background: rgba(83, 133, 193, 0.03);
+    border-radius: 15px;
+    border: 1px solid rgba(83, 133, 193, 0.15);
 }
 
-.project-details > li {
+.project-category:first-child {
+    margin-top: 0;
+}
+
+.project-category h2 {
+    color: #5385c1;
     margin-bottom: 1.5em;
-    list-style: none;
+    padding-bottom: 0.5em;
+    border-bottom: 2px solid rgba(83, 133, 193, 0.2);
+    display: flex;
+    align-items: center;
+    font-size: 1.8em;
 }
 
-.project-details > li > strong {
-    color: #5385c1;
-    display: block;
-    margin-bottom: 0.5em;
-}
-
-.project-details > li > ul {
-    margin-left: 1em;
-}
-
-.project-details > li > ul > li {
-    margin-bottom: 0.3em;
-    position: relative;
-    padding-left: 1.5em;
-}
-
-.project-details > li > ul > li:before {
-    content: "▹";
-    position: absolute;
-    left: 0;
+.project-category h2 i {
+    margin-right: 0.5em;
+    background: rgba(83, 133, 193, 0.15);
+    padding: 0.5em;
+    border-radius: 10px;
     color: #5385c1;
 }
 
-.spotlights section {
-    margin-bottom: 2em;
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(300px, 1fr));
+    gap: 2em;
+    margin-bottom: 1em;
 }
 
-.spotlights .image {
-    min-width: 30%;
-}
-
-.inner {
+.project-card {
+    background: rgba(83, 133, 193, 0.05);
+    border-radius: 12px;
     padding: 2em;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(83, 133, 193, 0.15);
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
 }
 
-.major h3 {
+.card-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    background: rgba(83, 133, 193, 0.1);
+    border-color: #5385c1;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+}
+
+.project-card h3 {
     color: #5385c1;
+    margin: 0 0 1em 0;
+    font-size: 1.3em;
+    display: flex;
+    align-items: center;
+}
+
+.project-card h3:before {
+    content: "▹";
+    margin-right: 0.5em;
+    color: #5385c1;
+    flex-shrink: 0;
+}
+
+.project-card p {
+    margin: 0 0 1.5em 0;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+    flex-grow: 1;
+}
+
+.tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8em;
+    margin-top: auto;
+}
+
+.tech-stack span {
+    background: rgba(83, 133, 193, 0.15);
+    padding: 0.4em 1em;
+    border-radius: 20px;
+    font-size: 0.9em;
+    color: #5385c1;
+    transition: all 0.3s ease;
+}
+
+.tech-stack span:hover {
+    background: rgba(83, 133, 193, 0.25);
+    transform: translateY(-2px);
+}
+
+@media screen and (max-width: 1400px) {
+    .project-grid {
+        grid-template-columns: repeat(2, minmax(300px, 1fr));
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .project-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .project-category {
+        padding: 2em;
+    }
+    
+    #two {
+        padding: 2em 1em;
+    }
 }
 
 .button-container {
@@ -189,4 +241,17 @@ weight: 1
 .button-container .button {
     margin: 0;
 }
+
+#two {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 4em 2em;
+    margin: 2em 0;
+}
+
+#two .inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
 </style>
+
