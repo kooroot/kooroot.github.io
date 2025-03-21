@@ -310,12 +310,20 @@ weight: 2
                 <h3><i class="fa-solid fa-certificate"></i> Certifications</h3>
                 <div class="cert-list">
                     <div class="cert-item">
-                        <h4>Certified Blockchain Developer</h4>
-                        <p class="cert-info"><i class="fa-regular fa-calendar"></i> 2023</p>
+                        <h4>NAVER Cloud Platform Certified Associate(NCA)</h4>
+                        <p class="cert-info"><i class="fa-regular fa-calendar"></i> 2021</p>
                     </div>
                     <div class="cert-item">
-                        <h4>Ethereum Developer Certification</h4>
-                        <p class="cert-info"><i class="fa-regular fa-calendar"></i> 2023</p>
+                        <h4>Industrial Engineer Information Security</h4>
+                        <p class="cert-info"><i class="fa-regular fa-calendar"></i> 2020</p>
+                    </div>
+                    <div class="cert-item">
+                        <h4>AccessData Certification Examiner(ACE)</h4>
+                        <p class="cert-info"><i class="fa-regular fa-calendar"></i> 2016</p>
+                    </div>
+                    <div class="cert-item">
+                        <h4>Linux Master Level 2</h4>
+                        <p class="cert-info"><i class="fa-regular fa-calendar"></i> 2015</p>
                     </div>
                 </div>
             </div>
