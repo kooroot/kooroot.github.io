@@ -3,7 +3,7 @@ title: I'm
 subtitle: kooroot
 email: alswo9085@gmail.com
 description: Innovative Blockchain Researcher & Engineer
-baseurl: # the subpath of your site, e.g. /blog
+baseurl: "" # the subpath of your site, e.g. /blog
 URL: "kooroot.github.io" # the base hostname & protocol for your site
 author:
 street_address: 
@@ -15,7 +15,7 @@ phone:
 
 # homepage tiles
 tiles-source: pages # accepts "posts" or "pages"
-tiles-count: 6
+tiles-count: 2
 
 # social settings (key must match name of font awesome icon)
 # see https://fontawesome.com/icons?d=gallery&p=2&s=brands

@@ -4,6 +4,8 @@ layout: landing
 description: 'About the projects I worked on'
 image: assets/images/pic07.jpg
 nav-menu: true
+show_tile: true
+weight: 1
 ---
 
 <!-- Main -->

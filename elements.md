@@ -2,7 +2,9 @@
 layout: page
 title: Elements
 image: assets/images/elements.jpg
-nav-menu: true
+nav-menu: false
+show_tile: false
+weight: 3
 ---
 
 <!-- Main -->
