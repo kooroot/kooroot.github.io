@@ -227,6 +227,25 @@ weight: 2
                     <span><i class="fa-brands fa-golang"></i> Go</span>
                 </div>
             </div>
+            <div class="project-item">
+                <h3><i class="fa-solid fa-sun"></i> Solana Development</h3>
+                <p>Development of Solana programs and DeFi protocols using Rust.</p>
+                <div class="project-tech">
+                    <span><i class="fa-brands fa-rust"></i> Rust</span>
+                    <span><i class="fa-solid fa-code"></i> Anchor</span>
+                </div>
+            </div>
+            <div class="project-item">
+                <h3><i class="fa-solid fa-robot"></i> Automation Tools</h3>
+                <p>Development of blockchain automation tools and monitoring systems.</p>
+                <div class="project-tech">
+                    <span><i class="fa-brands fa-python"></i> Python</span>
+                    <span><i class="fa-brands fa-js"></i> TypeScript</span>
+                </div>
+            </div>
+        </div>
+        <div class="projects-more" style="text-align: center; margin-top: 2em;">
+            <a href="projects.html" class="button next">View All Projects</a>
         </div>
     </section>
 
@@ -263,6 +282,19 @@ weight: 2
             <div class="education-item">
                 <div class="education-header">
                     <div class="education-title">
+                        <h3>Blockchain Field</h3>
+                        <p class="school"><i class="fa-solid fa-university"></i> Korea Information Security Industry Association(KISIA)</p>
+                        <p class="degree">Fusion Security Personnel Training</p>
+                    </div>
+                    <div class="education-duration">
+                        <span><i class="fa-regular fa-calendar"></i> 2022</span>
+                        <span class="location"><i class="fa-solid fa-location-dot"></i> Seoul, Korea</span>
+                    </div>
+                </div>
+            </div>
+            <div class="education-item">
+                <div class="education-header">
+                    <div class="education-title">
                         <h3>Information Security</h3>
                         <p class="school"><i class="fa-solid fa-user-graduate"></i> Academic Credit Bank System</p>
                         <p class="degree">Bachelor of Information Security</p>
@@ -291,7 +323,7 @@ weight: 2
                     <div class="education-title">
                         <h3>Forensic Information Security</h3>
                         <p class="school"><i class="fa-solid fa-user-graduate"></i> Jeonju Kijeon College</p>
-                        <p class="degree">Associate Degree of Information Security</p>
+                        <p class="degree">Associate Degree of Science</p>
                     </div>
                     <div class="education-duration">
                         <span><i class="fa-regular fa-calendar"></i> 2015 - 2020</span>
@@ -331,12 +363,12 @@ weight: 2
                 <h3><i class="fa-solid fa-trophy"></i> Awards</h3>
                 <div class="cert-list">
                     <div class="cert-item">
-                        <h4>Blockchain Innovation Award</h4>
-                        <p class="cert-info"><i class="fa-regular fa-calendar"></i> 2023</p>
+                        <h4>Forensic Information Security Academic Excellence Award</h4>
+                        <p class="cert-info"><i class="fa-regular fa-calendar"></i> 2020</p>
                     </div>
                     <div class="cert-item">
-                        <h4>DeFi Hackathon Winner</h4>
-                        <p class="cert-info"><i class="fa-regular fa-calendar"></i> 2023</p>
+                        <h4>Special Prize for Hacking Defence at the Korea Air Force Information and Communications Competition</h4>
+                        <p class="cert-info"><i class="fa-regular fa-calendar"></i> 2017</p>
                     </div>
                 </div>
             </div>
