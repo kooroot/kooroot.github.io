@@ -7,10 +7,11 @@ interface Props {
   href: string;
   tech_stack: string[];
   github?: string;
+  dune?: string;
   category: string;
 }
 
-const { title, description, href, tech_stack, github, category } = Astro.props;
+const { title, description, href, tech_stack, github, dune, category } = Astro.props;
 
 const categoryBorders: Record<string, string> = {
   'Blockchain Research': 'hover:border-cyan-500/50 hover:shadow-cyan-500/5',
@@ -39,10 +40,20 @@ const categoryBorders: Record<string, string> = {
       </span>
     ))}
   </div>
-  {github && (
-    <div class="flex items-center gap-1.5 text-text-muted text-xs">
-      <span set:html={icons.github} />
-      <span>GitHub</span>
+  {(github || dune) && (
+    <div class="flex items-center gap-3 text-text-muted text-xs">
+      {github && (
+        <div class="flex items-center gap-1.5">
+          <span set:html={icons.github} />
+          <span>GitHub</span>
+        </div>
+      )}
+      {dune && (
+        <div class="flex items-center gap-1.5">
+          <span set:html={icons.dune} />
+          <span>Dune</span>
+        </div>
+      )}
     </div>
   )}
 </a>
