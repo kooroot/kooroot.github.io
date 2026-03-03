@@ -1,0 +1,12 @@
+---
+import { STATS } from '../consts';
+---
+
+<div class="grid grid-cols-3 gap-4 md:gap-6 max-w-md">
+  {STATS.map((stat) => (
+    <div class="text-center p-4 bg-card border border-border rounded-xl hover:-translate-y-0.5 transition-transform">
+      <div class="text-2xl md:text-3xl font-bold text-accent mb-1">{stat.value}</div>
+      <div class="text-xs text-text-muted">{stat.label}</div>
+    </div>
+  ))}
+</div>
