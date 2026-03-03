@@ -40,8 +40,8 @@ const categoryBorders: Record<string, string> = {
     ))}
   </div>
   {github && (
-    <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#0F0F15] border border-border rounded-md text-xs font-medium text-text-muted group-hover:text-text-primary group-hover:border-accent/50 transition-colors">
-      <span set:html={icons.github} class="w-4 h-4" />
+    <div class="flex items-center gap-1.5 text-text-muted text-xs">
+      <span set:html={icons.github} />
       <span>GitHub</span>
     </div>
   )}
