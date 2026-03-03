@@ -1,5 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import { icons } from '../components/icons/index';
 
 interface Props {
   title: string;
@@ -9,10 +10,10 @@ interface Props {
   tech_stack: string[];
   date: Date;
   github?: string;
-  demo?: string;
+  dune?: string;
 }
 
-const { title, description, image, category, tech_stack, date, github, demo } = Astro.props;
+const { title, description, image, category, tech_stack, date, github, dune } = Astro.props;
 
 const categoryColors: Record<string, string> = {
   'Blockchain Research': 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20',
@@ -45,9 +46,10 @@ const categoryColors: Record<string, string> = {
             GitHub
           </a>
         )}
-        {demo && (
-          <a href={demo} target="_blank" rel="noopener noreferrer" class="px-3 py-1 bg-accent text-white rounded-md text-xs font-medium hover:bg-accent/90 transition-colors">
-            View Dashboard
+        {dune && (
+          <a href={dune} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#0F0F15] border border-border text-text-primary rounded-md text-xs font-medium hover:border-accent/50 transition-colors">
+            <span set:html={icons.dune} />
+            Dune
           </a>
         )}
       </div>

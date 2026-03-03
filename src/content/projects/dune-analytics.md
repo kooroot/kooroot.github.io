@@ -6,7 +6,7 @@ category: Blockchain Research
 show_tile: true
 tech_stack: ["SQL", "Dune Analytics", "Python", "DeFi"]
 github: https://github.com/kooroot
-demo: https://dune.com/tokamak-network/tokamak-network-tokenomics-dashboard
+dune: https://dune.com/tokamak-network/tokamak-network-tokenomics-dashboard
 date: 2024-02-15
 ---
 
