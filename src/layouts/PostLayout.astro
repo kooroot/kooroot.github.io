@@ -42,7 +42,8 @@ const categoryColors: Record<string, string> = {
           {date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
         </time>
         {github && (
-          <a href={github} target="_blank" rel="noopener noreferrer" class="text-accent hover:underline flex items-center gap-1">
+          <a href={github} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#0F0F15] border border-border text-text-primary rounded-md text-xs font-medium hover:border-accent/50 transition-colors">
+            <span set:html={icons.github} class="w-4 h-4" />
             GitHub
           </a>
         )}
