@@ -15,6 +15,7 @@ const projects = defineCollection({
     show_tile: z.boolean().default(true),
     tech_stack: z.array(z.string()).default([]),
     github: z.string().url().optional(),
+    demo: z.string().url().optional(),
     date: z.coerce.date(),
   }),
 });
