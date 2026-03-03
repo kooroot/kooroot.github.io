@@ -33,6 +33,6 @@ export const NAV_ITEMS = [
 
 export const STATS = [
   { value: "50+", label: "Projects" },
-  { value: "3+", label: "Years XP" },
+  { value: "4+", label: "Years XP" },
   { value: "4", label: "Certs" },
 ] as const;
