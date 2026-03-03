@@ -37,7 +37,7 @@ Development of various DeFi protocols including AMM DEX, Yield Farming, and Stak
 ## Technologies
 - **Smart Contracts**: Solidity (EVM), Rust + Anchor (Solana)
 - **Testing**: Hardhat, Foundry, Anchor Test Suite
-- **Frontend Integration**: Web3.js, Ethers.js, @solana/web3.js
+- **Blockchain SDK**: Web3.js, Ethers.js, @solana/web3.js
 - **Security**: OpenZeppelin contracts, custom reentrancy guards
 
 ## Achievements
