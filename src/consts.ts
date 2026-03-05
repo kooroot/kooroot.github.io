@@ -27,7 +27,6 @@ export const SOCIALS = [
 export const NAV_ITEMS = [
   { label: "Home", href: "/" },
   { label: "Projects", href: "/projects" },
-  { label: "Posts", href: "/posts" },
   { label: "About", href: "/about" },
 ] as const;
 
