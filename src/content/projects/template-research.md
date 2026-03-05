@@ -1,6 +1,6 @@
 ---
-title: "프로젝트 제목"
-description: "한 줄 설명"
+title: "Project Title"
+description: "One-line description"
 image: /images/pic01.jpg
 category: Blockchain Research
 show_tile: false
@@ -11,17 +11,17 @@ date: 2024-01-01
 ---
 
 ## Overview
-연구 배경과 목적을 간략하게 설명합니다.
+Briefly describe the research background and objectives.
 
 ## Key Research
 
-### 주제 1
-- 연구 내용 1
-- 연구 내용 2
+### Topic 1
+- Research detail 1
+- Research detail 2
 
-### 주제 2
-- 연구 내용 1
-- 연구 내용 2
+### Topic 2
+- Research detail 1
+- Research detail 2
 
 ## Technologies
 - **Data Analysis**: Dune Analytics, Python (pandas)
@@ -29,4 +29,4 @@ date: 2024-01-01
 - **Data Sources**: On-chain data, API
 
 ## Results
-연구 결과 및 인사이트를 정리합니다.
+Summarize research outcomes and insights.

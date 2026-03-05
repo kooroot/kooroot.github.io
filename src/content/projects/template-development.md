@@ -1,6 +1,6 @@
 ---
-title: "프로젝트 제목"
-description: "한 줄 설명"
+title: "Project Title"
+description: "One-line description"
 image: /images/pic02.jpg
 category: Blockchain Development
 show_tile: false
@@ -10,17 +10,17 @@ date: 2024-01-01
 ---
 
 ## Overview
-프로젝트의 목적과 개발 배경을 설명합니다.
+Describe the project purpose and development background.
 
 ## Key Features
 
-### 기능 1
-- 구현 내용 1
-- 구현 내용 2
+### Feature 1
+- Implementation detail 1
+- Implementation detail 2
 
-### 기능 2
-- 구현 내용 1
-- 구현 내용 2
+### Feature 2
+- Implementation detail 1
+- Implementation detail 2
 
 ## Technologies
 - **Smart Contracts**: Solidity, Hardhat
@@ -28,4 +28,4 @@ date: 2024-01-01
 - **Testing**: Foundry, Hardhat Test
 
 ## Achievements
-개발 성과 및 결과를 정리합니다.
+Summarize development outcomes and results.
