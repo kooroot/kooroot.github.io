@@ -1,7 +1,7 @@
 ---
 title: Polymarket Scanner
 description: Large-trade & Volatility Monitor with Telegram Alerts
-image: /images/pic02.jpg
+image: /images/prediction-market.jpg
 category: Blockchain Development
 show_tile: true
 tech_stack: ["TypeScript", "Bun", "Telegram Bot", "Polymarket"]

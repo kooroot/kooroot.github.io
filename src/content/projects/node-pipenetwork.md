@@ -1,7 +1,7 @@
 ---
 title: Pipe Network Node Executor
 description: Automated Pipe Network Node Setup & Configuration Script
-image: /images/pic03.jpg
+image: /images/server-node.jpg
 category: Blockchain Node Operation
 show_tile: true
 tech_stack: ["Shell", "Linux", "Docker", "Solana"]

@@ -1,7 +1,7 @@
 ---
 title: Nexus Node Executor
 description: Automated Nexus Node Setup & Management Script
-image: /images/pic03.jpg
+image: /images/server-node.jpg
 category: Blockchain Node Operation
 show_tile: true
 tech_stack: ["Shell", "Rust", "Linux", "Screen"]

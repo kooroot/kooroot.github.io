@@ -1,7 +1,7 @@
 ---
 title: DeFi Smart Contract Suite
 description: DEX, Lending & DeFi Protocol Implementations in Solidity
-image: /images/pic02.jpg
+image: /images/code-screen.jpg
 category: Blockchain Development
 show_tile: true
 tech_stack: ["Solidity", "Hardhat", "JavaScript", "DeFi"]

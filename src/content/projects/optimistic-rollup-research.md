@@ -1,7 +1,7 @@
 ---
 title: Optimistic Rollup Analytics
 description: Data Collection & Analysis for Optimistic Rollup Resource Optimization
-image: /images/pic01.jpg
+image: /images/blockchain-research.jpg
 category: Blockchain Research
 show_tile: true
 tech_stack: ["Python", "Alchemy API", "Data Analysis"]

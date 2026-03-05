@@ -1,7 +1,7 @@
 ---
 title: Vanity Wallet Generator
 description: Custom Pattern Cryptocurrency Wallet Address Generator
-image: /images/pic02.jpg
+image: /images/code-screen.jpg
 category: Blockchain Development
 show_tile: true
 tech_stack: ["Python", "Cryptography", "Ethereum"]

@@ -1,7 +1,7 @@
 ---
 title: Arbitrum Stylus Counter dApp
 description: Counter DApp Built with Rust on Arbitrum Stylus
-image: /images/pic02.jpg
+image: /images/circuit-board.jpg
 category: Blockchain Development
 show_tile: true
 tech_stack: ["Rust", "Arbitrum Stylus", "React", "TypeScript"]

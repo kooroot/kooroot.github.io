@@ -1,7 +1,7 @@
 ---
 title: Gensyn RL-Swarm Node Executor
 description: Automated Gensyn RL-Swarm Node Setup with GPU Support
-image: /images/pic03.jpg
+image: /images/circuit-board.jpg
 category: Blockchain Node Operation
 show_tile: true
 tech_stack: ["Shell", "Docker", "Python", "CUDA"]

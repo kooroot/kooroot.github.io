@@ -1,7 +1,7 @@
 ---
 title: PloggingCats NFT
 description: Eco-friendly Plogging Reward NFT Platform on Polygon
-image: /images/pic02.jpg
+image: /images/nft-art.jpg
 category: Blockchain Development
 show_tile: true
 tech_stack: ["Solidity", "JavaScript", "Polygon", "Hardhat"]

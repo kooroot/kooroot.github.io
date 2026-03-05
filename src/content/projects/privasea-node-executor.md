@@ -1,7 +1,7 @@
 ---
 title: Privasea Node Executor
 description: Automated Privasea FHE AI Node Setup & Dashboard Integration
-image: /images/pic08.jpg
+image: /images/ai-robot.jpg
 category: Blockchain Node Operation
 show_tile: true
 tech_stack: ["Shell", "Docker", "FHE", "Arbitrum"]

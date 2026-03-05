@@ -1,7 +1,7 @@
 ---
 title: Stable Vault Automation
 description: Ethereum Mainnet Stable Vault Monitor & Auto-deposit Bot
-image: /images/pic02.jpg
+image: /images/defi-crypto.jpg
 category: Blockchain Development
 show_tile: true
 tech_stack: ["TypeScript", "Bun", "Ethereum", "Web3"]

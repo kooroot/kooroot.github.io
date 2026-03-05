@@ -1,7 +1,7 @@
 ---
 title: TopHolder Dashboard
 description: Cryptocurrency Top Holder Monitoring Dashboard
-image: /images/pic02.jpg
+image: /images/data-analytics.jpg
 category: Blockchain Development
 show_tile: true
 tech_stack: ["Next.js", "FastAPI", "Python", "TypeScript"]

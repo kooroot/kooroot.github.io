@@ -1,7 +1,7 @@
 ---
 title: DeFi Protocol Development
 description: Development of Decentralized Finance Protocols
-image: /images/pic05.jpg
+image: /images/defi-crypto.jpg
 category: Blockchain Development
 show_tile: true
 tech_stack: ["Solidity", "Rust", "Anchor", "Web3.js", "Hardhat"]

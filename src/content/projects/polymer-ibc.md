@@ -1,7 +1,7 @@
 ---
 title: Polymer IBC Cross-Rollup
 description: IBC-enabled Cross-Rollup Communication via Polymer Hub
-image: /images/pic02.jpg
+image: /images/global-network.jpg
 category: Blockchain Development
 show_tile: true
 tech_stack: ["Solidity", "Foundry", "Hardhat", "IBC"]

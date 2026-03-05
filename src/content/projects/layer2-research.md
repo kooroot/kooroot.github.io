@@ -1,7 +1,7 @@
 ---
 title: Layer 2 Scaling Solutions Research
 description: Research on Optimistic and ZK Rollups
-image: /images/pic03.jpg
+image: /images/ethereum-layer2.jpg
 category: Blockchain Research
 show_tile: true
 tech_stack: ["Ethereum", "Optimism", "zkSync", "StarkNet", "Scroll"]

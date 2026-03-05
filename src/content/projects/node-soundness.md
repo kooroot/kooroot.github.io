@@ -1,7 +1,7 @@
 ---
 title: Soundness Layer Node Executor
 description: Automated Soundness Layer Testnet CLI Setup Script
-image: /images/pic03.jpg
+image: /images/circuit-board.jpg
 category: Blockchain Node Operation
 show_tile: true
 tech_stack: ["Shell", "Linux", "macOS"]

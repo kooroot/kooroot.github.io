@@ -1,7 +1,7 @@
 ---
 title: Lighter DEX Sniper
 description: High-speed Token Sniping Bot for Lighter DEX
-image: /images/pic02.jpg
+image: /images/trading-chart.jpg
 category: Blockchain Development
 show_tile: true
 tech_stack: ["TypeScript", "Python", "Bun", "WebSocket"]

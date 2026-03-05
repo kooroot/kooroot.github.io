@@ -1,7 +1,7 @@
 ---
 title: Solidity Static Analysis Tool
 description: Smart Contract Vulnerability Detection & Code Similarity Checker
-image: /images/pic02.jpg
+image: /images/security-lock.jpg
 category: Blockchain Development
 show_tile: true
 tech_stack: ["Python", "Solidity", "FastText", "ML"]

@@ -1,7 +1,7 @@
 ---
 title: Prescio
 description: AI Social Deduction Game with On-chain Prediction Market on Monad
-image: /images/pic02.jpg
+image: /images/ai-robot.jpg
 category: Blockchain Development
 show_tile: true
 tech_stack: ["Solidity", "React", "TypeScript", "Claude AI", "Monad"]

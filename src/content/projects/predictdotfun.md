@@ -1,7 +1,7 @@
 ---
 title: Predict.fun Trading Interface
 description: Community Trading Interface for Predict.fun Prediction Markets
-image: /images/pic02.jpg
+image: /images/trading-chart.jpg
 category: Blockchain Development
 show_tile: true
 tech_stack: ["Next.js", "TypeScript", "wagmi", "RainbowKit"]

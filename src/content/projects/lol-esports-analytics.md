@@ -1,7 +1,7 @@
 ---
 title: LoL Esports Analytics & Prediction
 description: Real-time LoL Esports Data Pipeline, ML Prediction & Automated Betting System
-image: /images/pic02.jpg
+image: /images/esports-gaming.jpg
 category: Blockchain Development
 show_tile: true
 tech_stack: ["TypeScript", "Python", "React", "ML", "Polymarket"]

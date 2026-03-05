@@ -1,7 +1,7 @@
 ---
 title: Blockchain Automation Tools
 description: Automated On-chain Operations & Monitoring
-image: /images/pic04.jpg
+image: /images/dev-workspace.jpg
 category: Blockchain Development
 show_tile: true
 tech_stack: ["Python", "Node.js", "Docker", "Web3.js", "Telegram Bot"]

@@ -1,7 +1,7 @@
 ---
 title: Gaianet Node Executor
 description: Automated Gaianet AI Node Setup & Management Script
-image: /images/pic03.jpg
+image: /images/global-network.jpg
 category: Blockchain Node Operation
 show_tile: true
 tech_stack: ["Shell", "Linux", "macOS", "AI"]

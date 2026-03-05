@@ -1,7 +1,7 @@
 ---
 title: Prediction Terminal
 description: Prediction Market Arbitrage Scanner with Terminal-style UI
-image: /images/pic02.jpg
+image: /images/code-matrix.jpg
 category: Blockchain Development
 show_tile: true
 tech_stack: ["React", "TypeScript", "Cloudflare Workers", "Polymarket"]

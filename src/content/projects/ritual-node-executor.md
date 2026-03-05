@@ -1,7 +1,7 @@
 ---
 title: Ritual Node Executor
 description: Automated Ritual Infernet Node Setup & Contract Deployment
-image: /images/pic08.jpg
+image: /images/blockchain-network.jpg
 category: Blockchain Node Operation
 show_tile: true
 tech_stack: ["Shell", "Docker", "Foundry", "Python", "Solidity"]

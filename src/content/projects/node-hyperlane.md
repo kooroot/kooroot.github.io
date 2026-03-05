@@ -1,7 +1,7 @@
 ---
 title: Hyperlane Node Executor
 description: Automated Hyperlane Validator Node Setup on Base Chain
-image: /images/pic03.jpg
+image: /images/server-node.jpg
 category: Blockchain Node Operation
 show_tile: true
 tech_stack: ["Shell", "Docker", "Node.js", "Foundry"]

@@ -1,7 +1,7 @@
 ---
 title: DeFi Options Derivatives Research
 description: Comprehensive Research on Options Pricing Models & On-chain Implementation
-image: /images/pic01.jpg
+image: /images/data-analytics.jpg
 category: Blockchain Research
 show_tile: true
 tech_stack: ["Python", "Black-Scholes", "DeFi", "Options"]

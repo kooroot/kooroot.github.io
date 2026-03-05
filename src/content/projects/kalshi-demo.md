@@ -1,7 +1,7 @@
 ---
 title: Kalshi Trading Personality
 description: Trading Personality Analyzer with Market Recommendations
-image: /images/pic02.jpg
+image: /images/prediction-market.jpg
 category: Blockchain Development
 show_tile: true
 tech_stack: ["Hono", "React", "TypeScript", "SQLite"]

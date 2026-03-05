@@ -1,7 +1,7 @@
 ---
 title: UniswapV2 Clone
 description: Full-stack Uniswap V2 DEX Clone with Smart Contracts & Frontend
-image: /images/pic02.jpg
+image: /images/defi-crypto.jpg
 category: Blockchain Development
 show_tile: true
 tech_stack: ["Solidity", "Foundry", "React", "wagmi", "ethers.js"]

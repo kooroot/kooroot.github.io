@@ -1,7 +1,7 @@
 ---
 title: Smart Contract Security Audit
 description: DEX & Lending Protocol Audit Reports and TON Staking Audit
-image: /images/pic01.jpg
+image: /images/security-lock.jpg
 category: Blockchain Research
 show_tile: true
 tech_stack: ["Solidity", "Foundry", "Security", "Audit"]
