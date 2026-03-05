@@ -8,15 +8,16 @@ const skills = {
   blockchain: [
     { name: 'Ethereum & Layer 2 Solutions', level: 'Expert', width: 90 },
     { name: 'Node Operation & Validation', level: 'Expert', width: 85 },
+    { name: 'DApp & DeFi Development', level: 'Expert', width: 85 },
     { name: 'Smart Contract Development', level: 'Intermediate', width: 60 },
-    { name: 'Blockchain Development', level: 'Beginner', width: 30 },
+    { name: 'Smart Contract Auditing', level: 'Intermediate', width: 55 },
   ],
   languages: [
     { name: 'Python', level: 'Expert', width: 90 },
     { name: 'Solidity', level: 'Intermediate', width: 75 },
+    { name: 'TypeScript/JavaScript', level: 'Intermediate', width: 70 },
     { name: 'Go', level: 'Intermediate', width: 60 },
-    { name: 'TypeScript/JavaScript', level: 'Intermediate', width: 60 },
-    { name: 'Rust', level: 'Beginner', width: 20 },
+    { name: 'Rust', level: 'Intermediate', width: 40 },
   ],
 };
 
@@ -33,10 +34,10 @@ const experience = [
     period: '2025 - 2025',
     location: 'Seoul, Korea',
     achievements: [
-      'Conducted comprehensive research on diverse blockchain protocols and consensus mechanisms to drive technical innovation',
-      'Architected the non-custodial wallet with a focus on secure multi-chain integration and optimized asset management',
-      'Performed rigorous security audits on Solidity and Anchor smart contracts to mitigate vulnerabilities and enhance execution efficiency',
-      'Researched and engineered diverse DeFi protocols, focusing on mechanism design and secure smart contract implementation',
+      'Researched blockchain protocols and consensus mechanisms across Ethereum, Solana, and Cosmos ecosystems',
+      'Architected a non-custodial multi-chain wallet with secure key management and optimized asset handling',
+      'Audited Solidity and Anchor smart contracts, identifying and resolving critical vulnerabilities',
+      'Designed and implemented DeFi protocol mechanisms with a focus on secure smart contract architecture',
     ],
     tech: ['Blockchain', 'Wallet', 'Typescript', 'Rust'],
   },
@@ -46,10 +47,10 @@ const experience = [
     period: '2023 - 2025',
     location: 'Seoul, Korea',
     achievements: [
-      'Conducted research on Ethereum Layer 2 scaling solutions',
-      'Optimisation research for efficient L2 operations',
-      'Analysing and monitoring token health with Dune Analytics',
-      'Developed and maintained blockchain infrastructure',
+      'Researched Ethereum Layer 2 scaling solutions and rollup optimization strategies',
+      'Conducted cost-optimization research for efficient L2 operations and resource allocation',
+      'Built Dune Analytics dashboards for on-chain token health monitoring and protocol analytics',
+      'Developed and maintained blockchain node infrastructure and deployment tooling',
     ],
     tech: ['Ethereum', 'Layer 2', 'Python', 'Solidity'],
   },
@@ -59,8 +60,8 @@ const experience = [
     period: '2021 - 2022',
     location: 'Seoul, Korea',
     achievements: [
-      'Develop a mobile software-defined perimeter (SDP) for secure access',
-      'Build a DMZ for cybersecurity training',
+      'Developed a mobile software-defined perimeter (SDP) for secure network access',
+      'Built a DMZ environment for cybersecurity training and penetration testing',
     ],
     tech: ['Cyber Security', 'Information Security', 'Python', 'Kotlin'],
   },
@@ -71,7 +72,7 @@ const education = [
   { title: 'Blockchain Security', school: 'Dreamplus & Theori', degree: 'Dreamplus Academy', period: '2023', location: 'Seoul, Korea' },
   { title: 'Blockchain Field', school: 'Korea Information Security Industry Association (KISIA)', degree: 'Fusion Security Personnel Training', period: '2022', location: 'Seoul, Korea' },
   { title: 'Information Security', school: 'Academic Credit Bank System', degree: 'Bachelor of Information Security', period: '2020 - 2021', location: 'Seoul, Korea' },
-  { title: 'Digital Forensic Track', school: 'Korea Information Technology Research Institute (KITRI)', degree: 'Developing the next generation of security leaders', period: '2019 - 2020', location: 'Seoul, Korea' },
+  { title: 'Digital Forensic Track', school: 'Korea Information Technology Research Institute (KITRI)', degree: 'BoB (Best of the Best) - Next Generation Security Leader', period: '2019 - 2020', location: 'Seoul, Korea' },
   { title: 'Forensic Information Security', school: 'Jeonju Kijeon College', degree: 'Associate Degree of Science', period: '2015 - 2020', location: 'Jeonju, Korea' },
 ];
 
@@ -83,10 +84,10 @@ const projectCount = allProjects.filter((p) => p.data.show_tile).length;
 const awards = AWARDS;
 
 const aboutProjects = [
-  { title: 'Layer 2 Solutions', description: 'Research and development of scalable Layer 2 solutions for Ethereum network.', tech: ['Ethereum', 'Solidity'] },
-  { title: 'Node Validation', description: 'Operating and maintaining validator nodes for various blockchain networks.', tech: ['Rust', 'Go'] },
-  { title: 'Blockchain Development', description: 'Development of Solana programs and DeFi protocols using Rust.', tech: ['Rust', 'Anchor'] },
-  { title: 'Automation Tools', description: 'Development of blockchain automation tools and monitoring systems.', tech: ['Python', 'TypeScript'] },
+  { title: 'DeFi & Prediction Markets', description: 'On-chain prediction markets, DEX clones, DeFi trading bots, and automated vault systems.', tech: ['Solidity', 'React', 'TypeScript'] },
+  { title: 'Node Infrastructure', description: 'Automated deployment scripts for 8+ blockchain validator and compute nodes.', tech: ['Shell', 'Docker', 'Go', 'Rust'] },
+  { title: 'On-chain Analytics', description: 'Dune dashboards, rollup data collection, and ML-based esports prediction pipelines.', tech: ['SQL', 'Python', 'Dune'] },
+  { title: 'Smart Contract Security', description: 'Audited 25+ DeFi contracts and built a static analysis tool with FastText similarity.', tech: ['Solidity', 'Foundry', 'Python'] },
 ];
 ---
 
@@ -124,9 +125,9 @@ const aboutProjects = [
             <span class="px-3 py-1.5 bg-accent/10 text-accent rounded-full text-sm font-medium">Node Validator</span>
           </div>
           <p class="text-text-secondary leading-relaxed mb-6">
-            I am a passionate blockchain researcher and engineer with a focus on Ethereum Layer 2 solutions.
-            My expertise lies in developing scalable blockchain solutions and conducting in-depth research on emerging blockchain technologies.
-            I have a particular interest in validating nodes and contributing to the decentralized ecosystem.
+            Blockchain researcher and engineer building DeFi protocols, prediction market tools, and node infrastructure.
+            I audit smart contracts, run on-chain analytics with Dune, and operate validator nodes across multiple networks.
+            M.S. in Finance Security from Korea University.
           </p>
           <div class="grid grid-cols-3 gap-4">
             <div class="text-center p-3 bg-card border border-border rounded-xl">

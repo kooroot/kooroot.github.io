@@ -2,7 +2,7 @@ export const SITE = {
   title: "kooroot",
   subtitle: "Blockchain Researcher & Engineer",
   description:
-    "Innovative Blockchain Researcher & Engineer specializing in Ethereum Layer 2, DeFi, and Node Infrastructure.",
+    "Blockchain Researcher & Engineer with 4+ years of experience in Ethereum L2, DeFi, prediction markets, and node infrastructure.",
   email: "alswo9085@gmail.com",
   location: "Seoul, South Korea",
   url: "https://kooroot.github.io",
