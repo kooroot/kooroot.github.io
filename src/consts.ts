@@ -39,4 +39,9 @@ export const CERTIFICATIONS = [
   { name: "Linux Master Level 2", year: "2015" },
 ] as const;
 
+export const AWARDS = [
+  { name: "Forensic Information Security Academic Excellence Award", year: "2020" },
+  { name: "Special Prize for Hacking Defence at the Korea Air Force Information and Communications Competition", year: "2017" },
+] as const;
+
 export const YEARS_XP = "4+" as const;
