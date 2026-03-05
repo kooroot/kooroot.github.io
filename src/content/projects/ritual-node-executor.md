@@ -1,46 +1,42 @@
 ---
-title: "[Ritual] Node Executor"
-description: On-chain AI Inference Node Operation
+title: Ritual Node Executor
+description: Automated Ritual Infernet Node Setup & Contract Deployment
 image: /images/pic08.jpg
 category: Blockchain Node Operation
 show_tile: true
-tech_stack: ["Python", "Docker", "Infernet", "Solidity", "Grafana"]
+tech_stack: ["Shell", "Docker", "Foundry", "Python", "Solidity"]
+github: https://github.com/kooroot/Node_Executor-Ritual
 date: 2024-03-20
 ---
 
 ## Overview
-Operated Ritual Network's **Infernet** nodes — infrastructure that brings AI/ML model inference directly on-chain. Ritual enables smart contracts to request and consume AI model outputs trustlessly, bridging the gap between off-chain ML and on-chain applications.
+Ritual Network의 Infernet 노드 설치, 설정, 컨트랙트 배포까지 전 과정을 자동화하는 Shell 스크립트 프로젝트입니다. Linux(Ubuntu 계열)와 macOS 환경을 지원하며, 스마트 컨트랙트가 AI/ML 모델 추론을 온체인에서 요청하고 소비할 수 있는 인프라를 구축합니다.
 
-## Key Components
+## Key Features
 
-### Infernet Node Setup
-- Deployed Infernet node containers (orchestrator + chain connector) on dedicated servers
-- Configured node wallet registration and subscription to on-chain inference requests
-- Managed model container deployments for serving ML inference workloads
+### Full Stack Automation
+- Docker / Docker Compose 자동 설치 및 설정
+- Python3, pip3, infernet-cli, infernet-client 자동 설치
+- Foundry 설치 및 anvil 프로세스 관리
 
-### On-chain AI Workflow
-- Processed `InfernetRequest` events from Ritual's consumer contracts
-- Delivered signed inference results back to requesting smart contracts
-- Handled multi-model routing and container orchestration for diverse AI tasks
+### Node Configuration
+- infernet-container-starter 리포지토리 자동 클론
+- config.json, Deploy.s.sol, docker-compose.yaml 자동 수정
+- Registry 주소 및 노드 이미지 자동 설정
+- Private Key 입력 기반 노드 구성
 
-### Monitoring & Operations
-- Built monitoring dashboards tracking inference request throughput and response latency
-- Implemented automated log rotation and container health checks
-- Maintained secure key management for node operator wallets
-
-## Architecture
-```
-Smart Contract → InfernetRequest Event → Infernet Node
-    ↓                                        ↓
-Result Callback ← Signed Inference ← ML Model Container
-```
+### Contract Deployment
+- screen 세션에서 `make deploy-container` 자동 실행
+- Forge 라이브러리 설치 및 프로젝트 컨트랙트 배포
+- 새 컨트랙트 주소 자동 추출 및 CallContract.s.sol 반영
+- `make call-contract`로 최종 테스트 수행
 
 ## Technologies
-- **Ritual SDK**: Infernet Node, Infernet Container SDK
-- **ML Runtime**: Python, ONNX, custom model containers
-- **Infrastructure**: Docker, Docker Compose, Nginx reverse proxy
-- **Monitoring**: Grafana, Prometheus, custom alerting scripts
-- **Smart Contracts**: Solidity (consumer contract interaction)
+- **Scripting**: Shell (Bash)
+- **Smart Contracts**: Solidity, Foundry (Forge)
+- **Runtime**: Python3, infernet-cli
+- **Container**: Docker, Docker Compose
+- **Network**: Ritual Infernet (Base Chain)
 
 ## Results
-Achieved reliable node operation with low-latency inference delivery, processing AI requests from on-chain consumer contracts. Contributed to Ritual's vision of making AI a native blockchain primitive.
+Base 체인에서 Infernet 노드를 안정적으로 운영하며, 온체인 AI 추론 요청을 처리하고 스마트 컨트랙트에 결과를 전달하는 인프라를 구축했습니다.
