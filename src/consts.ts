@@ -31,8 +31,12 @@ export const NAV_ITEMS = [
   { label: "About", href: "/about" },
 ] as const;
 
-export const STATS = [
-  { value: "50+", label: "Projects" },
-  { value: "4+", label: "Years XP" },
-  { value: "4", label: "Certs" },
+export const CERTIFICATIONS = [
+  { name: "Camp Mamo", year: "2025" },
+  { name: "NAVER Cloud Platform Certified Associate (NCA)", year: "2021" },
+  { name: "Industrial Engineer Information Security", year: "2020" },
+  { name: "AccessData Certification Examiner (ACE)", year: "2016" },
+  { name: "Linux Master Level 2", year: "2015" },
 ] as const;
+
+export const YEARS_XP = "4+" as const;

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { icons } from '../components/icons/index';
+import { CERTIFICATIONS } from '../consts';
 
 const skills = {
   blockchain: [
@@ -52,7 +53,7 @@ const experience = [
     tech: ['Ethereum', 'Layer 2', 'Python', 'Solidity'],
   },
   {
-    title: 'Blockchain Researcher & Engineer',
+    title: 'Security Researcher & Engineer / Mobile Developer',
     company: 'JNH Security',
     period: '2021 - 2022',
     location: 'Seoul, Korea',
@@ -73,12 +74,7 @@ const education = [
   { title: 'Forensic Information Security', school: 'Jeonju Kijeon College', degree: 'Associate Degree of Science', period: '2015 - 2020', location: 'Jeonju, Korea' },
 ];
 
-const certifications = [
-  { name: 'NAVER Cloud Platform Certified Associate (NCA)', year: '2021' },
-  { name: 'Industrial Engineer Information Security', year: '2020' },
-  { name: 'AccessData Certification Examiner (ACE)', year: '2016' },
-  { name: 'Linux Master Level 2', year: '2015' },
-];
+const certifications = CERTIFICATIONS;
 
 const awards = [
   { name: 'Forensic Information Security Academic Excellence Award', year: '2020' },
