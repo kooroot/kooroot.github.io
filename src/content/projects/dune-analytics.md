@@ -1,7 +1,7 @@
 ---
 title: Dune Analytics Dashboard
 description: On-chain Token & Protocol Analytics
-image: /images/pic06.jpg
+image: /images/dune.png
 category: Blockchain Research
 show_tile: true
 tech_stack: ["SQL", "Dune Analytics", "Python", "DeFi"]
