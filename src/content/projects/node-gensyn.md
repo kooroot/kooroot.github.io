@@ -10,24 +10,24 @@ date: 2025-02-10
 ---
 
 ## Overview
-Linux(Ubuntu 계열)와 macOS 환경에서 Gensyn RL-Swarm Node의 설치를 자동화하는 스크립트 프로젝트입니다. 로컬 설치와 Docker 실행 두 가지 방식을 지원하며, NVIDIA GPU 자동 감지 기능을 포함합니다.
+A script project that automates the installation of Gensyn RL-Swarm Node on Linux (Ubuntu-based) and macOS environments. It supports both local installation and Docker execution methods, and includes automatic NVIDIA GPU detection.
 
 ## Key Features
 
 ### Multi-Platform Support
-- Ubuntu (18.04 LTS+) 및 macOS (Intel / Apple Silicon) 지원
-- OS별 패키지 매니저 자동 선택 (apt / brew)
-- Docker / Docker Compose 자동 설치
+- Ubuntu (18.04 LTS+) and macOS (Intel / Apple Silicon) support
+- Automatic package manager selection per OS (apt / brew)
+- Docker / Docker Compose auto-installation
 
 ### Flexible Deployment
-- 로컬 설치: Git 클론 후 Python 가상환경에서 실행
-- Docker 실행: 컨테이너 기반 실행 (GPU 지원 여부 자동 감지)
-- CLI 옵션으로 설치 방식 직접 지정 가능 (`--local`, `--docker`)
+- Local install: Clone via Git and run in Python virtual environment
+- Docker execution: Container-based execution with automatic GPU support detection
+- CLI options for direct installation method selection (`--local`, `--docker`)
 
 ### GPU Detection
-- NVIDIA GPU 존재 여부 자동 감지
-- 지원 GPU 모델 확인 (RTX 3090, RTX 4090, A100, H100)
-- GPU 유무에 따른 Docker 실행 옵션 자동 설정
+- Automatic NVIDIA GPU presence detection
+- Supported GPU model verification (RTX 3090, RTX 4090, A100, H100)
+- Automatic Docker run options based on GPU availability
 
 ## Technologies
 - **Scripting**: Shell (Bash)

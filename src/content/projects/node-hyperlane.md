@@ -10,24 +10,24 @@ date: 2025-02-15
 ---
 
 ## Overview
-Hyperlane 노드의 자동 설치 및 구성을 위한 Bash 스크립트 프로젝트입니다. Base 체인 기준으로 작성되었으며, Linux와 macOS 환경 모두에서 동작합니다. screen 세션 내에서 안정적으로 실행되어 터미널 연결이 끊겨도 작업이 유지됩니다.
+A Bash script project for automated installation and configuration of Hyperlane nodes. Built for Base chain, it works on both Linux and macOS environments. The script runs within a screen session for stability, ensuring work continues even if the terminal connection is lost.
 
 ## Key Features
 
 ### Automated Environment Setup
-- NVM & Node.js 20 자동 설치
-- Foundry 설치 및 환경 변수 자동 설정
-- Hyperlane CLI 설치 및 Docker 이미지 Pull
+- NVM & Node.js 20 auto-installation
+- Foundry installation with automatic environment variable configuration
+- Hyperlane CLI installation and Docker image pull
 
 ### Wallet Management
-- Foundry `cast wallet new` 명령을 통한 지갑 자동 생성
-- Private Key 자동 추출 및 파일 저장
-- 커스텀 지갑 연동 스크립트 별도 제공
+- Automatic wallet generation via Foundry `cast wallet new`
+- Auto-extraction of Private Key with file storage
+- Separate script provided for custom wallet integration
 
 ### Validator Node Deployment
-- Validator 이름 및 Base 체인 RPC URL 설정
-- Docker 컨테이너 기반 Hyperlane Agent 실행
-- 데이터베이스 디렉토리 마운트 및 관리
+- Validator name and Base chain RPC URL configuration
+- Docker container-based Hyperlane Agent execution
+- Database directory mount and management
 
 ## Technologies
 - **Scripting**: Shell (Bash)
