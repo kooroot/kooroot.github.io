@@ -1,0 +1,59 @@
+---
+import { icons } from './icons/index';
+
+interface Props {
+  title: string;
+  description: string;
+  href: string;
+  tech_stack: string[];
+  github?: string;
+  dune?: string;
+  category: string;
+}
+
+const { title, description, href, tech_stack, github, dune, category } = Astro.props;
+
+const categoryBorders: Record<string, string> = {
+  'Blockchain Research': 'hover:border-cyan-500/50 hover:shadow-cyan-500/5',
+  'Blockchain Development': 'hover:border-green-500/50 hover:shadow-green-500/5',
+  'Blockchain Node Operation': 'hover:border-purple-500/50 hover:shadow-purple-500/5',
+};
+---
+
+<a
+  href={href}
+  class:list={[
+    'group block bg-card border border-border rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl',
+    categoryBorders[category] || 'hover:border-accent/50',
+  ]}
+>
+  <h3 class="text-lg font-semibold text-text-primary mb-2 group-hover:text-accent transition-colors">
+    {title}
+  </h3>
+  <p class="text-text-secondary text-sm leading-relaxed mb-4 line-clamp-2">
+    {description}
+  </p>
+  <div class="flex flex-wrap gap-2 mb-4">
+    {tech_stack.map((tech) => (
+      <span class="px-2.5 py-1 bg-secondary border border-border rounded-md text-xs font-medium text-text-muted">
+        {tech}
+      </span>
+    ))}
+  </div>
+  {(github || dune) && (
+    <div class="flex items-center gap-3 text-text-muted text-xs">
+      {github && (
+        <div class="flex items-center gap-1.5">
+          <span set:html={icons.github} />
+          <span>GitHub</span>
+        </div>
+      )}
+      {dune && (
+        <div class="flex items-center gap-1.5">
+          <span set:html={icons.dune} />
+          <span>Dune</span>
+        </div>
+      )}
+    </div>
+  )}
+</a>

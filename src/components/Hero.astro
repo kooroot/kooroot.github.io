@@ -1,0 +1,52 @@
+---
+import Stats from './Stats.astro';
+import { icons } from './icons/index';
+---
+
+<section class="relative min-h-[90vh] flex items-center overflow-hidden">
+  <!-- Background -->
+  <div class="absolute inset-0 bg-gradient-to-br from-primary via-secondary to-primary" />
+  <div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(59,130,246,0.08),transparent_50%)]" />
+  <div class="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(59,130,246,0.04),transparent_40%)]" />
+
+  <div class="max-w-6xl mx-auto px-6 py-20 relative z-10 w-full">
+    <div class="max-w-2xl">
+      <!-- Title with typing animation -->
+      <h1 class="text-4xl md:text-6xl font-bold text-text-primary mb-6">
+        <span id="typing-text" class="typing-cursor"></span>
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="text-text-secondary text-lg md:text-xl leading-relaxed mb-4">
+        Blockchain engineer with <strong class="text-text-primary">4+ years</strong> of experience specializing in
+        <strong class="text-text-primary">Ethereum L2 & DeFi</strong>,
+        <strong class="text-text-primary">prediction market tools</strong>, and
+        <strong class="text-text-primary">node infrastructure</strong>.
+      </p>
+
+      <!-- Status Badge -->
+      <div class="flex items-center gap-3 mb-8 text-sm text-text-muted font-mono">
+        <span class="flex items-center gap-2">
+          <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+          NODE_STATUS: OPERATIONAL
+        </span>
+        <span class="text-border">|</span>
+        <span>UPTIME: 99.9%</span>
+      </div>
+
+      <!-- CTA Buttons -->
+      <div class="flex flex-wrap gap-4 mb-12">
+        <a href="/projects" class="px-6 py-3 bg-accent text-white rounded-lg font-medium hover:bg-accent/90 transition-colors flex items-center gap-2">
+          View Projects
+          <span set:html={icons.arrow} />
+        </a>
+        <a href="/about" class="px-6 py-3 bg-card border border-border text-text-primary rounded-lg font-medium hover:border-accent/50 transition-colors">
+          About Me
+        </a>
+      </div>
+
+      <!-- Stats -->
+      <Stats />
+    </div>
+  </div>
+</section>

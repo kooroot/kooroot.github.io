@@ -1,0 +1,328 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { icons } from '../components/icons/index';
+import { CERTIFICATIONS, AWARDS } from '../consts';
+import { getCollection } from 'astro:content';
+
+const skills = {
+  blockchain: [
+    { name: 'Ethereum & Layer 2 Solutions', level: 'Expert', width: 90 },
+    { name: 'Node Operation & Validation', level: 'Expert', width: 85 },
+    { name: 'DApp & DeFi Development', level: 'Expert', width: 85 },
+    { name: 'Smart Contract Development', level: 'Intermediate', width: 60 },
+    { name: 'Smart Contract Auditing', level: 'Intermediate', width: 55 },
+  ],
+  languages: [
+    { name: 'Python', level: 'Expert', width: 90 },
+    { name: 'Solidity', level: 'Intermediate', width: 75 },
+    { name: 'TypeScript/JavaScript', level: 'Intermediate', width: 70 },
+    { name: 'Go', level: 'Intermediate', width: 60 },
+    { name: 'Rust', level: 'Intermediate', width: 40 },
+  ],
+};
+
+const levelColors: Record<string, string> = {
+  Expert: 'bg-green-500/15 text-green-400',
+  Intermediate: 'bg-yellow-500/15 text-yellow-400',
+  Beginner: 'bg-orange-500/15 text-orange-400',
+};
+
+const experience = [
+  {
+    title: 'Blockchain Researcher & Engineer',
+    company: 'Graylab',
+    period: '2025 - 2025',
+    location: 'Seoul, Korea',
+    achievements: [
+      'Researched blockchain protocols and consensus mechanisms across Ethereum, Solana, and Cosmos ecosystems',
+      'Architected a non-custodial multi-chain wallet with secure key management and optimized asset handling',
+      'Audited Solidity and Anchor smart contracts, identifying and resolving critical vulnerabilities',
+      'Designed and implemented DeFi protocol mechanisms with a focus on secure smart contract architecture',
+    ],
+    tech: ['Blockchain', 'Wallet', 'Typescript', 'Rust'],
+  },
+  {
+    title: 'Blockchain Researcher & Engineer',
+    company: 'Onther',
+    period: '2023 - 2025',
+    location: 'Seoul, Korea',
+    achievements: [
+      'Researched Ethereum Layer 2 scaling solutions and rollup optimization strategies',
+      'Conducted cost-optimization research for efficient L2 operations and resource allocation',
+      'Built Dune Analytics dashboards for on-chain token health monitoring and protocol analytics',
+      'Developed and maintained blockchain node infrastructure and deployment tooling',
+    ],
+    tech: ['Ethereum', 'Layer 2', 'Python', 'Solidity'],
+  },
+  {
+    title: 'Security Researcher & Engineer / Mobile Developer',
+    company: 'JNH Security',
+    period: '2021 - 2022',
+    location: 'Seoul, Korea',
+    achievements: [
+      'Developed a mobile software-defined perimeter (SDP) for secure network access',
+      'Built a DMZ environment for cybersecurity training and penetration testing',
+    ],
+    tech: ['Cyber Security', 'Information Security', 'Python', 'Kotlin'],
+  },
+];
+
+const education = [
+  { title: 'Blockchain', school: 'Korea University', degree: "Master's Degree of Science in Finance Security", period: '2022 - 2025', location: 'Seoul, Korea' },
+  { title: 'Blockchain Security', school: 'Dreamplus & Theori', degree: 'Dreamplus Academy', period: '2023', location: 'Seoul, Korea' },
+  { title: 'Blockchain Field', school: 'Korea Information Security Industry Association (KISIA)', degree: 'Fusion Security Personnel Training', period: '2022', location: 'Seoul, Korea' },
+  { title: 'Information Security', school: 'Academic Credit Bank System', degree: 'Bachelor of Information Security', period: '2020 - 2021', location: 'Seoul, Korea' },
+  { title: 'Digital Forensic Track', school: 'Korea Information Technology Research Institute (KITRI)', degree: 'BoB (Best of the Best) - Next Generation Security Leader', period: '2019 - 2020', location: 'Seoul, Korea' },
+  { title: 'Forensic Information Security', school: 'Jeonju Kijeon College', degree: 'Associate Degree of Science', period: '2015 - 2020', location: 'Jeonju, Korea' },
+];
+
+const certifications = CERTIFICATIONS;
+
+const allProjects = await getCollection('projects');
+const projectCount = allProjects.filter((p) => p.data.show_tile).length;
+
+const awards = AWARDS;
+
+const aboutProjects = [
+  { title: 'DeFi & Prediction Markets', description: 'On-chain prediction markets, DEX clones, DeFi trading bots, and automated vault systems.', tech: ['Solidity', 'React', 'TypeScript'] },
+  { title: 'Node Infrastructure', description: 'Automated deployment scripts for 8+ blockchain validator and compute nodes.', tech: ['Shell', 'Docker', 'Go', 'Rust'] },
+  { title: 'On-chain Analytics', description: 'Dune dashboards, rollup data collection, and ML-based esports prediction pipelines.', tech: ['SQL', 'Python', 'Dune'] },
+  { title: 'Smart Contract Security', description: 'Audited 25+ DeFi contracts and built a static analysis tool with FastText similarity.', tech: ['Solidity', 'Foundry', 'Python'] },
+];
+---
+
+<BaseLayout title="About" description="Blockchain Researcher & Engineer">
+  <!-- Banner -->
+  <section class="relative py-20 md:py-28 overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-secondary/50 to-transparent" />
+    <div class="max-w-6xl mx-auto px-6 relative z-10">
+      <h1 class="text-4xl md:text-5xl font-bold text-text-primary mb-4">About Me</h1>
+      <p class="text-text-secondary text-lg">Blockchain Researcher & Engineer</p>
+    </div>
+  </section>
+
+  <div class="max-w-6xl mx-auto px-6 pb-20 space-y-16">
+
+    <!-- Profile Section -->
+    <section class="fade-in-up">
+      <div class="flex flex-col md:flex-row gap-8 items-start bg-secondary border border-border rounded-2xl p-6 md:p-8">
+        <!-- Profile Image -->
+        <div class="flex-shrink-0 w-full md:w-72">
+          <div class="relative rounded-xl overflow-hidden group">
+            <img src="/images/kooroot.jpg" alt="kooroot profile" class="w-full aspect-square object-cover" />
+            <div class="absolute inset-0 bg-accent/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+              <p class="text-white font-semibold">Blockchain Engineer</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Profile Info -->
+        <div class="flex-1">
+          <h2 class="text-2xl font-bold text-text-primary mb-4">About Me</h2>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="px-3 py-1.5 bg-accent/10 text-accent rounded-full text-sm font-medium">Blockchain Engineer</span>
+            <span class="px-3 py-1.5 bg-accent/10 text-accent rounded-full text-sm font-medium">Researcher</span>
+            <span class="px-3 py-1.5 bg-accent/10 text-accent rounded-full text-sm font-medium">Node Validator</span>
+          </div>
+          <p class="text-text-secondary leading-relaxed mb-6">
+            Blockchain researcher and engineer building DeFi protocols, prediction market tools, and node infrastructure.
+            I audit smart contracts, run on-chain analytics with Dune, and operate validator nodes across multiple networks.
+            M.S. in Finance Security from Korea University.
+          </p>
+          <div class="grid grid-cols-3 gap-4">
+            <div class="text-center p-3 bg-card border border-border rounded-xl">
+              <div class="text-xl font-bold text-accent">{projectCount}</div>
+              <div class="text-xs text-text-muted">Projects</div>
+            </div>
+            <div class="text-center p-3 bg-card border border-border rounded-xl">
+              <div class="text-xl font-bold text-accent">{CERTIFICATIONS.length}</div>
+              <div class="text-xs text-text-muted">Certifications</div>
+            </div>
+            <div class="text-center p-3 bg-card border border-border rounded-xl">
+              <div class="text-xl font-bold text-accent">{AWARDS.length}</div>
+              <div class="text-xs text-text-muted">Awards</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="fade-in-up">
+      <h2 class="text-2xl font-bold text-text-primary mb-8 pb-4 border-b border-border">Skills</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Blockchain Development -->
+        <div>
+          <h3 class="text-lg font-semibold text-text-primary mb-4">Blockchain Development</h3>
+          <div class="space-y-4">
+            {skills.blockchain.map((skill) => (
+              <div>
+                <div class="flex items-center justify-between mb-1.5">
+                  <span class="text-sm text-text-secondary">{skill.name}</span>
+                  <span class={`px-2 py-0.5 rounded-full text-xs font-medium ${levelColors[skill.level]}`}>
+                    {skill.level}
+                  </span>
+                </div>
+                <div class="h-1.5 bg-card rounded-full overflow-hidden">
+                  <div class="h-full bg-accent rounded-full transition-all duration-1000" style={`width: ${skill.width}%`} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Programming Languages -->
+        <div>
+          <h3 class="text-lg font-semibold text-text-primary mb-4">Programming Languages</h3>
+          <div class="space-y-4">
+            {skills.languages.map((skill) => (
+              <div>
+                <div class="flex items-center justify-between mb-1.5">
+                  <span class="text-sm text-text-secondary">{skill.name}</span>
+                  <span class={`px-2 py-0.5 rounded-full text-xs font-medium ${levelColors[skill.level]}`}>
+                    {skill.level}
+                  </span>
+                </div>
+                <div class="h-1.5 bg-card rounded-full overflow-hidden">
+                  <div class="h-full bg-accent rounded-full transition-all duration-1000" style={`width: ${skill.width}%`} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section class="fade-in-up">
+      <h2 class="text-2xl font-bold text-text-primary mb-8 pb-4 border-b border-border">Experience</h2>
+      <div class="space-y-6">
+        {experience.map((exp) => (
+          <div class="border-l-2 border-accent pl-6 py-2 hover:bg-secondary/50 rounded-r-lg transition-colors">
+            <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-2 mb-3">
+              <div>
+                <h3 class="text-lg font-semibold text-text-primary">{exp.title}</h3>
+                <p class="text-text-secondary text-sm">{exp.company}</p>
+              </div>
+              <div class="text-sm text-text-muted text-right">
+                <div>{exp.period}</div>
+                <div>{exp.location}</div>
+              </div>
+            </div>
+            <ul class="space-y-1.5 mb-4">
+              {exp.achievements.map((a) => (
+                <li class="text-sm text-text-secondary flex items-start gap-2">
+                  <span class="text-accent mt-1 flex-shrink-0">&#10003;</span>
+                  {a}
+                </li>
+              ))}
+            </ul>
+            <div class="flex flex-wrap gap-2">
+              {exp.tech.map((t) => (
+                <span class="px-2.5 py-1 bg-accent/10 text-accent rounded-md text-xs font-medium">{t}</span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="fade-in-up">
+      <h2 class="text-2xl font-bold text-text-primary mb-8 pb-4 border-b border-border">Projects</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {aboutProjects.map((proj) => (
+          <div class="bg-card border border-border rounded-xl p-5 hover:-translate-y-0.5 transition-transform">
+            <h3 class="text-lg font-semibold text-accent mb-2">{proj.title}</h3>
+            <p class="text-sm text-text-secondary mb-3">{proj.description}</p>
+            <div class="flex gap-2">
+              {proj.tech.map((t) => (
+                <span class="px-2 py-0.5 bg-secondary border border-border rounded text-xs text-text-muted">{t}</span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div class="mt-6 text-center">
+        <a href="/projects" class="px-5 py-2.5 bg-accent text-white rounded-lg text-sm font-medium hover:bg-accent/90 transition-colors inline-block">
+          View All Projects
+        </a>
+      </div>
+    </section>
+
+    <!-- Education Section -->
+    <section class="fade-in-up">
+      <h2 class="text-2xl font-bold text-text-primary mb-8 pb-4 border-b border-border">Education</h2>
+      <div class="space-y-4">
+        {education.map((edu) => (
+          <div class="border-l-2 border-accent pl-6 py-3 hover:bg-secondary/50 rounded-r-lg transition-colors">
+            <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-1">
+              <div>
+                <h3 class="text-base font-semibold text-accent">{edu.title}</h3>
+                <p class="text-sm text-text-primary">{edu.school}</p>
+                <p class="text-sm text-text-muted italic">{edu.degree}</p>
+              </div>
+              <div class="text-sm text-text-muted text-right flex-shrink-0">
+                <div>{edu.period}</div>
+                <div>{edu.location}</div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Certifications & Awards Section -->
+    <section class="fade-in-up">
+      <h2 class="text-2xl font-bold text-text-primary mb-8 pb-4 border-b border-border">Certifications & Awards</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Certifications -->
+        <div>
+          <h3 class="text-lg font-semibold text-text-primary mb-4">Certifications</h3>
+          <div class="space-y-3">
+            {certifications.map((cert) => (
+              <div class="bg-card border border-border rounded-xl p-4 hover:border-accent/30 transition-colors">
+                <h4 class="text-sm font-semibold text-accent">{cert.name}</h4>
+                <p class="text-xs text-text-muted mt-1">{cert.year}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Awards -->
+        <div>
+          <h3 class="text-lg font-semibold text-text-primary mb-4">Awards</h3>
+          <div class="space-y-3">
+            {awards.map((award) => (
+              <div class="bg-card border border-border rounded-xl p-4 hover:border-accent/30 transition-colors">
+                <h4 class="text-sm font-semibold text-accent">{award.name}</h4>
+                <p class="text-xs text-text-muted mt-1">{award.year}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="fade-in-up">
+      <div class="text-center">
+        <div class="flex justify-center gap-4">
+          <a href="https://github.com/kooroot" target="_blank" rel="noopener noreferrer" class="p-3 bg-card border border-border rounded-xl hover:border-accent/50 hover:text-accent transition-all text-text-muted">
+            <span set:html={icons.github} />
+          </a>
+          <a href="https://www.linkedin.com/in/kooroot" target="_blank" rel="noopener noreferrer" class="p-3 bg-card border border-border rounded-xl hover:border-accent/50 hover:text-accent transition-all text-text-muted">
+            <span set:html={icons.linkedin} />
+          </a>
+          <a href="https://twitter.com/k00r00t" target="_blank" rel="noopener noreferrer" class="p-3 bg-card border border-border rounded-xl hover:border-accent/50 hover:text-accent transition-all text-text-muted">
+            <span set:html={icons.twitter} />
+          </a>
+          <a href="https://t.me/kooroot" target="_blank" rel="noopener noreferrer" class="p-3 bg-card border border-border rounded-xl hover:border-accent/50 hover:text-accent transition-all text-text-muted">
+            <span set:html={icons.telegram} />
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</BaseLayout>

@@ -1,0 +1,78 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import { icons } from '../components/icons/index';
+
+interface Props {
+  title: string;
+  description: string;
+  image: string;
+  category: string;
+  tech_stack: string[];
+  date: Date;
+  github?: string;
+  dune?: string;
+}
+
+const { title, description, image, category, tech_stack, date, github, dune } = Astro.props;
+
+const categoryColors: Record<string, string> = {
+  'Blockchain Research': 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20',
+  'Blockchain Development': 'bg-green-500/10 text-green-400 border-green-500/20',
+  'Blockchain Node Operation': 'bg-purple-500/10 text-purple-400 border-purple-500/20',
+};
+---
+
+<BaseLayout title={title} description={description} image={image}>
+  <!-- Banner -->
+  <div class="relative h-64 md:h-80 overflow-hidden">
+    <img src={image} alt={title} class="w-full h-full object-cover" />
+    <div class="absolute inset-0 bg-gradient-to-t from-primary via-primary/60 to-transparent" />
+  </div>
+
+  <article class="max-w-4xl mx-auto px-6 -mt-20 relative z-10">
+    <!-- Header -->
+    <div class="mb-8">
+      <span class={`inline-block px-3 py-1 rounded-full text-xs font-medium border ${categoryColors[category] || 'bg-accent/10 text-accent border-accent/20'} mb-4`}>
+        {category}
+      </span>
+      <h1 class="text-3xl md:text-4xl font-bold text-text-primary mb-3">{title}</h1>
+      <p class="text-text-secondary text-lg mb-4">{description}</p>
+      <div class="flex flex-wrap items-center gap-4 text-sm text-text-muted">
+        <time datetime={date.toISOString()}>
+          {date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+        </time>
+        {github && (
+          <a href={github} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#0F0F15] border border-border text-text-primary rounded-md text-xs font-medium hover:border-accent/50 transition-colors">
+            <span set:html={icons.github} />
+            GitHub
+          </a>
+        )}
+        {dune && (
+          <a href={dune} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#0F0F15] border border-border text-text-primary rounded-md text-xs font-medium hover:border-accent/50 transition-colors">
+            <span set:html={icons.dune} />
+            Dune
+          </a>
+        )}
+      </div>
+    </div>
+
+    <!-- Tech Stack -->
+    <div class="flex flex-wrap gap-2 mb-8">
+      {tech_stack.map((tech) => (
+        <span class="px-3 py-1 bg-secondary border border-border rounded-lg text-xs font-medium text-text-secondary">
+          {tech}
+        </span>
+      ))}
+    </div>
+
+    <!-- Content -->
+    <div class="prose max-w-none mb-16">
+      <slot />
+    </div>
+
+    <!-- Back Link -->
+    <div class="border-t border-border pt-8 mb-12">
+      <a href="/projects" class="text-accent hover:underline text-sm">&larr; Back to Projects</a>
+    </div>
+  </article>
+</BaseLayout>
