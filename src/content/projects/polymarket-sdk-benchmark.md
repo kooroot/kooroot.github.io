@@ -6,7 +6,7 @@ category: Blockchain Research
 show_tile: true
 tech_stack: ["Python", "TypeScript", "Rust", "Polymarket", "Benchmark"]
 github: https://github.com/kooroot-company/polymarket-sdk-benchmark
-date: 2025-07-15
+date: 2026-01-15
 ---
 
 ## Overview
