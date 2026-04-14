@@ -9,27 +9,22 @@ github: https://github.com/kooroot/Node_Executor-Ritual
 date: 2024-03-20
 ---
 
-## Overview
-A Shell script project that automates the entire process of Ritual Network's Infernet node installation, configuration, and contract deployment. Supports Linux (Ubuntu-based) and macOS environments, building the infrastructure that allows smart contracts to request and consume AI/ML model inference on-chain.
+## Problem
+Ritual's **Infernet** is an on-chain AI/ML inference network deployed on Base, letting smart contracts request model inference and receive verified results. Operating a node end-to-end requires a Docker runtime, the `infernet-cli` / `infernet-client` Python tooling, Foundry for contract work, a cloned `infernet-container-starter` scaffold with three config files to edit in lockstep (`config.json`, `Deploy.s.sol`, `docker-compose.yaml`), and a two-stage deploy-then-call verification. Any step skipped leaves a node that registers but never fulfills inference requests.
 
-## Key Features
+## Approach
+- **Full-stack automation across the Docker / Python / Foundry / Solidity boundary**: one script owns everything from `apt install` through `make call-contract`.
+- **In-place config rewriting** of `config.json`, `Deploy.s.sol`, and `docker-compose.yaml` to keep Registry address, node image, and private key synchronized — the most common manual-onboarding failure mode.
+- **screen-wrapped `make deploy-container`** so the long-running container build survives SSH drops.
+- **Auto-extraction of the deployed contract address** and substitution into `CallContract.s.sol`, followed by a `make call-contract` smoke test to confirm the node is reachable from on-chain callers before declaring success.
 
-### Full Stack Automation
-- Docker / Docker Compose auto-installation and configuration
-- Python3, pip3, infernet-cli, infernet-client auto-installation
-- Foundry installation with anvil process management
+## Implementation
+Bash driver targeting Ubuntu and macOS. Installs Docker + Docker Compose, Python3 + pip3, `infernet-cli`, `infernet-client`, Foundry, and manages the anvil process. Clones `infernet-container-starter` and patches `config.json`, `Deploy.s.sol`, and `docker-compose.yaml` with the provided private key, Registry address, and node image. Runs `make deploy-container` inside a screen session, installs Forge libraries, deploys the project contract, extracts the new contract address, patches it into `CallContract.s.sol`, and executes `make call-contract` as a live end-to-end test.
 
-### Node Configuration
-- Automatic cloning of infernet-container-starter repository
-- Auto-modification of config.json, Deploy.s.sol, docker-compose.yaml
-- Automatic Registry address and node image configuration
-- Private Key input-based node setup
-
-### Contract Deployment
-- Automatic `make deploy-container` execution in screen session
-- Forge library installation and project contract deployment
-- Auto-extraction of new contract address and CallContract.s.sol update
-- Final test execution via `make call-contract`
+## Outcome
+- Infernet node operational on Base chain, processing on-chain AI inference requests and returning results to smart contracts.
+- Deploy-then-call smoke test caught misconfigured Registry addresses and stale private keys at setup time rather than during live inference requests.
+- Config-file drift across `config.json` / `Deploy.s.sol` / `docker-compose.yaml` eliminated as a failure class.
 
 ## Technologies
 - **Scripting**: Shell (Bash)
@@ -37,6 +32,3 @@ A Shell script project that automates the entire process of Ritual Network's Inf
 - **Runtime**: Python3, infernet-cli
 - **Container**: Docker, Docker Compose
 - **Network**: Ritual Infernet (Base Chain)
-
-## Results
-Successfully operated Infernet nodes on Base chain, processing on-chain AI inference requests and delivering results to smart contracts.

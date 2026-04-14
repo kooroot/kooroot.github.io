@@ -9,10 +9,17 @@ github: https://github.com/kooroot/Join_Project_v2
 date: 2023-06-23
 ---
 
-## Overview
-**dream-analyzer** is an extended fork of Trail of Bits' Slither static analysis framework, enhanced with custom vulnerability detectors, business logic analysis, Echidna property-based fuzzing integration, and ML-powered code similarity checking. Built as a comprehensive CLI tool for smart contract security analysis.
+## Problem
+Off-the-shelf static analyzers catch generic vulnerability classes but miss protocol-specific logic bugs (such as UniswapV2-style invariant violations) and have no native path for property-based fuzzing or cross-contract similarity detection. Security teams end up stitching Slither, Echidna, and ad-hoc scripts together per engagement. A consolidated tool that fused these capabilities behind one CLI was needed.
 
-## Key Features
+## Approach
+- **Fork Slither rather than wrap it**: custom detectors and business-logic analysis required direct access to the core engine's SlithIR and contract models, which a wrapper cannot expose cleanly.
+- **Custom detectors beyond Slither's defaults** — dedicated reentrancy variants (`Reentrant.py`, `TokenReentrancy.py`) and UniswapV2-specific business-logic checks — because real exploits are rarely caught by generic templates alone.
+- **Echidna integration via generated configuration** so property-based fuzzing is driven by the static analysis results (payable functions, state variables, call sequences) rather than hand-written configs.
+- **FastText code similarity** pretrained on Etherscan verified contracts to surface code clones and familiar vulnerability patterns across a codebase, complementing rule-based detection.
+- **Regression-test snapshotting** with 355+ golden files to guarantee detector stability across engine updates — a static analyzer whose output changes silently is worse than one with known limits.
+
+## Implementation
 
 ### Extended Slither Static Analysis Engine
 - Forked and extended the Slither core engine (`slither_core/`) with custom detector modules
@@ -36,7 +43,7 @@ date: 2023-06-23
 - Configurable analysis parameters and structured output reports
 - Modular detector architecture for easy extension
 
-## Architecture
+### Architecture
 ```
 dream-analyzer/
 ├── slither_core/           # Extended Slither engine
@@ -53,6 +60,13 @@ dream-analyzer/
 │       └── snapshots/           # 355+ golden-file snapshots
 └── dream_cli/              # CLI entry point
 ```
+
+## Outcome
+- **dream-analyzer**: pip-installable CLI that consolidates static analysis, property fuzzing, and ML similarity under `dream detect vuln | logic | all`.
+- Extended Slither engine with custom reentrancy and UniswapV2 business-logic detectors not present in upstream Slither.
+- Automated Echidna configuration and guidance driven by static analysis output.
+- FastText-based code similarity scoring trained on Etherscan verified contracts.
+- 355+ regression snapshots guaranteeing detector behavior stability across engine updates.
 
 ## Technologies
 - **Core Engine**: Slither (forked & extended)

@@ -9,31 +9,25 @@ github: https://github.com/kooroot/Node_Executor-Privasea
 date: 2024-03-20
 ---
 
-## Overview
-A Shell script project that automates the installation and execution of Privasea Acceleration Node. Privasea is a privacy-preserving AI network powered by Fully Homomorphic Encryption (FHE), enabling machine learning computations on encrypted data. Supports both Linux and macOS environments.
+## Problem
+Privasea is a **Fully Homomorphic Encryption (FHE)** AI network where operator-run Acceleration Nodes perform machine learning inference on encrypted inputs without decrypting them. Rewards are settled on Arbitrum Sepolia and bound to a node address derived from an encrypted keystore. The native onboarding mixes Docker image pulls, keystore password generation, and dashboard-side wallet linking — with the node address only discoverable via `docker logs` grep after first start.
 
-## Key Features
+## Approach
+- **Docker-first deployment**: the Acceleration Node runs as a container to isolate the FHE runtime and its dependencies from the host.
+- **OS-branched installers** for Linux and macOS to handle Docker install path differences.
+- **Keystore password auto-generation** on first run, so the operator never types one and the password is captured to a known file for later dashboard linking.
+- **screen session auto-attach** so the operator lands on the live Docker log stream and can extract the printed node address for wallet binding.
 
-### One-Click Installation
-- Dedicated scripts for Linux and macOS
-- Docker-based Privasea Acceleration Node auto-deployment
-- Automatic screen session switch and script execution
+## Implementation
+Bash scripts targeting Linux and macOS. Each installs Docker if missing, pulls the Privasea Acceleration Node image, generates the keystore password on initial setup, and launches the container inside a screen session. After boot, the operator attaches to the session, extracts the node address from Docker logs, and links it against their Arbitrum Sepolia wallet on the Privasea web dashboard to activate reward accrual.
 
-### Wallet & Key Management
-- Keystore password auto-generation process on initial node setup
-- Node address verification via Docker logs
-- Web dashboard and wallet integration guide included
-
-### Dashboard Integration
-- Node status monitoring through Privasea web dashboard
-- Reward management via node address and wallet linking
-- Docker log-based node operation status verification
+## Outcome
+- Stable node operation on Privasea testnet, contributing to encrypted AI inference tasks across the network.
+- Node address and keystore password captured reliably on first boot, eliminating the manual log-grep step from the default onboarding.
+- Dashboard wallet linkage completed; node eligible for FHE inference task rewards on Arbitrum Sepolia.
 
 ## Technologies
 - **Scripting**: Shell (Bash)
 - **Container**: Docker
 - **Encryption**: FHE (Fully Homomorphic Encryption)
 - **Network**: Privasea AI Network, Arbitrum Sepolia
-
-## Results
-Achieved stable node operation on Privasea testnet, contributing to encrypted AI inference tasks across the network.

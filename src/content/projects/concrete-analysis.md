@@ -8,30 +8,26 @@ tech_stack: ["DeFi", "Solidity", "Yield", "ERC-4626"]
 date: 2025-03-25
 ---
 
-## Overview
-Conducted technical analysis of the Concrete protocol, examining its DeFi architecture, yield optimization strategies, and smart contract design patterns.
+## Problem
+Yield aggregators layered on top of multiple external DeFi protocols compound both reward and risk surfaces, and public documentation rarely makes the resulting trust assumptions explicit. Evaluating Concrete required reconstructing how vaults allocate capital, where admin privileges sit, and which integrated protocols dominate the risk profile before any deposit decision could be justified.
 
-## Research Areas
+## Approach
+- **Contract-first reading** of the vault, strategy, and access-control modules rather than relying on marketing material.
+- **ERC-4626 conformance check** to understand share accounting and deposit/withdraw semantics.
+- **Integration mapping** of every external protocol touched by strategy allocations.
+- **Privilege scoping review** covering upgrade paths, pausers, strategy setters, and fee recipients.
+- **Oracle and price-feed review** to identify manipulation surfaces.
 
-### Protocol Architecture
-- Analyzed Concrete's vault-based yield aggregation model
-- Studied strategy allocation mechanisms and rebalancing logic
-- Evaluated fee structures and protocol revenue models
+## Implementation
+Examined Concrete's vault-based **yield aggregation model**, strategy allocation mechanisms, and rebalancing logic, along with fee structures and protocol revenue capture. Reviewed contract architecture and upgrade patterns, integration points with external DeFi protocols, and access control and admin privilege scoping. For risk assessment, identified dependency risks on integrated protocols, assessed smart contract complexity and attack surface, and evaluated oracle usage and price feed reliability.
 
-### Smart Contract Analysis
-- Reviewed contract architecture and upgrade patterns
-- Analyzed integration points with external DeFi protocols
-- Evaluated access control and admin privilege scoping
-
-### Risk Assessment
-- Identified dependency risks on integrated protocols
-- Assessed smart contract complexity and attack surface
-- Evaluated oracle usage and price feed reliability
+## Findings
+- **Aggregator risk is dominated by integrated protocols**, not the aggregator itself — the attack surface is the union of every strategy target.
+- **Admin scoping** (pauser, strategy setter, fee recipient, upgrader) determines operational trust more than contract code alone.
+- **ERC-4626** gives predictable share accounting but does not constrain how strategies source yield.
+- **Oracle selection** inside strategies is the most common manipulation entry point in yield-aggregator designs.
 
 ## Technologies
 - **Protocol**: Concrete
 - **Tools**: Foundry, Solidity, Dune Analytics
 - **Standards**: ERC-4626, ERC-20
-
-## Impact
-Analysis contributed to understanding yield aggregation protocol design patterns and informed protocol evaluation processes.

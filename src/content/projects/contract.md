@@ -8,10 +8,17 @@ tech_stack: ["Solidity", "Rust", "Anchor", "Web3.js", "Hardhat"]
 date: 2024-03-20
 ---
 
-## Overview
-Development of various DeFi protocols including AMM DEX, Yield Farming, and Staking systems across Ethereum and Solana ecosystems.
+## Problem
+DeFi primitives (AMMs, yield farms, staking vaults) share well-known mechanical patterns but require correct implementation across differing execution environments. Building reference implementations on both Ethereum (EVM) and Solana (SVM) surfaces the concrete differences in account models, reentrancy surfaces, and reward accrual math that get glossed over in high-level protocol descriptions.
 
-## Key Features
+## Approach
+- **Reference existing standards over novel design**: followed Uniswap V2 factory/router topology for the AMM and OpenZeppelin patterns for access control, since deviation from audited topologies is the most common source of exploitable bugs.
+- **Per-second accrual over per-block**: reward math uses wall-clock seconds to keep incentives consistent across chains with differing block times.
+- **Cross-ecosystem parity**: built equivalent functionality in both Solidity and Rust/Anchor to expose where the same economic logic requires different safety patterns (explicit account passing in Anchor vs. implicit `msg.sender` in Solidity).
+- **Gas-optimized batch operations** for harvest/compound flows, since per-user interactions dominate operational cost in yield farms.
+- **Timelock-gated emergency paths** rather than direct owner escape hatches to limit governance risk.
+
+## Implementation
 
 ### AMM DEX (Automated Market Maker)
 - Implemented constant product formula (`x * y = k`) for token swaps
@@ -34,11 +41,13 @@ Development of various DeFi protocols including AMM DEX, Yield Farming, and Stak
 - Implemented fee collection and distribution to liquidity providers
 - Built emergency withdrawal functions with timelock governance
 
+## Outcome
+- Deployed multiple DeFi protocols spanning AMM, yield farming, and staking across Ethereum and Solana ecosystems.
+- Comprehensive test coverage with a security-first design posture.
+- Internal security review completed with no critical vulnerabilities found.
+
 ## Technologies
 - **Smart Contracts**: Solidity (EVM), Rust + Anchor (Solana)
 - **Testing**: Hardhat, Foundry, Anchor Test Suite
 - **Blockchain SDK**: Web3.js, Ethers.js, @solana/web3.js
 - **Security**: OpenZeppelin contracts, custom reentrancy guards
-
-## Achievements
-Successfully deployed multiple DeFi protocols with comprehensive test coverage and security-first design. All contracts passed internal security review with no critical vulnerabilities found.

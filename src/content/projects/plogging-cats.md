@@ -9,25 +9,31 @@ github: https://github.com/kooroot/Polygon_NFT_PloggingCats
 date: 2022-05-28
 ---
 
-## Overview
-An eco-friendly NFT platform that rewards users for plogging (jogging + picking up litter) with cat-themed NFTs on the Polygon network. Includes the complete stack from smart contracts to minting interface and promotional website.
+## Problem
+Plogging — jogging while picking up litter — lacks a digital reward layer that could recognise and sustain participation. Minting environmentally themed NFTs as proof of activity gives participants a collectible, transferable record. Building this on Polygon rather than Ethereum mainnet keeps minting fees compatible with small, frequent rewards.
 
-## Key Features
+## Approach
+- **Polygon over Ethereum L1** to make per-reward mint cost negligible.
+- **ERC-721 for uniqueness** of each plogging reward NFT.
+- **Hardhat** for contract development, testing, and deployment.
+- **Vanilla HTML/CSS/JavaScript frontend** for the minting page and promotional site to keep the stack lightweight.
+- **Cat theming** for brand memorability independent of the underlying activity.
+
+## Implementation
 
 ### NFT Smart Contracts
-- ERC-721 NFT contracts deployed on Polygon
-- Cat-themed collectible NFTs as plogging rewards
-- Hardhat-based development and deployment
+ERC-721 contract deployed on Polygon Mainnet, issuing cat-themed collectible NFTs as plogging rewards. Contract development and deployment handled with Hardhat.
 
 ### Minting Interface
-- Web-based NFT minting page
-- Wallet connection for Polygon network
-- Real-time minting status and transaction tracking
+Web-based minting page with wallet connection to Polygon, real-time minting status, and transaction tracking.
 
 ### Platform Website
-- Promotional landing page for the PloggingCats project
-- Community engagement and plogging activity showcase
-- Responsive design with HTML/CSS/JavaScript
+Promotional landing page for the PloggingCats project covering community engagement and plogging activity, built with HTML, CSS, and JavaScript for responsive rendering.
+
+## Outcome
+- ERC-721 reward NFT contract live on Polygon Mainnet.
+- Minting page with Polygon wallet connection and transaction feedback.
+- Promotional site describing the plogging activity and community model.
 
 ## Technologies
 - **Smart Contracts**: Solidity, Hardhat, Polygon

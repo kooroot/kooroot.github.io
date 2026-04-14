@@ -9,36 +9,37 @@ github: https://github.com/kooroot
 date: 2024-01-20
 ---
 
-## Overview
-Developed a suite of automation tools for blockchain operations — covering airdrop farming workflows, transaction monitoring, wallet management, and notification systems across multiple chains.
+## Problem
+Running airdrop-farming campaigns, tracking wallet P&L, and responding to on-chain events across Ethereum, L2s, and Solana required stitching together ad-hoc scripts and manual dashboards. Multi-chain operations at scale meant repeated context switches, missed timing windows on governance votes and token claims, and no unified visibility into wallet state or gas conditions.
 
-## Key Tools
+## Approach
+- **Per-function tool modules** rather than a monolith: separate services for transaction execution, portfolio aggregation, alerting, and airdrop workflows.
+- **Python for on-chain scripting** (web3.py, asyncio) and **Node.js for ethers.js-heavy execution paths** — each language used where its ecosystem is strongest.
+- **Telegram as the alert surface** since it handles cross-device push without infrastructure overhead.
+- **Randomized transaction patterns** (timing, amount, path) for airdrop workflows to avoid the heuristics farming-detection systems flag.
+- **Docker + PM2 + cron** for process supervision, keeping long-running listeners and scheduled jobs independently recoverable.
+
+## Implementation
 
 ### Multi-chain Transaction Automation
-- Built batch transaction executors for Ethereum, Arbitrum, Optimism, and Solana
-- Implemented gas price optimization with EIP-1559 fee estimation
-- Created scheduling system for time-sensitive on-chain operations (e.g., token claims, governance votes)
+Batch transaction executors for Ethereum, Arbitrum, Optimism, and Solana with EIP-1559 gas optimization. Scheduling layer for time-sensitive operations (token claims, governance votes) so critical windows are not missed.
 
 ### Wallet Portfolio Manager
-- Developed multi-wallet balance aggregator supporting EVM and Solana wallets
-- Built DeFi position tracker pulling data from lending and liquidity protocols
-- Implemented P&L calculation with historical price lookups
+Multi-wallet balance aggregator across EVM and Solana. DeFi position tracker pulling lending and liquidity protocol state. P&L calculation with historical price lookups for accurate cost-basis reporting.
 
 ### Alert & Notification System
-- Built Telegram bot for real-time alerts on wallet activity and price movements
-- Implemented smart contract event listeners for protocol-specific notifications
-- Created customizable threshold alerts for gas prices and token prices
+Telegram bot for real-time wallet activity and price alerts. Smart contract event listeners for protocol-specific triggers. Configurable threshold alerts for gas prices and token prices.
 
 ### Airdrop Workflow Engine
-- Designed task orchestration framework for multi-step airdrop qualification
-- Built transaction randomization (timing, amounts, paths) for organic activity patterns
-- Implemented progress tracking and completion scoring per wallet
+Task orchestration framework covering multi-step qualification criteria. Transaction randomization across timing, amounts, and routing paths to produce organic-looking activity. Per-wallet progress tracking and completion scoring.
+
+## Outcome
+- Consolidated multi-chain operations into a single supervised toolchain.
+- Real-time visibility into wallet activity, gas conditions, and DeFi positions via Telegram and local dashboards.
+- Reduced manual operational overhead for airdrop qualification and governance participation.
 
 ## Technologies
 - **Backend**: Python (web3.py, asyncio), Node.js (ethers.js)
 - **Automation**: Docker, cron jobs, PM2 process manager
 - **Notifications**: Telegram Bot API, Discord webhooks
 - **Data Storage**: SQLite for transaction logs, Redis for caching
-
-## Results
-Automation tools significantly reduced manual operational overhead, enabling efficient management of multi-chain activities with consistent execution and real-time visibility.

@@ -9,26 +9,31 @@ github: https://github.com/kooroot/predictdotfun
 date: 2025-12-14
 ---
 
-## Overview
-A Next.js 14 web application for trading on Predict.fun prediction markets. Supports both BNB Testnet and Mainnet with full trading functionality including orderbook display, order management, and position tracking.
+## Problem
+Predict.fun hosts prediction markets on BNB Chain but lacks a community-built trading interface that exposes the full orderbook, limit/market order flow, and position management in a single app. Traders need a responsive front-end covering both Testnet (for experimentation) and Mainnet (for live trading) with a standard wallet-connection stack.
 
-## Key Features
+## Approach
+- **Next.js 14 App Router** for colocated routing, server components, and streaming-friendly data fetching.
+- **wagmi + RainbowKit** for production-grade wallet connection with minimal custom code.
+- **Dual-network support (BNB Testnet and Mainnet)** selectable via wagmi chain config.
+- **TanStack Query** for orderbook and position state with automatic refetching.
+- **shadcn/ui** for composable, accessible trading UI primitives.
+
+## Implementation
 
 ### Trading Features
-- Market browsing and search functionality
-- Orderbook display with real-time updates
-- Limit and market order creation
-- Position management and order history with cancellation
+Market browsing with search, orderbook display with real-time updates, limit and market order creation, and position management including open-order cancellation and order history.
 
 ### Wallet Integration
-- RainbowKit + wagmi for seamless wallet connection
-- BNB Testnet and Mainnet support
-- TanStack Query for efficient state management
+RainbowKit handles wallet discovery and connection, wagmi provides typed contract interactions and chain switching, and TanStack Query coordinates on-chain state with the UI. Both BNB Testnet and Mainnet are supported via chain configuration.
 
 ### UI/UX
-- shadcn/ui component library
-- Next.js 14 App Router architecture
-- Responsive trading interface
+Trading interface built on shadcn/ui primitives under the Next.js 14 App Router, with a responsive layout that covers desktop and mobile trading flows.
+
+## Outcome
+- End-to-end trading interface for Predict.fun markets covering browse, orderbook, order placement, cancellation, and history.
+- Cross-network support for BNB Testnet and Mainnet from a single deployment.
+- Standard wagmi/RainbowKit wallet stack compatible with mainstream BNB-Chain wallets.
 
 ## Technologies
 - **Frontend**: Next.js 14, TypeScript, shadcn/ui

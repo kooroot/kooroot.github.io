@@ -9,20 +9,23 @@ github: https://github.com/kooroot/Polymer
 date: 2024-03-12
 ---
 
-## Overview
-A project implementing IBC (Inter-Blockchain Communication) enabled Solidity contracts using the Polymer Hub for cross-rollup communication. Enables message passing between Optimism Sepolia and Base Sepolia through Polymer's vIBC core contracts.
+## Problem
+Cross-rollup messaging between Ethereum L2s typically relies on third-party bridges with their own trust assumptions, fragmenting liquidity and composability. Applying IBC — the Cosmos-native messaging protocol — to Ethereum rollups through Polymer Hub offered a way to exercise a more formally specified messaging model in the EVM environment, but required hands-on integration to evaluate.
 
-## Key Features
+## Approach
+- **Polymer vIBC core contracts** as the on-chain IBC endpoint on each rollup.
+- **Optimism Sepolia and Base Sepolia** as the two rollup endpoints, chosen to exercise cross-OP-Stack messaging.
+- **Dual toolchain** (Hardhat + Foundry) to validate build and test paths against both ecosystems.
+- **Alchemy RPC + Blockscout** for deployment and post-deployment verification.
 
-### Cross-Rollup Communication
-- IBC protocol implementation via Polymer's vIBC contracts
-- Message passing between Optimism Sepolia and Base Sepolia
-- Compatible with both Hardhat and Foundry toolchains
+## Implementation
+Implemented IBC-enabled Solidity contracts using Polymer's **vIBC** stack for cross-rollup communication between Optimism Sepolia and Base Sepolia. The contract architecture integrates with Polymer Hub for cross-chain messaging, with the project configured so both Hardhat and Foundry build and test the same source. Alchemy RPC endpoints and Blockscout explorer support were wired in for deployment and verification.
 
-### Contract Architecture
-- IBC-enabled Solidity smart contracts
-- Polymer Hub integration for cross-chain messaging
-- Alchemy RPC and Blockscout explorer support
+## Findings
+- **IBC on EVM rollups via Polymer** is viable end-to-end today for message passing between OP Stack chains.
+- **vIBC contracts** are the critical integration surface — correct channel and port configuration dominates the integration cost.
+- **Dual-toolchain parity** (Hardhat + Foundry) is achievable and useful for reaching contributors from either ecosystem.
+- Cross-rollup messaging via a formally specified protocol is a practical alternative to ad-hoc bridge contracts for interop between OP Stack rollups.
 
 ## Technologies
 - **Smart Contracts**: Solidity, Foundry, Hardhat

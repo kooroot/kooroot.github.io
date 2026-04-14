@@ -9,22 +9,27 @@ github: https://github.com/kooroot/UniswapV2-Clone-Contract
 date: 2025-04-09
 ---
 
-## Overview
-A complete Uniswap V2 decentralized exchange clone featuring both smart contracts and a web frontend. The contracts are built with Foundry and OpenZeppelin, while the frontend provides a token swapping interface using React + wagmi connected to a local Anvil network.
+## Problem
+Reading the Uniswap V2 core and periphery contracts explains what the protocol does, but not the end-to-end experience of deploying it, connecting a wallet, and executing swaps against a locally-forked chain. A full-stack clone — contracts plus a working frontend against Anvil — closes that gap and surfaces the integration details (approvals, slippage, deadline handling) that pure contract study hides.
 
-## Key Features
+## Approach
+- **Full V2 pair/factory/router rebuild** rather than a trimmed-down AMM, so that constant-product math, LP minting, and router-level slippage protection were all exercised faithfully.
+- **Foundry for contracts, Vite/React for the UI**: Kept contract work in Foundry for native Solidity testing and used a modern frontend stack for fast iteration on the swap UX.
+- **Anvil-local instead of testnet**: Ran everything against Anvil (chain 31337) so deployment and state could be reset instantly, making UX bugs cheap to reproduce.
+- **wagmi + ethers.js**: Used wagmi for connection/account state and ethers for contract calls, matching production DeFi frontend patterns.
+
+## Implementation
 
 ### Smart Contracts
-- Full Uniswap V2 contract implementation in Solidity
-- Factory and Router pattern architecture
-- Constant product formula (x * y = k) for token swaps
-- Built and tested with Foundry (Forge, Anvil)
+Full Uniswap V2 contract implementation in Solidity with Factory and Router pattern architecture and the constant product formula (`x * y = k`) for token swaps. Built and tested with Foundry (Forge, Anvil).
 
 ### Frontend Interface
-- Token swap UI with real-time price information
-- React + Vite + wagmi + ethers.js stack
-- MetaMask integration for local Anvil network (Chain ID 31337)
-- TailwindCSS styling
+Token swap UI with real-time price information, built on React + Vite + wagmi + ethers.js. MetaMask integration targets the local Anvil network (Chain ID 31337), with TailwindCSS for styling.
+
+## Outcome
+- Working end-to-end Uniswap V2 clone: factory, pair, router contracts plus a functioning swap frontend.
+- MetaMask-connected UI executing swaps against a local Anvil chain, exercising the full approval/slippage/deadline path.
+- Forge test suite covering pair and router behavior alongside the frontend integration.
 
 ## Technologies
 - **Smart Contracts**: Solidity, Foundry, OpenZeppelin

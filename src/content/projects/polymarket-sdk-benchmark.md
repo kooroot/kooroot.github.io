@@ -9,18 +9,20 @@ github: https://github.com/kooroot-company/polymarket-sdk-benchmark
 date: 2026-01-15
 ---
 
-## Overview
-Conducted comprehensive latency benchmarks comparing Polymarket CLOB SDK implementations across Python, TypeScript, and Rust. Measured endpoint response times, WebSocket latency, and stability metrics to determine the optimal SDK for production trading systems.
+## Problem
+Choosing an SDK for a production prediction-market trading system requires more than README claims. The Python, TypeScript, and Rust Polymarket CLOB SDKs each advertise performance, but no side-by-side measurement existed covering median latency, tail latency, and consistency under repeated load — the metrics that actually matter for an order-routing service.
 
-## Benchmark Design
+## Approach
+- **Warmup then measure**: 3 warmup iterations per endpoint followed by 30 measured runs to eliminate cold-start bias.
+- **Multi-endpoint coverage**: `get_ok` health check, orderbook fetch, midpoint price, and WebSocket latency — the endpoints a trading bot actually hits.
+- **Percentile-based analysis**: p50, p95, p99 rather than mean, since trading systems are dominated by tail latency.
+- **Stability ratio (p95/p50)** as a first-class metric, treating consistency as equally important to raw speed.
+- **Identical test harness across languages** so only the SDK implementation varied.
 
-### Test Methodology
-- Warmup phase (3 iterations) followed by 30 measured runs per endpoint
-- Tested `get_ok`, orderbook fetch, midpoint price, and WebSocket latency
-- Measured p50, p95, and p99 latency percentiles
-- Evaluated stability ratio (p95/p50) as consistency metric
+## Implementation
+Built a cross-language benchmark harness exercising the Python, TypeScript, and Rust Polymarket CLOB SDKs against the same endpoint set. Each SDK ran 3 warmup iterations plus 30 measured iterations per endpoint, with latencies collected at p50, p95, and p99. Derived a stability ratio (p95/p50) to quantify consistency. WebSocket latency was measured alongside REST endpoints to cover both transport paths a real trading system uses.
 
-### Key Findings
+## Outcome
 
 | Metric | Python | TypeScript | Rust |
 |--------|--------|-----------|------|
@@ -28,14 +30,12 @@ Conducted comprehensive latency benchmarks comparing Polymarket CLOB SDK impleme
 | **Stability (p95/p50)** | Moderate | 1.17x (best) | Intermittent spikes |
 | **Production Readiness** | Good | Most stable | Fastest but variable |
 
-- TypeScript SDK showed the most consistent performance with lowest p95/p50 ratio
-- Rust had the fastest median latency but exhibited intermittent delays
-- Python and TypeScript were nearly identical in average response times
+- **TypeScript SDK** showed the most consistent performance with the lowest p95/p50 ratio (1.17x).
+- **Rust SDK** had the fastest median latency but exhibited intermittent tail-latency spikes.
+- **Python and TypeScript** were nearly identical in average response times (~308ms p50).
+- Results informed production SDK selection, with TypeScript chosen for its stability characteristics.
 
 ## Technologies
 - **Languages**: Python, TypeScript, Rust
 - **API**: Polymarket CLOB client
 - **Analysis**: Statistical latency analysis, percentile measurements
-
-## Impact
-Benchmark results informed SDK selection for production prediction market trading infrastructure, with TypeScript chosen for its stability characteristics.

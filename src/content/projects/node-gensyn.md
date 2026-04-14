@@ -9,25 +9,22 @@ github: https://github.com/kooroot/Node_Executor-Gensyn
 date: 2025-02-10
 ---
 
-## Overview
-A script project that automates the installation of Gensyn RL-Swarm Node on Linux (Ubuntu-based) and macOS environments. It supports both local installation and Docker execution methods, and includes automatic NVIDIA GPU detection.
+## Problem
+Gensyn's **RL-Swarm** protocol coordinates distributed reinforcement learning training across operator-provided GPUs. Onboarding a node involves Python environment setup, optional Docker containerization, and correct NVIDIA runtime wiring for GPU passthrough — a stack that fragments badly across Ubuntu, Intel macOS, and Apple Silicon. Operators without a uniform bootstrap path routinely hit CUDA/driver mismatches that silently drop them from training rounds.
 
-## Key Features
+## Approach
+- **Dual deployment modes** selectable via `--local` / `--docker` flags: native venv for dev iteration, container for production isolation.
+- **Automatic GPU detection** against a known-good list (RTX 3090/4090, A100, H100) to short-circuit setup on unsupported hardware before wasting a training round.
+- **Per-OS package manager dispatch** (apt on Ubuntu 18.04+, brew on macOS) with Docker + Docker Compose auto-provisioning.
+- **Docker runtime flags conditioned on GPU presence** so the same script works for CPU-only experimentation and GPU production.
 
-### Multi-Platform Support
-- Ubuntu (18.04 LTS+) and macOS (Intel / Apple Silicon) support
-- Automatic package manager selection per OS (apt / brew)
-- Docker / Docker Compose auto-installation
+## Implementation
+Bash driver that detects OS and CUDA-capable GPU, then either clones the RL-Swarm repository into a Python virtual environment for local execution, or pulls and runs the container image with `--gpus all` when an NVIDIA device is detected. Docker Compose handles multi-service orchestration; `nvidia-smi` is used as the GPU probe. CLI flags let operators force a specific mode for CI or headless installs.
 
-### Flexible Deployment
-- Local install: Clone via Git and run in Python virtual environment
-- Docker execution: Container-based execution with automatic GPU support detection
-- CLI options for direct installation method selection (`--local`, `--docker`)
-
-### GPU Detection
-- Automatic NVIDIA GPU presence detection
-- Supported GPU model verification (RTX 3090, RTX 4090, A100, H100)
-- Automatic Docker run options based on GPU availability
+## Outcome
+- Single script covering Ubuntu + macOS (Intel and Apple Silicon) with uniform bring-up behavior.
+- GPU fast-fail path eliminated the most common class of silent training dropouts — unsupported cards fail at setup, not mid-round.
+- Node successfully participated in RL-Swarm training rounds with GPU acceleration on supported hardware.
 
 ## Technologies
 - **Scripting**: Shell (Bash)

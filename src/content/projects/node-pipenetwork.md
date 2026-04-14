@@ -9,25 +9,22 @@ github: https://github.com/kooroot/Node_Executor-Pipenetwork
 date: 2025-01-20
 ---
 
-## Overview
-A Shell script project that fully automates the installation and configuration of Pipe Network Node on Linux (Ubuntu-based) environments. It handles everything from system requirements validation to binary download and screen session management in a single run.
+## Problem
+Pipe Network operates a **Solana-settled CDN / edge-delivery network** where operator nodes contribute bandwidth and cache storage in exchange for rewards paid to a linked Solana pubkey. The node has hard system requirements (4GB+ RAM, 100GB+ disk) that must be validated upfront, plus a referral-code + reward-wallet configuration step that, if skipped or mis-ordered, permanently detaches rewards from the operator's wallet.
 
-## Key Features
+## Approach
+- **Preflight hardware validation**: RAM and disk are checked against minimums before touching the binary, failing fast on under-provisioned hosts.
+- **Solana pubkey as reward address**: integrated as a first-class config step rather than an afterthought, to prevent orphaned rewards.
+- **screen-based supervision** for the long-running node process.
+- **Self-referral code generation** surfaced in the script so operators running multiple nodes can chain referrals without leaving the terminal.
 
-### System Validation
-- Automatic OS detection and Linux environment verification
-- RAM (minimum 4GB) and disk space (minimum 100GB) requirements check
-- Automatic dependency package installation (curl, screen)
+## Implementation
+Bash script that runs on Ubuntu 18.04+. Verifies OS, RAM, and disk against Pipe Network's minimums, installs `curl` and `screen`, downloads the Pipe Network binary, and walks the operator through configuring Solana reward pubkey, referral code, RAM/disk allocations, and cache directory. Launches the node inside a screen session for background execution and generates a self-referral code for downstream node deployments.
 
-### Automated Deployment
-- Pipe Network binary download and configuration
-- Solana public key-based reward wallet integration
-- Referral code application and status verification
-
-### Node Management
-- Screen session-based background execution
-- Configurable RAM, disk usage, and cache directory settings
-- Self-referral code generation support
+## Outcome
+- Under-provisioned hosts rejected at preflight, avoiding the common "node runs but is never rewarded" silent failure mode.
+- Reward wallet correctly bound on first boot; Solana pubkey pre-validated before the node starts serving traffic.
+- Node contributing bandwidth to the Pipe Network edge layer and accruing rewards to the configured Solana address.
 
 ## Technologies
 - **Scripting**: Shell (Bash)
