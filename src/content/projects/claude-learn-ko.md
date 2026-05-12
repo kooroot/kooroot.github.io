@@ -2,7 +2,7 @@
 title: Anthropic Academy KR
 description: Korean translation web app for Anthropic Academy — 13 courses, 388 lessons, multi-AI translation pipeline (Claude / OpenAI / Gemini)
 image: /images/dev-workspace.jpg
-category: Blockchain Development
+category: AI Engineering
 show_tile: true
 tech_stack: ["TanStack Start", "React", "Vite", "Tailwind CSS", "MDX", "Claude API"]
 github: https://github.com/kooroot/claude-learn-ko

@@ -2,7 +2,7 @@
 title: LoL Esports Analytics & Prediction
 description: Real-time LoL Esports Data Pipeline, ML Prediction & Automated Betting System
 image: /images/esports-gaming.jpg
-category: Blockchain Development
+category: AI Engineering
 show_tile: true
 tech_stack: ["TypeScript", "Python", "React", "ML", "Polymarket"]
 github: https://github.com/kooroot/lol-polymarket

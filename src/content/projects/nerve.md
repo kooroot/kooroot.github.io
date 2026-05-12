@@ -2,7 +2,7 @@
 title: Nerve
 description: Reflexive AI orchestration CLI that routes coding tasks through a lead/reviewer agent loop with hash-checked patches
 image: /images/code-matrix.jpg
-category: Blockchain Development
+category: AI Engineering
 show_tile: true
 tech_stack: ["Rust", "Cargo Workspace", "Claude Code", "Codex", "Tokio"]
 github: https://github.com/kooroot/Nerve

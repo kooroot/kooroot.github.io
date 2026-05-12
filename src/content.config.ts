@@ -11,6 +11,7 @@ const projects = defineCollection({
       "Blockchain Research",
       "Blockchain Development",
       "Blockchain Node Operation",
+      "AI Engineering",
     ]),
     show_tile: z.boolean().default(true),
     tech_stack: z.array(z.string()).default([]),

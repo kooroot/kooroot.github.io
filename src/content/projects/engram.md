@@ -2,7 +2,7 @@
 title: Engram
 description: AI-native persistent memory MCP server — a structured knowledge graph with O(1) state lookups, atomic mutations, and budget-controlled context injection
 image: /images/ai-robot.jpg
-category: Blockchain Development
+category: AI Engineering
 show_tile: true
 tech_stack: ["TypeScript", "MCP", "SQLite", "FTS5", "Bun", "Node.js"]
 github: https://github.com/kooroot/Engram
