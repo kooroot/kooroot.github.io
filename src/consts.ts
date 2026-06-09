@@ -31,7 +31,6 @@ export const NAV_ITEMS = [
 ] as const;
 
 export const CERTIFICATIONS = [
-  { name: "Camp Mamo", year: "2025" },
   { name: "NAVER Cloud Platform Certified Associate (NCA)", year: "2021" },
   { name: "Industrial Engineer Information Security", year: "2020" },
   { name: "AccessData Certification Examiner (ACE)", year: "2016" },
