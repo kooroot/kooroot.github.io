@@ -1,0 +1,36 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import WritingLayout from '../../layouts/WritingLayout.astro';
+
+export async function getStaticPaths() {
+  // Drafts are previewable in `astro dev` but excluded from the production build.
+  const posts = await getCollection('writing', ({ data }) =>
+    import.meta.env.PROD ? !data.draft : true
+  );
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+let relatedProject;
+if (post.data.related_project) {
+  const proj = await getEntry('projects', post.data.related_project);
+  if (proj) relatedProject = { slug: proj.id, title: proj.data.title };
+}
+---
+
+<WritingLayout
+  title={post.data.title}
+  description={post.data.description}
+  date={post.data.date}
+  updated={post.data.updated}
+  tags={post.data.tags}
+  draft={post.data.draft}
+  relatedProject={relatedProject}
+>
+  <Content />
+</WritingLayout>

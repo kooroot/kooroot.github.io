@@ -21,4 +21,17 @@ const projects = defineCollection({
   }),
 });
 
-export const collections = { projects };
+const writing = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/writing" }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    date: z.coerce.date(),
+    updated: z.coerce.date().optional(),
+    tags: z.array(z.string()).default([]),
+    draft: z.boolean().default(true),
+    related_project: z.string().optional(),
+  }),
+});
+
+export const collections = { projects, writing };
