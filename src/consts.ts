@@ -5,7 +5,7 @@ export const SITE = {
     "Blockchain Researcher & Engineer with 4+ years of experience in Ethereum L2, DeFi, prediction markets, and node infrastructure.",
   email: "alswo9085@gmail.com",
   location: "Seoul, South Korea",
-  url: "https://kooroot.github.io",
+  url: "https://kooroot.dev",
 };
 
 export const SOCIALS = [
