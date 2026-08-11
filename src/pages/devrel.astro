@@ -27,10 +27,10 @@ const [flagship, ...supporting] = pick(['mapae', 'nerve', 'engram']);
 const localization = byId.get('claude-learn-ko');
 
 // Material built for someone else to work through. Affiliation is carried per
-// item rather than on the section — the CTF was made with the Graylab team, the
-// localization was independent, and collapsing the two would misstate who I did
-// what for. Neither is a talk: nothing on this page claims lecturing, because
-// none of it was.
+// item rather than on the section — the CTF was made with the Graylab team the
+// year before joining them, the localization was independent, and collapsing the
+// two would misstate who I did what for. Neither is a talk: nothing on this page
+// claims lecturing, because none of it was.
 const ctf = byId.get('ethcon2024-ctf');
 
 // Live sites for the flagship: the product and the documentation that ships with it.
@@ -537,7 +537,7 @@ const iso = (e) => e.data.date.toISOString().slice(0, byMonth(e) ? 7 : 10);
             <dt class="font-mono text-[11px] text-text-muted md:pt-1.5">
               2024
               <span class="text-text-secondary">
-                <span data-en>· with Graylab</span><span data-ko>· Graylab과 함께</span>
+                <span data-en>· with Graylab, before joining</span><span data-ko>· 합류 전, Graylab과 함께</span>
               </span>
             </dt>
             <dd>
