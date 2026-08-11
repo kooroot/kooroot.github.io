@@ -1,6 +1,7 @@
 ---
 title: Nerve
 description: Reflexive AI orchestration CLI that routes coding tasks through a lead/reviewer agent loop with hash-checked patches
+description_ko: 코딩 작업을 리드/리뷰어 에이전트 루프로 흘려보내고 해시로 검증된 패치를 내놓는 AI 오케스트레이션 CLI
 image: /images/code-matrix.jpg
 category: AI Engineering
 show_tile: true

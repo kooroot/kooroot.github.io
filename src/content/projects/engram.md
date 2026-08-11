@@ -1,6 +1,7 @@
 ---
 title: Engram
 description: AI-native persistent memory MCP server — a structured knowledge graph with O(1) state lookups, atomic mutations, and budget-controlled context injection
+description_ko: AI를 위한 영속 메모리 MCP 서버 — O(1) 상태 조회, 원자적 변경, 토큰 예산 기반 컨텍스트 주입을 갖춘 구조화된 지식 그래프
 image: /images/ai-robot.jpg
 category: AI Engineering
 show_tile: true

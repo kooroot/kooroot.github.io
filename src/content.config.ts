@@ -7,6 +7,13 @@ const projects = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
+    // Read only by /devrel, and only in its Korean view. Optional on purpose:
+    // a missing translation falls back to `description` rather than blanking
+    // the card, so adding a project never obliges anyone to write Korean for
+    // it. Titles have no counterpart here — the ones this page surfaces are
+    // product names, and renaming a product per locale would break the search
+    // a reader does after reading about it.
+    description_ko: z.string().optional(),
     image: z.string(),
     // Derived from lib/categories.ts so a category cannot be valid content
     // without also having the class strings the pages look up by name.

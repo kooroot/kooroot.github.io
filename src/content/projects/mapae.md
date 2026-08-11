@@ -1,6 +1,7 @@
 ---
 title: Mapae
 description: Agentic payment infrastructure — scoped, revocable spend authority for AI agents, enforced by onchain caveats rather than backend checks, settled via x402 v2 on GIWA
+description_ko: 에이전트 결제 인프라 — AI 에이전트에게 범위가 제한되고 취소 가능한 지출 권한을 부여한다. 백엔드 검증이 아니라 온체인 caveat이 한도를 강제하고, GIWA 위에서 x402 v2로 정산한다
 image: /images/ethereum-layer2.jpg
 category: Blockchain Development
 show_tile: true

@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 import { byDateDesc, hrefOf, isExternal, toCards } from '../lib/writing';
+import { icons } from '../components/icons/index';
 import { SITE } from '../consts';
 
 // A focused view of the same content collections the rest of the site reads —
@@ -35,8 +36,13 @@ const ctf = byId.get('ethcon2024-ctf');
 // Live sites for the flagship. These are the actual work sample for a docs role —
 // a reference implementation is a claim; its published documentation is the proof.
 const FLAGSHIP_LINKS = [
-  { label: 'mapae.io', href: 'https://mapae.io', note: 'product' },
-  { label: 'docs.mapae.io', href: 'https://docs.mapae.io', note: 'docs, runbooks, error model' },
+  { label: 'mapae.io', href: 'https://mapae.io', note: 'product', note_ko: '제품' },
+  {
+    label: 'docs.mapae.io',
+    href: 'https://docs.mapae.io',
+    note: 'docs, runbooks, error model',
+    note_ko: '문서 · 런북 · 에러 모델',
+  },
 ];
 
 const projectTitles = new Map(projects.map((p) => [p.id, p.data.title]));
@@ -64,6 +70,10 @@ const distinguishingTech = (p) =>
 // The series name is the section's subject; repeating it in all eight rows is noise.
 const networkName = (p) => p.data.title.replace(/\s+Node Executor$/, '');
 
+// Korean copy exists for the three entries this page leads with; everything else
+// falls back to the published English rather than showing a blank.
+const describe = (p) => p.data.description_ko ?? p.data.description;
+
 // A subscriber count is a measurement, and measurements go stale. Carrying the
 // date it was taken keeps the number honest between updates instead of quietly
 // drifting — the previous hardcoded 6,762 had already been overtaken.
@@ -73,13 +83,30 @@ const TELEGRAM = {
   name: '이것저것 다하는 방',
   subscribers: '6,767',
   asOf: 'Aug 2026',
+  asOfKo: '2026년 8월',
 };
 
 // The byline on the Tokamak Network pieces. Linking work published under a
 // different name without saying so invites the reader to doubt the citation.
 const BYLINE = 'Ethan.K';
 
+// Contact channels, in the order a reader would actually use them. Each href was
+// checked from a signed-out client and resolves to real content.
+//
+// LinkedIn is absent from this row on purpose: it answers every logged-out
+// request with an auth wall, so there is no way to confirm from outside that the
+// URL lands on a real profile. It stays in the CV, where the reader is a
+// recruiter who is already signed in. (The site footer still carries it via
+// SOCIALS — a sitewide choice, not this page's to quietly reverse.)
+const CONTACTS = [
+  { icon: 'telegram', label: 'Telegram — 이것저것 다하는 방', href: TELEGRAM.url },
+  { icon: 'github', label: 'GitHub — kooroot', href: 'https://github.com/kooroot' },
+  { icon: 'twitter', label: 'X — @k00r00t', href: 'https://twitter.com/k00r00t' },
+  { icon: 'linktree', label: 'Linktree — kooroot', href: 'https://linktr.ee/kooroot' },
+];
+
 const fmt = (d) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+const fmtKo = (d) => d.toLocaleDateString('ko-KR', { year: 'numeric', month: 'short', day: 'numeric' });
 // <time> needs a machine-readable value; the visible text is not a valid datetime.
 const iso = (d) => d.toISOString().slice(0, 10);
 ---
@@ -88,6 +115,31 @@ const iso = (d) => d.toISOString().slice(0, 10);
   title="Developer Relations"
   description="Closing the distance between the doc and the terminal — developer tooling, bilingual technical writing, and agent infrastructure."
 >
+  <!--
+    Language state, set before first paint so a returning Korean reader never
+    sees the English flash. Both languages are in the DOM; CSS decides which one
+    is displayed. `display: none` also removes the inactive copy from the
+    accessibility tree, so a screen reader is never read both.
+  -->
+  <script is:inline>
+    (function () {
+      var saved = null;
+      try {
+        saved = localStorage.getItem('devrel-lang');
+      } catch (e) {
+        /* private mode, or storage disabled — fall through to the browser hint */
+      }
+      var lang =
+        saved === 'ko' || saved === 'en'
+          ? saved
+          : (navigator.language || '').toLowerCase().indexOf('ko') === 0
+            ? 'ko'
+            : 'en';
+      document.documentElement.setAttribute('data-lang', lang);
+      document.documentElement.lang = lang;
+    })();
+  </script>
+
   <!-- ── Masthead ─────────────────────────────────────────────── -->
   <section class="relative overflow-hidden">
     <div
@@ -97,49 +149,111 @@ const iso = (d) => d.toISOString().slice(0, 10);
     </div>
 
     <div class="relative z-10 max-w-5xl mx-auto px-6 pt-16 pb-12 md:pt-24 md:pb-14">
-      <h1 class="rise hero-title font-bold text-text-primary" style="--d:0ms">
-        Closing the distance between<br class="hidden sm:block" />
-        <span class="text-accent">the doc and the terminal</span>.
+      <!--
+        The toggle sits in the page rather than in a second top bar, because the
+        site already has one nav and a page-local control that looks like chrome
+        would be lying about its scope: this switches this page, not the site.
+        It is hidden without JS — a control that cannot work should not be drawn.
+      -->
+      <div class="rise flex items-center justify-between gap-4 mb-8" style="--d:0ms">
+        <p class="font-mono text-[11px] tracking-wider text-text-muted uppercase">
+          <span data-en>Developer Relations · Seoul · EN / KO</span>
+          <span data-ko>Developer Relations · Seoul · 국문 / 영문</span>
+        </p>
+        <button
+          id="lang-toggle"
+          type="button"
+          class="shrink-0 items-center gap-2 rounded-full border border-border bg-secondary/60 px-3.5 py-1.5 font-mono text-xs text-text-secondary transition-colors hover:border-accent/60 hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+        >
+          <span aria-hidden="true">⇄</span>
+          <span id="lang-toggle-label">한국어</span>
+        </button>
+      </div>
+
+      <h1 class="rise hero-title font-bold text-text-primary" style="--d:60ms">
+        <span data-en>
+          Closing the distance between<br class="hidden sm:block" />
+          <span class="text-accent">the doc and the terminal</span>.
+        </span>
+        <span data-ko>
+          문서와 터미널 사이의<br class="hidden sm:block" />
+          <span class="text-accent">거리를 줄인다</span>.
+        </span>
       </h1>
 
-      <p class="rise mt-7 text-text-secondary text-lg leading-relaxed max-w-[64ch]" style="--d:90ms">
-        I've worked both ends of the loop — writing the docs, and sitting with the people who run
-        them. For two years at an L2 protocol company I published rollup deep-dives in Korean and
-        English and taught the university course that fed builders into it; since then I've run a
-        developer channel where I hear where people actually get stuck, and shipped the tooling
-        they asked for. Documentation is only proven on someone else's terminal.
+      <p class="rise mt-7 text-text-secondary text-lg leading-relaxed max-w-[64ch]" style="--d:150ms">
+        <span data-en>
+          I've worked both ends of the loop — writing the docs, and sitting with the people who run
+          them. For two years at an L2 protocol company I published rollup deep-dives in Korean and
+          English and taught the university course that fed builders into it; since then I've run a
+          developer channel where I hear where people actually get stuck, and shipped the tooling
+          they asked for. Documentation is only proven on someone else's terminal.
+        </span>
+        <span data-ko>
+          문서를 쓰는 일과, 그 문서를 따라 직접 돌려보는 일을 양쪽 다 해왔다. L2 프로토콜 회사에서
+          2년간 롤업 심층 분석을 국문과 영문으로 발행했고, 그 생태계로 빌더를 흘려보낸 대학 강의를
+          맡았다. 그 뒤로는 사람들이 실제로 어디서 막히는지가 들어오는 개발자 채널을 운영하면서,
+          거기서 요청받은 도구를 만들어 배포했다. 문서는 결국 남의 터미널에서 증명된다.
+        </span>
       </p>
 
-      <!-- A colophon, not a stat block: three claims, each traceable to something
+      <!-- A colophon, not a stat block: four claims, each traceable to something
            further down the page. -->
-      <dl class="rise mt-12 max-w-[52rem] border-t border-border" style="--d:180ms">
+      <dl class="rise mt-12 max-w-[52rem] border-t border-border" style="--d:240ms">
         <div class="grid grid-cols-1 sm:grid-cols-[7.5rem_1fr] gap-x-6 gap-y-1 py-3.5 border-b border-border">
-          <dt class="font-mono text-[11px] tracking-wider text-text-muted uppercase sm:pt-0.5">Channel</dt>
+          <dt class="font-mono text-[11px] tracking-wider text-text-muted uppercase sm:pt-0.5">
+            <span data-en>Channel</span><span data-ko>채널</span>
+          </dt>
           <dd class="text-sm text-text-secondary">
             <span lang="ko" class="text-text-primary">{TELEGRAM.name}</span>
-            — {TELEGRAM.subscribers} members as of {TELEGRAM.asOf}, sole operator
+            <span data-en>— {TELEGRAM.subscribers} members as of {TELEGRAM.asOf}, sole operator</span>
+            <span data-ko>— {TELEGRAM.asOfKo} 기준 {TELEGRAM.subscribers}명, 단독 운영</span>
           </dd>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-[7.5rem_1fr] gap-x-6 gap-y-1 py-3.5 border-b border-border">
-          <dt class="font-mono text-[11px] tracking-wider text-text-muted uppercase sm:pt-0.5">Tooling</dt>
+          <dt class="font-mono text-[11px] tracking-wider text-text-muted uppercase sm:pt-0.5">
+            <span data-en>Tooling</span><span data-ko>도구</span>
+          </dt>
           <dd class="text-sm text-text-secondary">
-            <span class="text-text-primary">{networkCount} networks</span>
-            — one-command node installers, shipped from channel questions
+            <span data-en>
+              <span class="text-text-primary">{networkCount} networks</span>
+              — one-command node installers, shipped from channel questions
+            </span>
+            <span data-ko>
+              <span class="text-text-primary">{networkCount}개 네트워크</span>
+              — 채널 질문에서 나온 원커맨드 노드 설치 스크립트
+            </span>
           </dd>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-[7.5rem_1fr] gap-x-6 gap-y-1 py-3.5 border-b border-border">
-          <dt class="font-mono text-[11px] tracking-wider text-text-muted uppercase sm:pt-0.5">Published</dt>
+          <dt class="font-mono text-[11px] tracking-wider text-text-muted uppercase sm:pt-0.5">
+            <span data-en>Published</span><span data-ko>발행</span>
+          </dt>
           <dd class="text-sm text-text-secondary">
             <span class="text-text-primary">{venues.join(' · ')}</span>
-            — {writingCards.length} pieces, {bilingualCount} of them rebuilt for a second language
-            rather than translated
+            <span data-en>
+              — {writingCards.length} pieces, {bilingualCount} of them rebuilt for a second language
+              rather than translated
+            </span>
+            <span data-ko>
+              — {writingCards.length}편, 그중 {bilingualCount}편은 번역이 아니라 두 번째 독자를 위해
+              다시 쓴 것
+            </span>
           </dd>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-[7.5rem_1fr] gap-x-6 gap-y-1 py-3.5 border-b border-border">
-          <dt class="font-mono text-[11px] tracking-wider text-text-muted uppercase sm:pt-0.5">Taught</dt>
+          <dt class="font-mono text-[11px] tracking-wider text-text-muted uppercase sm:pt-0.5">
+            <span data-en>Taught</span><span data-ko>강의</span>
+          </dt>
           <dd class="text-sm text-text-secondary">
-            <span class="text-text-primary">A university semester, a conference CTF</span>
-            — plus 388 lessons localized into Korean
+            <span data-en>
+              <span class="text-text-primary">A university semester, a conference CTF</span>
+              — plus 388 lessons localized into Korean
+            </span>
+            <span data-ko>
+              <span class="text-text-primary">대학 한 학기, 컨퍼런스 CTF 하나</span>
+              — 그리고 한국어로 옮긴 388개 레슨
+            </span>
           </dd>
         </div>
       </dl>
@@ -148,17 +262,27 @@ const iso = (d) => d.toISOString().slice(0, 10);
 
   <!-- ── The loop ─────────────────────────────────────────────── -->
   <section class="max-w-5xl mx-auto px-6 py-16 md:py-20">
-    <h2 class="text-2xl md:text-3xl font-bold text-text-primary">The loop</h2>
+    <h2 class="text-2xl md:text-3xl font-bold text-text-primary">
+      <span data-en>The loop</span><span data-ko>왕복</span>
+    </h2>
     <p class="mt-3 text-text-secondary leading-relaxed max-w-[64ch]">
-      Questions arrive in the channel. Tooling and docs go back out. What comes back gets folded in.
-      Across {networkCount} networks, this is the same three steps every time.
+      <span data-en>
+        Questions arrive in the channel. Tooling and docs go back out. What comes back gets folded
+        in. Across {networkCount} networks, this is the same three steps every time.
+      </span>
+      <span data-ko>
+        질문이 채널로 들어온다. 도구와 문서가 나간다. 되돌아온 것이 다시 반영된다. {networkCount}개
+        네트워크에서 매번 같은 세 단계를 반복했다.
+      </span>
     </p>
 
     <ol class="mt-10">
       <!-- ask -->
       <li class="grid md:grid-cols-[4.5rem_1fr] gap-x-8">
         <div class="mb-4 md:mb-0 md:pt-1 md:text-right">
-          <span class="font-mono text-xs text-accent">ask</span>
+          <span class="font-mono text-xs text-accent">
+            <span data-en>ask</span><span data-ko>질문</span>
+          </span>
         </div>
         <div class="relative md:border-l md:border-border md:pl-9 pb-12 md:pb-14">
           <span
@@ -182,12 +306,20 @@ const iso = (d) => d.toISOString().slice(0, 10);
               {TELEGRAM.name}
             </h3>
             <p class="mt-3 text-text-secondary leading-relaxed max-w-[58ch]">
-              A developer community I run alone. During the node boom I built and shipped automation
-              scripts here and answered whatever came back; today it runs as on-chain research and
-              security curation. This is the room the rest of this page came out of.
+              <span data-en>
+                A developer community I run alone. During the node boom I built and shipped
+                automation scripts here and answered whatever came back; today it runs as on-chain
+                research and security curation. This is the room the rest of this page came out of.
+              </span>
+              <span data-ko>
+                혼자 운영하는 개발자 커뮤니티. 노드 붐 시기에 자동화 스크립트를 여기서 만들어
+                배포하고 올라오는 질문에 직접 답했고, 지금은 온체인 리서치와 보안 큐레이션으로
+                이어가고 있다. 이 페이지의 나머지가 나온 방이다.
+              </span>
             </p>
             <span class="inline-block mt-5 text-sm text-accent">
-              Open the channel <span aria-hidden="true">&#8599;</span>
+              <span data-en>Open the channel</span><span data-ko>채널 열기</span>
+              <span aria-hidden="true">&#8599;</span>
             </span>
           </a>
         </div>
@@ -196,7 +328,9 @@ const iso = (d) => d.toISOString().slice(0, 10);
       <!-- ship -->
       <li class="grid md:grid-cols-[4.5rem_1fr] gap-x-8">
         <div class="mb-4 md:mb-0 md:pt-1 md:text-right">
-          <span class="font-mono text-xs text-accent">ship</span>
+          <span class="font-mono text-xs text-accent">
+            <span data-en>ship</span><span data-ko>배포</span>
+          </span>
         </div>
         <div class="relative md:border-l md:border-border md:pl-9 pb-12 md:pb-14">
           <span
@@ -204,13 +338,20 @@ const iso = (d) => d.toISOString().slice(0, 10);
             aria-hidden="true"></span>
 
           <h3 class="text-xl md:text-2xl font-semibold text-text-primary">
-            Node Executor series
+            <span data-en>Node Executor series</span><span data-ko>Node Executor 시리즈</span>
           </h3>
           <p class="mt-3 text-text-secondary leading-relaxed max-w-[60ch]">
-            The repeated questions, moved into tooling. OS detection, GPU detection, dependency
-            install, session management, config patching — a new operator's first hour compressed
-            into a handful of commands. macOS support exists because people in the channel asked
-            for it.
+            <span data-en>
+              The repeated questions, moved into tooling. OS detection, GPU detection, dependency
+              install, session management, config patching — a new operator's first hour compressed
+              into a handful of commands. macOS support exists because people in the channel asked
+              for it.
+            </span>
+            <span data-ko>
+              반복되던 질문을 도구로 옮긴 결과다. OS 감지, GPU 감지, 의존성 설치, 세션 관리, 설정
+              파일 패칭 — 신규 운영자의 첫 한 시간을 명령어 몇 줄로 줄였다. macOS 지원이 있는 건
+              채널에서 요청이 올라왔기 때문이다.
+            </span>
           </p>
 
           <ul class="mt-7 grid sm:grid-cols-2 gap-x-10 border-t border-border">
@@ -236,20 +377,34 @@ const iso = (d) => d.toISOString().slice(0, 10);
       <!-- publish -->
       <li class="grid md:grid-cols-[4.5rem_1fr] gap-x-8">
         <div class="mb-4 md:mb-0 md:pt-1 md:text-right">
-          <span class="font-mono text-xs text-accent">publish</span>
+          <span class="font-mono text-xs text-accent">
+            <span data-en>publish</span><span data-ko>발행</span>
+          </span>
         </div>
         <div class="relative md:border-l md:border-border md:pl-9">
           <span
             class="hidden md:block absolute -left-[3.5px] top-2 w-[7px] h-[7px] rounded-full bg-accent"
             aria-hidden="true"></span>
 
-          <h3 class="text-xl md:text-2xl font-semibold text-text-primary">Writing</h3>
+          <h3 class="text-xl md:text-2xl font-semibold text-text-primary">
+            <span data-en>Writing</span><span data-ko>글</span>
+          </h3>
           <p class="mt-3 text-text-secondary leading-relaxed max-w-[60ch]">
-            Most recent first. The paired entries are one piece of work rebuilt for a second
-            audience — restructured, not translated. The Tokamak Network pieces are bylined
-            <span class="text-text-primary">{BYLINE}</span>, the name I worked under at Onther.
+            <span data-en>
+              Most recent first. The paired entries are one piece of work rebuilt for a second
+              audience — restructured, not translated. The Tokamak Network pieces are bylined
+              <span class="text-text-primary">{BYLINE}</span>, the name I worked under at Onther.
+            </span>
+            <span data-ko>
+              최신순. 짝지어진 항목은 하나의 작업을 두 번째 독자를 위해 다시 만든 것이다 — 번역이
+              아니라 재구성이다. Tokamak Network 글의 바이라인
+              <span class="text-text-primary">{BYLINE}</span>은 Onther 재직 당시 쓰던 이름이다.
+            </span>
           </p>
 
+          <!-- Titles and descriptions below come from the writing collection and stay in the
+               language each piece was published in. Restating a published title in the other
+               language would name an article that does not exist under that name. -->
           <ul class="mt-7 border-t border-border">
             {writingCards.map(({ lead, versions }) => (
               <li class="border-b border-border py-5">
@@ -268,7 +423,8 @@ const iso = (d) => d.toISOString().slice(0, 10);
                     datetime={iso(lead.data.date)}
                     class="font-mono text-[11px] text-text-muted whitespace-nowrap"
                   >
-                    {fmt(lead.data.date)}
+                    <span data-en>{fmt(lead.data.date)}</span>
+                    <span data-ko>{fmtKo(lead.data.date)}</span>
                   </time>
                 </div>
 
@@ -329,7 +485,8 @@ const iso = (d) => d.toISOString().slice(0, 10);
                     href={`/projects/${lead.data.related_project}`}
                     class="inline-block mt-3 text-xs text-accent hover:underline"
                   >
-                    Shipped alongside: {projectTitles.get(lead.data.related_project)} &rarr;
+                    <span data-en>Shipped alongside:</span><span data-ko>함께 배포한 것:</span>
+                    {projectTitles.get(lead.data.related_project)} &rarr;
                   </a>
                 )}
               </li>
@@ -337,12 +494,14 @@ const iso = (d) => d.toISOString().slice(0, 10);
           </ul>
 
           <a href="/writing" class="inline-block mt-5 text-sm text-accent hover:underline">
-            All writing &rarr;
+            <span data-en>All writing &rarr;</span><span data-ko>글 전체 보기 &rarr;</span>
           </a>
 
           <p class="mt-9 font-mono text-xs text-text-muted">
             <span aria-hidden="true">&#8634;</span>
-            &nbsp;and the answers come back as the next question
+            &nbsp;<span data-en>and the answers come back as the next question</span><span data-ko
+              >그리고 그 답이 다음 질문으로 되돌아온다</span
+            >
           </p>
         </div>
       </li>
@@ -352,10 +511,18 @@ const iso = (d) => d.toISOString().slice(0, 10);
   <!-- ── Teaching ─────────────────────────────────────────────── -->
   <section class="border-t border-border">
     <div class="max-w-5xl mx-auto px-6 py-16 md:py-20">
-      <h2 class="text-2xl md:text-3xl font-bold text-text-primary">In front of a room</h2>
+      <h2 class="text-2xl md:text-3xl font-bold text-text-primary">
+        <span data-en>In front of a room</span><span data-ko>강단에서</span>
+      </h2>
       <p class="mt-3 text-text-secondary leading-relaxed max-w-[64ch]">
-        A channel scales answers. A room scales the moment someone decides the thing is learnable at
-        all. Affiliation is listed per item because these were not all the same job.
+        <span data-en>
+          A channel scales answers. A room scales the moment someone decides the thing is learnable
+          at all. Affiliation is listed per item because these were not all the same job.
+        </span>
+        <span data-ko>
+          채널은 답을 확장한다. 강의실은 "이건 배울 수 있는 것"이라고 결심하는 순간을 확장한다.
+          소속을 항목마다 따로 적은 건, 이 셋이 같은 일이 아니었기 때문이다.
+        </span>
       </p>
 
       <!-- A ledger, not cards: three entries that differ in kind read better as rows
@@ -369,13 +536,21 @@ const iso = (d) => d.toISOString().slice(0, 10);
             <dd>
               <a href={`/projects/${lecture.id}`} class="group">
                 <h3 class="text-lg font-semibold text-text-primary group-hover:text-accent transition-colors">
-                  Korea University &times; Onther — smart contract lecture series
+                  <span data-en>Korea University &times; Onther — smart contract lecture series</span>
+                  <span data-ko>고려대학교 &times; Onther — 스마트컨트랙트 강의 시리즈</span>
                 </h3>
               </a>
               <p class="mt-2 text-sm text-text-secondary leading-relaxed max-w-[62ch]">
-                A semester of curriculum, sequenced so security comes last — students meet the
-                vulnerability catalog only once they can place it. Course materials published for
-                reference after the course ended.
+                <span data-en>
+                  A semester of curriculum, sequenced so security comes last — students meet the
+                  vulnerability catalog only once they can place it. Course materials published for
+                  reference after the course ended.
+                </span>
+                <span data-ko>
+                  한 학기 분량의 커리큘럼. 보안이 마지막에 오도록 순서를 짰다 — 취약점 목록은 학생이
+                  그것을 놓을 자리를 갖게 된 뒤에야 만난다. 강의 자료는 종료 후에도 참고할 수 있도록
+                  공개했다.
+                </span>
               </p>
             </dd>
           </div>
@@ -383,18 +558,29 @@ const iso = (d) => d.toISOString().slice(0, 10);
         {ctf && (
           <div class="grid md:grid-cols-[9rem_1fr] gap-x-8 gap-y-2 py-6 border-b border-border">
             <dt class="font-mono text-[11px] text-text-muted md:pt-1.5">
-              2024 <span class="text-text-secondary">· with Graylab</span>
+              2024
+              <span class="text-text-secondary">
+                <span data-en>· with Graylab</span><span data-ko>· Graylab과 함께</span>
+              </span>
             </dt>
             <dd>
               <a href={`/projects/${ctf.id}`} class="group">
                 <h3 class="text-lg font-semibold text-text-primary group-hover:text-accent transition-colors">
-                  EthCon Korea 2024 — security CTF
+                  <span data-en>EthCon Korea 2024 — security CTF</span>
+                  <span data-ko>EthCon Korea 2024 — 보안 CTF</span>
                 </h3>
               </a>
               <p class="mt-2 text-sm text-text-secondary leading-relaxed max-w-[62ch]">
-                Authored the challenge set across contract exploitation, cryptography and bytecode
-                reversing on a beginner-to-advanced ladder, ran the scoring platform live, and
-                supported players on the floor for the length of the conference.
+                <span data-en>
+                  Authored the challenge set across contract exploitation, cryptography and bytecode
+                  reversing on a beginner-to-advanced ladder, ran the scoring platform live, and
+                  supported players on the floor for the length of the conference.
+                </span>
+                <span data-ko>
+                  컨트랙트 익스플로잇, 암호학, 바이트코드 리버싱까지 초급에서 고급으로 이어지는
+                  사다리로 문제를 출제하고, 스코어링 플랫폼을 실시간으로 운영했으며, 컨퍼런스 기간
+                  내내 현장에서 참가자를 지원했다.
+                </span>
               </p>
             </dd>
           </div>
@@ -402,7 +588,10 @@ const iso = (d) => d.toISOString().slice(0, 10);
         {localization && (
           <div class="grid md:grid-cols-[9rem_1fr] gap-x-8 gap-y-2 py-6 border-b border-border">
             <dt class="font-mono text-[11px] text-text-muted md:pt-1.5">
-              2026 <span class="text-text-secondary">· independent</span>
+              2026
+              <span class="text-text-secondary">
+                <span data-en>· independent</span><span data-ko>· 독립</span>
+              </span>
             </dt>
             <dd>
               <a href={`/projects/${localization.id}`} class="group">
@@ -411,9 +600,15 @@ const iso = (d) => d.toISOString().slice(0, 10);
                 </h3>
               </a>
               <p class="mt-2 text-sm text-text-secondary leading-relaxed max-w-[62ch]">
-                The same instinct pointed at someone else's docs: 13 courses and 388 lessons brought
-                into Korean, with the English source kept beside each translation so the result can
-                be audited rather than trusted.
+                <span data-en>
+                  The same instinct pointed at someone else's docs: 13 courses and 388 lessons
+                  brought into Korean, with the English source kept beside each translation so the
+                  result can be audited rather than trusted.
+                </span>
+                <span data-ko>
+                  같은 습관을 남의 문서에 적용한 것: 13개 코스 388개 레슨을 한국어로 옮기고, 번역마다
+                  영문 원문을 나란히 남겨 결과를 신뢰가 아니라 검증의 대상으로 만들었다.
+                </span>
               </p>
             </dd>
           </div>
@@ -425,11 +620,20 @@ const iso = (d) => d.toISOString().slice(0, 10);
   <!-- ── What it's backed by ──────────────────────────────────── -->
   <section class="border-t border-border">
     <div class="max-w-5xl mx-auto px-6 py-16 md:py-20">
-      <h2 class="text-2xl md:text-3xl font-bold text-text-primary">Built it, then documented it</h2>
+      <h2 class="text-2xl md:text-3xl font-bold text-text-primary">
+        <span data-en>Built it, then documented it</span><span data-ko>만들고, 문서로 남겼다</span>
+      </h2>
       <p class="mt-3 text-text-secondary leading-relaxed max-w-[64ch]">
-        "How much on-chain authority should an AI agent have, and how do you bound it?" — the
-        question I'm building against right now. A reference implementation is a claim; the docs
-        that ship with it are the part a builder actually meets first, so I write those too.
+        <span data-en>
+          "How much on-chain authority should an AI agent have, and how do you bound it?" — the
+          question I'm building against right now. A reference implementation is a claim; the docs
+          that ship with it are the part a builder actually meets first, so I write those too.
+        </span>
+        <span data-ko>
+          "AI 에이전트에게 온체인 권한을 어디까지 주고, 어떻게 묶을 것인가" — 지금 붙들고 만들고 있는
+          질문이다. 레퍼런스 구현은 주장이고, 빌더가 실제로 먼저 만나는 건 그와 함께 나가는 문서다.
+          그래서 그 문서도 직접 쓴다.
+        </span>
       </p>
 
       {flagship && (
@@ -445,11 +649,13 @@ const iso = (d) => d.toISOString().slice(0, 10);
               datetime={iso(flagship.data.date)}
               class="font-mono text-[11px] text-text-muted whitespace-nowrap"
             >
-              {fmt(flagship.data.date)}
+              <span data-en>{fmt(flagship.data.date)}</span>
+              <span data-ko>{fmtKo(flagship.data.date)}</span>
             </time>
           </div>
           <p class="mt-4 text-text-secondary leading-relaxed max-w-[62ch]">
-            {flagship.data.description}
+            <span data-en>{flagship.data.description}</span>
+            <span data-ko>{describe(flagship)}</span>
           </p>
           <div class="mt-6 flex flex-wrap gap-x-3 gap-y-2 font-mono text-[11px] text-text-muted">
             {flagship.data.tech_stack.slice(0, 8).map((t) => <span>{t}</span>)}
@@ -472,7 +678,9 @@ const iso = (d) => d.toISOString().slice(0, 10);
                 <span class="font-mono text-sm text-text-primary group-hover:text-accent transition-colors">
                   {l.label} <span aria-hidden="true">&#8599;</span>
                 </span>
-                <span class="text-[11px] text-text-muted text-right">{l.note}</span>
+                <span class="text-[11px] text-text-muted text-right">
+                  <span data-en>{l.note}</span><span data-ko>{l.note_ko}</span>
+                </span>
               </a>
             </li>
           ))}
@@ -493,10 +701,14 @@ const iso = (d) => d.toISOString().slice(0, 10);
                 datetime={iso(p.data.date)}
                 class="font-mono text-[11px] text-text-muted whitespace-nowrap"
               >
-                {fmt(p.data.date)}
+                <span data-en>{fmt(p.data.date)}</span>
+                <span data-ko>{fmtKo(p.data.date)}</span>
               </time>
             </div>
-            <p class="mt-2.5 text-sm text-text-secondary leading-relaxed">{p.data.description}</p>
+            <p class="mt-2.5 text-sm text-text-secondary leading-relaxed">
+              <span data-en>{p.data.description}</span>
+              <span data-ko>{describe(p)}</span>
+            </p>
             <div class="mt-4 flex flex-wrap gap-x-3 gap-y-1.5 font-mono text-[11px] text-text-muted">
               {p.data.tech_stack.slice(0, 4).map((t) => <span>{t}</span>)}
             </div>
@@ -509,41 +721,87 @@ const iso = (d) => d.toISOString().slice(0, 10);
   <!-- ── Contact ──────────────────────────────────────────────── -->
   <section class="border-t border-border">
     <div class="max-w-5xl mx-auto px-6 py-16 md:py-20">
-      <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
+      <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-10">
         <div>
-          <h2 class="text-2xl md:text-3xl font-bold text-text-primary">Let's talk</h2>
+          <h2 class="text-2xl md:text-3xl font-bold text-text-primary">
+            <span data-en>Let's talk</span><span data-ko>이야기합시다</span>
+          </h2>
           <p class="mt-3 text-text-secondary leading-relaxed max-w-[52ch]">
-            Always open to conversations about developer docs, reference implementations, and
-            bilingual technical content.
+            <span data-en>
+              Always open to conversations about developer docs, reference implementations, and
+              bilingual technical content.
+            </span>
+            <span data-ko>
+              개발자 문서, 레퍼런스 구현, 이중언어 기술 콘텐츠에 관한 이야기라면 언제든.
+            </span>
           </p>
         </div>
-        <div class="flex flex-wrap gap-3 shrink-0">
+
+        <div class="shrink-0">
+          <!-- The address stays legible rather than collapsing into a mail glyph: it is the
+               one contact detail a reader may want to copy rather than click. -->
           <a
             href={`mailto:${SITE.email}`}
-            class="px-5 py-2.5 bg-accent-strong text-white rounded-lg text-sm font-medium hover:bg-[#1d4ed8] transition-colors"
+            class="inline-flex items-center gap-2.5 rounded-xl bg-accent-strong px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-[#1d4ed8] [&_svg]:h-5 [&_svg]:w-5"
           >
+            <span set:html={icons.mail} />
             {SITE.email}
           </a>
-          <a
-            href={TELEGRAM.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="px-5 py-2.5 bg-card border border-border text-text-primary rounded-lg text-sm font-medium hover:border-accent/60 transition-colors"
-          >
-            Telegram
-          </a>
-          <a
-            href="https://github.com/kooroot"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="px-5 py-2.5 bg-card border border-border text-text-primary rounded-lg text-sm font-medium hover:border-accent/60 transition-colors"
-          >
-            GitHub
-          </a>
+
+          <ul class="mt-3 flex flex-wrap gap-2.5">
+            {CONTACTS.map((c) => (
+              <li>
+                <a
+                  href={c.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={c.label}
+                  title={c.label}
+                  class="lift flex h-12 w-12 items-center justify-center rounded-xl border border-border bg-card text-text-secondary transition-colors hover:border-accent/60 hover:text-accent [&_svg]:h-5 [&_svg]:w-5"
+                >
+                  <span set:html={icons[c.icon]} />
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </div>
   </section>
+
+  <script>
+    // The button announces the language it switches *to*, which is why it reads
+    // "한국어" while the page is in English.
+    const html = document.documentElement;
+    const btn = document.getElementById('lang-toggle');
+    const label = document.getElementById('lang-toggle-label');
+
+    const LABEL = { en: '한국어', ko: 'English' };
+    const ARIA = { en: '한국어로 보기', ko: 'View in English' };
+
+    function render(lang: 'en' | 'ko') {
+      html.setAttribute('data-lang', lang);
+      html.lang = lang;
+      if (label) label.textContent = LABEL[lang];
+      btn?.setAttribute('aria-label', ARIA[lang]);
+    }
+
+    // Only an explicit click is persisted. Writing the browser-language guess to
+    // storage would freeze a default the reader never chose.
+    function choose(lang: 'en' | 'ko') {
+      render(lang);
+      try {
+        localStorage.setItem('devrel-lang', lang);
+      } catch {
+        /* storage unavailable — the choice still applies for this page view */
+      }
+    }
+
+    render(html.getAttribute('data-lang') === 'ko' ? 'ko' : 'en');
+    btn?.addEventListener('click', () =>
+      choose(html.getAttribute('data-lang') === 'ko' ? 'en' : 'ko'),
+    );
+  </script>
 </BaseLayout>
 
 <style>
@@ -552,6 +810,31 @@ const iso = (d) => d.toISOString().slice(0, 10);
     line-height: 1.12;
     letter-spacing: -0.03em;
     text-wrap: balance;
+  }
+
+  /*
+    Language swap. Only the *inactive* copy carries a display rule, so the active
+    one keeps whatever display its own classes give it — writing `display: revert`
+    on the visible side would flatten every `flex` and `grid` back to `block`.
+    With no JS the html element has no data-lang, the :not() matches, and the
+    page renders as English rather than as both languages at once.
+  */
+  :global(html:not([data-lang='ko'])) [data-ko] {
+    display: none;
+  }
+
+  :global(html[data-lang='ko']) [data-en] {
+    display: none;
+  }
+
+  /* A control that cannot work should not be drawn. `.js` is set in Head.astro
+     before first paint, so this never flashes. */
+  #lang-toggle {
+    display: none;
+  }
+
+  :global(html.js) #lang-toggle {
+    display: inline-flex;
   }
 
   /* A single page-load orchestration on the masthead. Deliberately not repeated
