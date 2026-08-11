@@ -1,5 +1,6 @@
 ---
 import { icons } from './icons/index';
+import { styleFor } from '../lib/categories';
 
 interface Props {
   title: string;
@@ -8,24 +9,18 @@ interface Props {
   tech_stack: string[];
   github?: string;
   dune?: string;
+  repo_private?: boolean;
   category: string;
 }
 
-const { title, description, href, tech_stack, github, dune, category } = Astro.props;
-
-const categoryBorders: Record<string, string> = {
-  'Blockchain Research': 'hover:border-cyan-500/50 hover:shadow-cyan-500/5',
-  'Blockchain Development': 'hover:border-green-500/50 hover:shadow-green-500/5',
-  'Blockchain Node Operation': 'hover:border-purple-500/50 hover:shadow-purple-500/5',
-  'AI Engineering': 'hover:border-amber-500/50 hover:shadow-amber-500/5',
-};
+const { title, description, href, tech_stack, github, dune, repo_private, category } = Astro.props;
 ---
 
 <a
   href={href}
   class:list={[
     'group block bg-card border border-border rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl',
-    categoryBorders[category] || 'hover:border-accent/50',
+    styleFor(category).cardHover,
   ]}
 >
   <h3 class="text-lg font-semibold text-text-primary mb-2 group-hover:text-accent transition-colors">
@@ -41,12 +36,20 @@ const categoryBorders: Record<string, string> = {
       </span>
     ))}
   </div>
-  {(github || dune) && (
+  {(github || dune || repo_private) && (
     <div class="flex items-center gap-3 text-text-muted text-xs">
       {github && (
         <div class="flex items-center gap-1.5">
           <span set:html={icons.github} />
           <span>GitHub</span>
+        </div>
+      )}
+      <!-- Deliberately not a link and deliberately not styled like one: the point
+           is to account for the missing repo, not to invite a click that 404s. -->
+      {repo_private && !github && (
+        <div class="flex items-center gap-1.5">
+          <span set:html={icons.lock} />
+          <span>Private repo</span>
         </div>
       )}
       {dune && (

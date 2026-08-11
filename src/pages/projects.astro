@@ -2,22 +2,18 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import { getCollection } from 'astro:content';
+import { PROJECT_CATEGORIES } from '../lib/categories';
 
 const allProjects = await getCollection('projects');
 
-const categories = [
-  { name: 'Blockchain Research', icon: 'research' },
-  { name: 'Blockchain Development', icon: 'dev' },
-  { name: 'Blockchain Node Operation', icon: 'ops' },
-  { name: 'AI Engineering', icon: 'ai' },
-] as const;
-
-const categoryColors: Record<string, string> = {
-  'Blockchain Research': 'text-cyan-400',
-  'Blockchain Development': 'text-green-400',
-  'Blockchain Node Operation': 'text-purple-400',
-  'AI Engineering': 'text-amber-400',
-};
+// Array order is section order on this page. The dropped `icon` key on each
+// category was never read — nothing on this page renders a category icon.
+const sections = PROJECT_CATEGORIES.map((cat) => ({
+  cat,
+  projects: allProjects
+    .filter((p) => p.data.category === cat.name && p.data.show_tile)
+    .sort((a, b) => b.data.date.getTime() - a.data.date.getTime()),
+})).filter((s) => s.projects.length > 0);
 ---
 
 <BaseLayout title="Projects" description="Blockchain Research & Development Projects">
@@ -34,32 +30,27 @@ const categoryColors: Record<string, string> = {
 
   <!-- Project Categories -->
   <section class="max-w-6xl mx-auto px-6 pb-20">
-    {categories.map((cat) => {
-      const projects = allProjects
-        .filter((p) => p.data.category === cat.name && p.data.show_tile)
-        .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
-
-      return projects.length > 0 ? (
-        <div class="mb-16 fade-in-up">
-          <h2 class={`text-2xl font-bold mb-8 pb-4 border-b border-border flex items-center gap-3 ${categoryColors[cat.name]}`}>
-            {cat.name}
-          </h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 stagger-children">
-            {projects.map((project) => (
-              <ProjectCard
-                title={project.data.title}
-                description={project.data.description}
-                href={`/projects/${project.id}`}
-                tech_stack={project.data.tech_stack}
-                github={project.data.github}
-                dune={project.data.dune}
-                category={project.data.category}
-              />
-            ))}
-          </div>
+    {sections.map(({ cat, projects }) => (
+      <div class="mb-16 fade-in-up">
+        <h2 class={`text-2xl font-bold mb-8 pb-4 border-b border-border flex items-center gap-3 ${cat.heading}`}>
+          {cat.name}
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 stagger-children">
+          {projects.map((project) => (
+            <ProjectCard
+              title={project.data.title}
+              description={project.data.description}
+              href={`/projects/${project.id}`}
+              tech_stack={project.data.tech_stack}
+              github={project.data.github}
+              dune={project.data.dune}
+              repo_private={project.data.repo_private}
+              category={project.data.category}
+            />
+          ))}
         </div>
-      ) : null;
-    })}
+      </div>
+    ))}
 
     <!-- Research Focus -->
     <div class="mt-16 p-8 bg-secondary border border-border rounded-2xl fade-in-up">
@@ -68,7 +59,7 @@ const categoryColors: Record<string, string> = {
         Currently focused on the intersection of prediction markets and on-chain data — building ML pipelines for market signals, DeFi trading automation, and cross-chain interoperability. Continuing research in L2 rollup optimization and smart contract security.
       </p>
       <div class="flex flex-wrap gap-4">
-        <a href="/about" class="px-5 py-2.5 bg-accent text-white rounded-lg text-sm font-medium hover:bg-accent/90 transition-colors">
+        <a href="/about" class="px-5 py-2.5 bg-accent-strong text-white rounded-lg text-sm font-medium hover:bg-[#1d4ed8] transition-colors">
           About Me
         </a>
         <a href="https://github.com/kooroot" target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 bg-card border border-border text-text-primary rounded-lg text-sm font-medium hover:border-accent/50 transition-colors">
