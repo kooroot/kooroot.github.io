@@ -189,11 +189,11 @@ const iso = (e) => e.data.date.toISOString().slice(0, byMonth(e) ? 7 : 10);
 
       <h1 class="rise hero-title font-bold text-text-primary" style="--d:60ms">
         <span data-en>
-          Developer docs written by the person
-          who <span class="text-accent">shipped the code</span>.
+          Docs that get a first-timer to
+          <span class="text-accent">a running node</span>.
         </span>
         <span data-ko>
-          코드를 짠 사람이 <span class="text-accent">직접 쓴</span> 개발자 문서.
+          처음 해보는 사람이 <span class="text-accent">노드를 띄우게</span> 만드는 문서.
         </span>
       </h1>
 
@@ -792,6 +792,16 @@ const iso = (e) => e.data.date.toISOString().slice(0, byMonth(e) ? 7 : 10);
 
   :global(html[data-lang='ko']) [data-en] {
     display: none;
+  }
+
+  /*
+    Korean wraps between 어절, never inside one. Without this the browser treats
+    every syllable as a break opportunity and the headline came out as
+    "노드 / 를 띄우게", which reads as a typo rather than a line break. Latin text
+    is unaffected by keep-all, so this is safe to hang off the root element.
+  */
+  :global(html[data-lang='ko']) {
+    word-break: keep-all;
   }
 
   /* A control that cannot work should not be drawn. `.js` is set in Head.astro
