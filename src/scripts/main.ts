@@ -60,13 +60,15 @@ function initTypingAnimation() {
   const text = "Hi, I'm KOOROOT";
   let i = 0;
 
-  function type() {
+  // An arrow function declared after the null guard keeps `el` narrowed; a hoisted
+  // `function type()` could be called before the guard, so TS widens it back.
+  const type = () => {
     if (i < text.length) {
       el.textContent = text.slice(0, i + 1);
       i++;
       setTimeout(type, 80);
     }
-  }
+  };
 
   type();
 }

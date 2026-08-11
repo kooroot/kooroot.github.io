@@ -1,4 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+/* Both font families are requested from the preconnect-warmed <link> in
+   Head.astro. Importing them here as well would refetch Inter and delay the
+   mono face by a full stylesheet round-trip. */
 
 @tailwind base;
 @tailwind components;
@@ -20,35 +22,55 @@
 }
 
 @layer components {
-  /* Fade in up animation */
-  .fade-in-up {
+  /* Scroll reveals.
+     The hidden state is scoped to `.js` (set in Head.astro before first paint)
+     and to a motion-friendly viewer. `.visible` is only ever added by the
+     IntersectionObserver in scripts/main.ts, so an unscoped `opacity: 0` here
+     would strand the content it covers — 18 elements across /, /about and
+     /projects, including the entire project grid — for any visitor without
+     scripting. The reveal now enhances an already-visible default. */
+  .js .fade-in-up {
     opacity: 0;
     transform: translateY(30px);
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
   }
 
-  .fade-in-up.visible {
+  .js .fade-in-up.visible {
     opacity: 1;
     transform: translateY(0);
   }
 
-  /* Stagger children animation */
-  .stagger-children > * {
+  .js .stagger-children > * {
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.5s ease-out, transform 0.5s ease-out;
   }
 
-  .stagger-children.visible > *:nth-child(1) { transition-delay: 0.1s; }
-  .stagger-children.visible > *:nth-child(2) { transition-delay: 0.2s; }
-  .stagger-children.visible > *:nth-child(3) { transition-delay: 0.3s; }
-  .stagger-children.visible > *:nth-child(4) { transition-delay: 0.4s; }
-  .stagger-children.visible > *:nth-child(5) { transition-delay: 0.5s; }
-  .stagger-children.visible > *:nth-child(6) { transition-delay: 0.6s; }
+  .js .stagger-children.visible > *:nth-child(1) { transition-delay: 0.1s; }
+  .js .stagger-children.visible > *:nth-child(2) { transition-delay: 0.2s; }
+  .js .stagger-children.visible > *:nth-child(3) { transition-delay: 0.3s; }
+  .js .stagger-children.visible > *:nth-child(4) { transition-delay: 0.4s; }
+  .js .stagger-children.visible > *:nth-child(5) { transition-delay: 0.5s; }
+  .js .stagger-children.visible > *:nth-child(6) { transition-delay: 0.6s; }
 
-  .stagger-children.visible > * {
+  .js .stagger-children.visible > * {
     opacity: 1;
     transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .js .fade-in-up,
+    .js .stagger-children > * {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+    .js .stagger-children.visible > * {
+      transition-delay: 0s;
+    }
+    .typing-cursor::after {
+      animation: none;
+    }
   }
 
   /* Typing cursor */

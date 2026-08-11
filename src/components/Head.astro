@@ -14,6 +14,11 @@ const canonicalURL = new URL(Astro.url.pathname, SITE.url);
 
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<!-- Marks that scripting is available, before first paint. The scroll-reveal
+     styles hang off this class, so without JS the content they cover renders
+     visible instead of stranded at opacity 0. -->
+<script is:inline>document.documentElement.classList.add('js');</script>
 <meta name="generator" content={Astro.generator} />
 
 <title>{pageTitle}</title>
@@ -38,4 +43,7 @@ const canonicalURL = new URL(Astro.url.pathname, SITE.url);
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+<link
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+  rel="stylesheet"
+/>
