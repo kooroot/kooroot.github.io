@@ -42,6 +42,8 @@ Every session can be exported as `--json` for downstream tooling, and the persis
 - Mock adapter loop is fully deterministic and tested; real Claude Code / Codex subprocess paths convert unified diffs into typed patches.
 - Verification gates (fmt, clippy, full tests, config validate, mock doctor, daemon smoke, TUI smoke) all pass on the merged roadmap.
 - Three-strategy dispatch (`consensus`, `pipeline`, `tournament`), persistent `.nerve/` history, daemon and TUI surfaces, and machine-readable session reports are live.
+- **v1.0.0** (2026-06-15) ships binaries for four targets — macOS arm64 and x86_64, Linux x86_64, Windows x86_64 — behind `install.sh` and `install.ps1`.
+- Per-OS process sandboxing in `nerve-core::sandbox`: Seatbelt SBPL on macOS, bubblewrap with Landlock, seccomp-bpf and cgroups v2 on Linux, owner-only DACL on Windows. The argv and decision logic are unit-tested everywhere, but out-of-root write denial, network unshare, Landlock confinement and the seccomp denylist can only be proven on a real kernel, so CI installs bubblewrap and runs those proofs on Linux.
 
 ## Technologies
 - **Language / Runtime**: Rust, Tokio, Cargo workspace

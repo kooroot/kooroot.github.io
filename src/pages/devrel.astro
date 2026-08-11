@@ -5,13 +5,13 @@ import { byDateDesc, hrefOf, isExternal, toCards } from '../lib/writing';
 import { icons } from '../components/icons/index';
 import { SITE } from '../consts';
 
-// A focused view of the same content collections the rest of the site reads —
-// nothing here is hardcoded except the Telegram channel, which is not a project.
+// Reads the same content collections as the rest of the site. The Telegram
+// channel, the two Mapae links and the contact row are the hardcoded parts.
 const projects = await getCollection('projects');
 const byId = new Map(projects.map((p) => [p.id, p]));
 const pick = (slugs) => slugs.map((s) => byId.get(s)).filter(Boolean);
 
-// Ordered oldest-network-first so the series reads as a run, not a pile.
+// Oldest network first.
 const nodeExecutors = pick([
   'ritual-node-executor',
   'node-nexus',
@@ -26,12 +26,21 @@ const nodeExecutors = pick([
 const [flagship, ...supporting] = pick(['mapae', 'nerve', 'engram']);
 const localization = byId.get('claude-learn-ko');
 
-// Material built for someone else to work through. Affiliation is carried per
-// item rather than on the section — the CTF was made with the Graylab team the
-// year before joining them, the localization was independent, and collapsing the
-// two would misstate who I did what for. Neither is a talk: nothing on this page
-// claims lecturing, because none of it was.
+// Affiliation is carried per item rather than on the section: the CTF was made
+// with the Graylab team the year before joining them, and the localization was
+// independent.
 const ctf = byId.get('ethcon2024-ctf');
+
+// This year's run, oldest first. The count and the month span in the colophon are
+// read off these entries, so neither can drift away from the dates on the cards.
+const recent = pick(['claude-learn-ko', 'engram', 'nerve', 'mapae']).sort(
+  (a, b) => a.data.date - b.data.date,
+);
+const firstRelease = recent[0].data.date;
+const lastRelease = recent[recent.length - 1].data.date;
+const releaseSpanEn = `${firstRelease.toLocaleDateString('en-US', { month: 'short' })}–${lastRelease.toLocaleDateString('en-US', { month: 'short' })} ${lastRelease.getFullYear()}`;
+const releaseSpanKo = `${lastRelease.getFullYear()}년 ${firstRelease.getMonth() + 1}–${lastRelease.getMonth() + 1}월`;
+const releaseNames = recent.map((p) => p.data.title).join(', ');
 
 // Live sites for the flagship: the product and the documentation that ships with it.
 const FLAGSHIP_LINKS = [
@@ -73,9 +82,8 @@ const networkName = (p) => p.data.title.replace(/\s+Node Executor$/, '');
 // falls back to the published English rather than showing a blank.
 const describe = (p) => p.data.description_ko ?? p.data.description;
 
-// A subscriber count is a measurement, and measurements go stale. Carrying the
-// date it was taken keeps the number honest between updates instead of quietly
-// drifting — the previous hardcoded 6,762 had already been overtaken.
+// Dated because it goes stale: the previous hardcoded 6,762 had already been
+// overtaken by the time anyone noticed.
 const TELEGRAM = {
   url: 'https://t.me/web3_laborer',
   handle: 't.me/web3_laborer',
@@ -122,7 +130,7 @@ const iso = (e) => e.data.date.toISOString().slice(0, byMonth(e) ? 7 : 10);
 
 <BaseLayout
   title="Developer Relations"
-  description="Closing the distance between the doc and the terminal — developer tooling, bilingual technical writing, and agent infrastructure."
+  description="Node install tooling for eight networks, bilingual technical writing for an L2 protocol company, and agent payment infrastructure on GIWA Sepolia."
 >
   <!--
     Language state, set before first paint so a returning Korean reader never
@@ -162,7 +170,7 @@ const iso = (e) => e.data.date.toISOString().slice(0, byMonth(e) ? 7 : 10);
         The toggle sits in the page rather than in a second top bar, because the
         site already has one nav and a page-local control that looks like chrome
         would be lying about its scope: this switches this page, not the site.
-        It is hidden without JS — a control that cannot work should not be drawn.
+        Hidden until Head.astro sets `.js`, so it is never drawn dead.
       -->
       <div class="rise flex items-center justify-between gap-4 mb-8" style="--d:0ms">
         <p class="font-mono text-[11px] tracking-wider text-text-muted uppercase">
@@ -181,36 +189,33 @@ const iso = (e) => e.data.date.toISOString().slice(0, byMonth(e) ? 7 : 10);
 
       <h1 class="rise hero-title font-bold text-text-primary" style="--d:60ms">
         <span data-en>
-          Closing the distance between<br class="hidden sm:block" />
-          <span class="text-accent">the doc and the terminal</span>.
+          Developer docs written by the person
+          who <span class="text-accent">shipped the code</span>.
         </span>
         <span data-ko>
-          문서와 터미널 사이의<br class="hidden sm:block" />
-          <span class="text-accent">거리를 줄인다</span>.
+          코드를 짠 사람이 <span class="text-accent">직접 쓴</span> 개발자 문서.
         </span>
       </h1>
 
       <p class="rise mt-7 text-text-secondary text-lg leading-relaxed max-w-[64ch]" style="--d:150ms">
         <span data-en>
-          I've worked both ends of the loop — writing the thing down, and being the one who has to
-          run it. At an L2 protocol company the chain we operated was posting a net loss on its own
-          rollup; I worked out how far the submission intervals could be stretched before the
-          security assumptions bend, it went into production, and the cost came down. Then I
-          published the analysis in Korean and English. I also run a developer channel and ship the
-          node tooling that turns a long setup into a handful of commands. Documentation is only
-          proven on someone else's terminal.
+          At an L2 protocol company, the rollup we ran was posting a net loss. I worked out how far
+          the transaction and state-root submission intervals could widen before the security
+          assumptions break. It went into production and the cost came down, and I published the
+          analysis in Korean and English. I run a Korean developer channel where the node
+          walkthroughs go out with install scripts a reader can run. And I keep building. Four
+          releases since March, and I wrote the docs for all four.
         </span>
         <span data-ko>
-          문서를 쓰는 일과, 그 문서대로 직접 돌려보는 일을 양쪽 다 해왔다. L2 프로토콜 회사에서는
-          우리가 운영하던 체인이 자체 롤업에서 순손실을 내고 있었다. 보안 가정이 깨지기 전까지 제출
-          주기를 어디까지 늘릴 수 있는지 분석했고, 실제 운영에 반영돼 비용이 내려갔다. 그 분석을
-          국문과 영문으로 발행했다. 개발자 채널도 운영하고, 긴 셋업 과정을 명령어 몇 줄로 줄이는
-          노드 도구를 만들어 배포한다. 문서는 결국 남의 터미널에서 증명된다.
+          L2 프로토콜 회사에 있을 때 우리가 운영하던 롤업이 순손실을 내고 있었다. 보안 가정이 깨지기
+          전까지 트랜잭션과 스테이트루트 제출 주기를 얼마나 늘릴 수 있는지 분석했고, 실제 운영에
+          반영돼 비용이 내려갔다. 분석 내용은 국문과 영문으로 발행했다. 한국어 개발자 채널도
+          운영한다. 노드 운영 글에는 독자가 그대로 돌려볼 수 있는 설치 스크립트를 같이 올린다.
+          그리고 계속 만든다. 3월 이후로 네 개를 냈고, 문서는 전부 직접 썼다.
         </span>
       </p>
 
-      <!-- A colophon, not a stat block: four claims, each traceable to something
-           further down the page. -->
+      <!-- Five rows, each traceable to a section further down the page. -->
       <dl class="rise mt-12 max-w-[52rem] border-t border-border" style="--d:240ms">
         <div class="grid grid-cols-1 sm:grid-cols-[7.5rem_1fr] gap-x-6 gap-y-1 py-3.5 border-b border-border">
           <dt class="font-mono text-[11px] tracking-wider text-text-muted uppercase sm:pt-0.5">
@@ -229,11 +234,11 @@ const iso = (e) => e.data.date.toISOString().slice(0, byMonth(e) ? 7 : 10);
           <dd class="text-sm text-text-secondary">
             <span data-en>
               <span class="text-text-primary">{networkCount} networks</span>
-              — installers that collapse a multi-step node setup into a handful of commands
+              — one install script each, Linux and macOS
             </span>
             <span data-ko>
               <span class="text-text-primary">{networkCount}개 네트워크</span>
-              — 여러 단계짜리 노드 셋업을 명령어 몇 줄로 줄인 설치 스크립트
+              — 각각 설치 스크립트 하나, Linux·macOS 지원
             </span>
           </dd>
         </div>
@@ -257,12 +262,27 @@ const iso = (e) => e.data.date.toISOString().slice(0, byMonth(e) ? 7 : 10);
           </dt>
           <dd class="text-sm text-text-secondary">
             <span data-en>
-              <span class="text-text-primary">A conference CTF</span>
-              — plus 388 lessons localized into Korean
+              <span class="text-text-primary">CTF and curriculum</span>
+              — challenges for EthCon Korea 2024, 388 Anthropic Academy lessons in Korean
             </span>
             <span data-ko>
-              <span class="text-text-primary">컨퍼런스 CTF 하나</span>
-              — 그리고 한국어로 옮긴 388개 레슨
+              <span class="text-text-primary">CTF와 커리큘럼</span>
+              — EthCon Korea 2024 문제 출제, Anthropic Academy 388개 레슨 한국어판
+            </span>
+          </dd>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-[7.5rem_1fr] gap-x-6 gap-y-1 py-3.5 border-b border-border">
+          <dt class="font-mono text-[11px] tracking-wider text-text-muted uppercase sm:pt-0.5">
+            <span data-en>Released</span><span data-ko>릴리스</span>
+          </dt>
+          <dd class="text-sm text-text-secondary">
+            <span data-en>
+              <span class="text-text-primary">{releaseSpanEn}</span>
+              — {releaseNames}
+            </span>
+            <span data-ko>
+              <span class="text-text-primary">{releaseSpanKo}</span>
+              — {releaseNames}
             </span>
           </dd>
         </div>
@@ -273,18 +293,8 @@ const iso = (e) => e.data.date.toISOString().slice(0, byMonth(e) ? 7 : 10);
   <!-- ── The loop ─────────────────────────────────────────────── -->
   <section class="max-w-5xl mx-auto px-6 py-16 md:py-20">
     <h2 class="text-2xl md:text-3xl font-bold text-text-primary">
-      <span data-en>The loop</span><span data-ko>왕복</span>
+      <span data-en>Channel, tooling, writing</span><span data-ko>채널, 도구, 글</span>
     </h2>
-    <p class="mt-3 text-text-secondary leading-relaxed max-w-[64ch]">
-      <span data-en>
-        Three surfaces: a channel I run alone, tooling for the step operators stall on, and
-        writing that explains why the step is there.
-      </span>
-      <span data-ko>
-        세 개의 면 — 혼자 운영하는 채널, 운영자가 막히는 단계를 없애는 도구, 그 단계가 왜 있는지
-        설명하는 글.
-      </span>
-    </p>
 
     <ol class="mt-10">
       <!-- ask -->
@@ -317,14 +327,14 @@ const iso = (e) => e.data.date.toISOString().slice(0, byMonth(e) ? 7 : 10);
             </h3>
             <p class="mt-3 text-text-secondary leading-relaxed max-w-[58ch]">
               <span data-en>
-                A developer community I run alone. During the node boom I shared the automation
-                scripts I had already built and answered whatever came back; today it runs as
-                on-chain research and security curation.
+                Node walkthroughs, protocol breakdowns and tooling notes, in Korean. A good part of
+                the readership are not developers, so the walkthroughs go out with the scripts and
+                I answer what comes back. These days it is mostly on-chain research and security links.
               </span>
               <span data-ko>
-                혼자 운영하는 개발자 커뮤니티. 노드 붐 시기에 이미 만들어 둔 자동화 스크립트를
-                공유하고 올라오는 질문에 직접 답했고, 지금은 온체인 리서치와 보안 큐레이션으로
-                이어가고 있다.
+                노드 운영 워크스루, 프로토콜 해설, 툴링 노트를 한국어로 올린다. 읽는 사람 중 상당수는
+                개발자가 아니라서, 글에는 항상 스크립트를 같이 붙이고 올라오는 질문에 직접 답한다.
+                지금은 온체인 리서치와 보안 큐레이션 쪽으로 이어가고 있다.
               </span>
             </p>
             <span class="inline-block mt-5 text-sm text-accent">
@@ -352,16 +362,16 @@ const iso = (e) => e.data.date.toISOString().slice(0, byMonth(e) ? 7 : 10);
           </h3>
           <p class="mt-3 text-text-secondary leading-relaxed max-w-[60ch]">
             <span data-en>
-              Plenty of people wanted to run a node for the rewards and stalled on the setup. I had
-              already been running validators, so I moved what I knew into scripts: OS detection,
-              GPU detection, dependency install, session management, config patching — a new
-              operator's first hour compressed into a handful of commands, across Linux and macOS.
+              Plenty of people wanted to run a node for the rewards and stalled on the setup, and
+              most of them were not developers. I had been running validators already, so I moved
+              what I knew into scripts: OS and GPU detection, dependency install, session
+              management, config patching, on both Linux and macOS.
             </span>
             <span data-ko>
-              보상을 받으려고 노드를 돌려보려다 셋업에서 막히는 사람이 많았다. 나는 이미 밸리데이터를
-              운영하고 있었으니, 알고 있던 걸 스크립트로 옮겼다. OS 감지, GPU 감지, 의존성 설치,
-              세션 관리, 설정 파일 패칭 — 신규 운영자의 첫 한 시간을 명령어 몇 줄로 줄였고, Linux와
-              macOS 양쪽을 지원한다.
+              보상을 받으려고 노드를 돌려보다 셋업에서 막히는 사람이 많았고, 그중 대부분은 개발자가
+              아니었다. 나는 이미 밸리데이터를 운영하고 있었으니 알던 것을 스크립트로 옮겼다. OS·GPU
+              감지, 의존성 설치, 세션 관리, 설정 파일 패칭까지 넣었고 Linux와 macOS 양쪽에서
+              돌아간다.
             </span>
           </p>
 
@@ -400,16 +410,6 @@ const iso = (e) => e.data.date.toISOString().slice(0, byMonth(e) ? 7 : 10);
           <h3 class="text-xl md:text-2xl font-semibold text-text-primary">
             <span data-en>Writing</span><span data-ko>글</span>
           </h3>
-          <p class="mt-3 text-text-secondary leading-relaxed max-w-[60ch]">
-            <span data-en>
-              Most recent first. The paired entries are one piece of work published in both
-              languages.
-            </span>
-            <span data-ko>
-              최신순. 짝지어진 항목은 하나의 작업을 국문과 영문 양쪽으로 발행한 것이다.
-            </span>
-          </p>
-
           <!-- Titles and descriptions below come from the writing collection and stay in the
                language each piece was published in. Restating a published title in the other
                language would name an article that does not exist under that name. -->
@@ -510,105 +510,27 @@ const iso = (e) => e.data.date.toISOString().slice(0, byMonth(e) ? 7 : 10);
     </ol>
   </section>
 
-  <!-- ── Material built for other people to work through ──────── -->
+  <!-- ── This year's releases ─────────────────────────────────── -->
   <section class="border-t border-border">
     <div class="max-w-5xl mx-auto px-6 py-16 md:py-20">
       <h2 class="text-2xl md:text-3xl font-bold text-text-primary">
-        <span data-en>Made for other people to work through</span>
-        <span data-ko>남이 직접 풀어보는 자료</span>
+        <span data-en>What I've shipped this year</span><span data-ko>올해 낸 것들</span>
       </h2>
       <p class="mt-3 text-text-secondary leading-relaxed max-w-[64ch]">
         <span data-en>
-          Neither of these is a talk — they are things someone else sits down and works through: a
-          challenge set to solve, a curriculum to study. Affiliation is per item because they were
-          not the same job.
+          Anthropic Academy KR in March, Engram in April, Nerve in May, Mapae in July. Each one went
+          at something the agent stack had only just started supporting, and each shipped with the
+          documentation I wrote for it. The most recent is Mapae, which gives an AI agent spend
+          authority it cannot widen for itself, because the limits sit in deployed caveat bytecode
+          instead of a backend check. It is finished and submitted to GASOK, GIWA's accelerator
+          program.
         </span>
         <span data-ko>
-          둘 다 강연이 아니다. 남이 직접 앉아서 풀어보는 것들이다 — 풀어야 할 문제 세트 하나,
-          공부할 커리큘럼 하나. 소속을 항목마다 적은 건 같은 일이 아니었기 때문이다.
-        </span>
-      </p>
-
-      <!-- A ledger, not cards: two entries that differ in kind read better as rows
-           with a shared spine than as two boxes pretending to be siblings. -->
-      <dl class="mt-10 border-t border-border">
-        {ctf && (
-          <div class="grid md:grid-cols-[9rem_1fr] gap-x-8 gap-y-2 py-6 border-b border-border">
-            <dt class="font-mono text-[11px] text-text-muted md:pt-1.5">
-              2024
-              <span class="text-text-secondary">
-                <span data-en>· with Graylab, before joining</span><span data-ko>· 합류 전, Graylab과 함께</span>
-              </span>
-            </dt>
-            <dd>
-              <a href={`/projects/${ctf.id}`} class="group">
-                <h3 class="text-lg font-semibold text-text-primary group-hover:text-accent transition-colors">
-                  <span data-en>EthCon Korea 2024 — security CTF</span>
-                  <span data-ko>EthCon Korea 2024 — 보안 CTF</span>
-                </h3>
-              </a>
-              <p class="mt-2 text-sm text-text-secondary leading-relaxed max-w-[62ch]">
-                <span data-en>
-                  With the Graylab team: a challenge set spanning contract exploitation,
-                  cryptography and bytecode reversing on a beginner-to-advanced ladder, and the
-                  scoring platform it ran on during the conference.
-                </span>
-                <span data-ko>
-                  Graylab 팀과 함께. 컨트랙트 익스플로잇, 암호학, 바이트코드 리버싱까지 초급에서
-                  고급으로 이어지는 사다리로 문제를 출제하고, 컨퍼런스 기간 동안 스코어링 플랫폼을
-                  운영했다.
-                </span>
-              </p>
-            </dd>
-          </div>
-        )}
-        {localization && (
-          <div class="grid md:grid-cols-[9rem_1fr] gap-x-8 gap-y-2 py-6 border-b border-border">
-            <dt class="font-mono text-[11px] text-text-muted md:pt-1.5">
-              2026
-              <span class="text-text-secondary">
-                <span data-en>· independent</span><span data-ko>· 독립</span>
-              </span>
-            </dt>
-            <dd>
-              <a href={`/projects/${localization.id}`} class="group">
-                <h3 class="text-lg font-semibold text-text-primary group-hover:text-accent transition-colors">
-                  {localization.data.title}
-                </h3>
-              </a>
-              <p class="mt-2 text-sm text-text-secondary leading-relaxed max-w-[62ch]">
-                <span data-en>
-                  13 courses and 388 lessons brought into Korean, with the English source kept
-                  beside each translation so the result can be audited rather than trusted.
-                </span>
-                <span data-ko>
-                  13개 코스 388개 레슨을 한국어로 옮겼다. 번역마다 영문 원문을 나란히 남겨, 결과를
-                  신뢰가 아니라 검증의 대상으로 만들었다.
-                </span>
-              </p>
-            </dd>
-          </div>
-        )}
-      </dl>
-    </div>
-  </section>
-
-  <!-- ── What it's backed by ──────────────────────────────────── -->
-  <section class="border-t border-border">
-    <div class="max-w-5xl mx-auto px-6 py-16 md:py-20">
-      <h2 class="text-2xl md:text-3xl font-bold text-text-primary">
-        <span data-en>Built it, then documented it</span><span data-ko>만들고, 문서로 남겼다</span>
-      </h2>
-      <p class="mt-3 text-text-secondary leading-relaxed max-w-[64ch]">
-        <span data-en>
-          Mapae is what I'm building right now — bounded, revocable on-chain spend authority for AI
-          agents. I wrote its documentation too: quickstart, runbooks, error model. Both links
-          below go to the running thing.
-        </span>
-        <span data-ko>
-          지금 만들고 있는 건 Mapae다 — AI 에이전트에게 범위가 제한되고 취소 가능한 온체인 지출
-          권한을 주는 인프라. 문서도 직접 썼다. 퀵스타트, 런북, 에러 모델. 아래 링크 둘 다 실제로
-          돌아가는 것으로 연결된다.
+          3월 Anthropic Academy KR, 4월 Engram, 5월 Nerve, 7월 Mapae. 매번 에이전트 스택에서 막
+          되기 시작한 걸 붙잡고 만들었고, 문서는 전부 직접 써서 같이 냈다. 가장 최근 것이 Mapae다.
+          AI 에이전트가 스스로 넓힐 수 없는 지출 권한을 주고, 그 한도를 백엔드 코드가 아니라 배포된
+          caveat 바이트코드가 들고 있다. 작업을 마치고 GIWA의 액셀러레이터 프로그램
+          가속(GASOK)에 제출했다.
         </span>
       </p>
 
@@ -694,21 +616,90 @@ const iso = (e) => e.data.date.toISOString().slice(0, byMonth(e) ? 7 : 10);
     </div>
   </section>
 
+  <!-- ── Material other developers worked through ─────────────── -->
+  <section class="border-t border-border">
+    <div class="max-w-5xl mx-auto px-6 py-16 md:py-20">
+      <h2 class="text-2xl md:text-3xl font-bold text-text-primary">
+        <span data-en>Material other developers worked through</span>
+        <span data-ko>다른 개발자들이 직접 해본 자료</span>
+      </h2>
+
+      <dl class="mt-10 border-t border-border">
+        {ctf && (
+          <div class="grid md:grid-cols-[9rem_1fr] gap-x-8 gap-y-2 py-6 border-b border-border">
+            <dt class="font-mono text-[11px] text-text-muted md:pt-1.5">
+              2024
+              <span class="text-text-secondary">
+                <span data-en>· with Graylab, before joining</span><span data-ko>· 합류 전, Graylab과 함께</span>
+              </span>
+            </dt>
+            <dd>
+              <a href={`/projects/${ctf.id}`} class="group">
+                <h3 class="text-lg font-semibold text-text-primary group-hover:text-accent transition-colors">
+                  <span data-en>EthCon Korea 2024 — security CTF</span>
+                  <span data-ko>EthCon Korea 2024 — 보안 CTF</span>
+                </h3>
+              </a>
+              <p class="mt-2 text-sm text-text-secondary leading-relaxed max-w-[62ch]">
+                <span data-en>
+                  With the Graylab team: challenges across contract exploitation, cryptography and
+                  bytecode reversing, tiered from beginner to advanced, plus the scoring platform
+                  they ran on during the conference.
+                </span>
+                <span data-ko>
+                  Graylab 팀과 함께 컨트랙트 익스플로잇, 암호학, 바이트코드 리버싱 문제를 초급부터
+                  고급까지 난이도별로 출제했고, 컨퍼런스 기간에는 채점 플랫폼을 운영했다.
+                </span>
+              </p>
+            </dd>
+          </div>
+        )}
+        {localization && (
+          <div class="grid md:grid-cols-[9rem_1fr] gap-x-8 gap-y-2 py-6 border-b border-border">
+            <dt class="font-mono text-[11px] text-text-muted md:pt-1.5">
+              2026
+              <span class="text-text-secondary">
+                <span data-en>· independent</span><span data-ko>· 독립</span>
+              </span>
+            </dt>
+            <dd>
+              <a href={`/projects/${localization.id}`} class="group">
+                <h3 class="text-lg font-semibold text-text-primary group-hover:text-accent transition-colors">
+                  {localization.data.title}
+                </h3>
+              </a>
+              <p class="mt-2 text-sm text-text-secondary leading-relaxed max-w-[62ch]">
+                <span data-en>
+                  13 courses and 388 lessons brought into Korean. The English source sits beside
+                  each translation in the repo, and re-running the pipeline picks up upstream
+                  changes instead of forking away from them.
+                </span>
+                <span data-ko>
+                  13개 코스 388개 레슨을 한국어로 옮겼다. 저장소에는 번역마다 영문 원문을 나란히
+                  뒀고, 파이프라인을 다시 돌리면 원본이 바뀐 부분을 따라간다.
+                </span>
+              </p>
+            </dd>
+          </div>
+        )}
+      </dl>
+    </div>
+  </section>
+
   <!-- ── Contact ──────────────────────────────────────────────── -->
   <section class="border-t border-border">
     <div class="max-w-5xl mx-auto px-6 py-16 md:py-20">
       <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-10">
         <div>
           <h2 class="text-2xl md:text-3xl font-bold text-text-primary">
-            <span data-en>Let's talk</span><span data-ko>이야기합시다</span>
+            <span data-en>Let's talk</span><span data-ko>연락하기</span>
           </h2>
           <p class="mt-3 text-text-secondary leading-relaxed max-w-[52ch]">
             <span data-en>
-              Always open to conversations about developer docs, reference implementations, and
-              bilingual technical content.
+              Happy to talk about developer docs or bilingual technical content.
             </span>
             <span data-ko>
-              개발자 문서, 레퍼런스 구현, 이중언어 기술 콘텐츠에 관한 이야기라면 언제든.
+              개발자 문서나 한영 기술 문서 이야기라면 언제든 연락 주세요.
             </span>
           </p>
         </div>
