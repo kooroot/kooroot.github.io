@@ -1,7 +1,7 @@
 ---
 title: Engram
-description: AI-native persistent memory MCP server — a structured knowledge graph with O(1) state lookups, atomic mutations, and budget-controlled context injection
-description_ko: AI를 위한 영속 메모리 MCP 서버 — O(1) 상태 조회, 원자적 변경, 토큰 예산 기반 컨텍스트 주입을 갖춘 구조화된 지식 그래프
+description: AI-native persistent memory MCP server — a structured knowledge graph with direct entity lookup, atomic in-place mutations, and budget-controlled context injection
+description_ko: AI를 위한 영속 메모리 MCP 서버 — 엔티티 직접 조회, 원자적 제자리 변경, 토큰 예산 기반 컨텍스트 주입을 갖춘 구조화된 지식 그래프
 image: /images/ai-robot.jpg
 category: AI Engineering
 show_tile: true
@@ -11,7 +11,7 @@ date: 2026-04-20
 ---
 
 ## Problem
-Stuffing agent memory into markdown files or re-embedding every conversation has a poor upper bound: updating one fact rewrites a whole document, and recall requires "embed + search + pray." Relationships stay implicit in prose, audit trails are overwritten, and context budgets balloon out of control. Agents need a persistent memory primitive that supports O(1) entity lookup, structured relationships with confidence, immutable history, and token-aware retrieval.
+Stuffing agent memory into markdown files or re-embedding every conversation has a poor upper bound: updating one fact rewrites a whole document, and recall requires "embed + search + pray." Relationships stay implicit in prose, audit trails are overwritten, and context budgets balloon out of control. Agents need a persistent memory primitive that supports direct entity lookup, structured relationships with confidence, immutable history, and token-aware retrieval.
 
 ## Approach
 - **Knowledge graph, not files, not RAG.** Entities are nodes; relationships are explicit SPO triplets with confidence; updates are `UPDATE … WHERE id = ?` rather than document rewrites.
@@ -40,7 +40,7 @@ Every mutation appends a chained event entry — operation, before/after diff, t
 ## Outcome
 - Single npm-distributable binary (`@kooroot/engram`) installable via Bun, npm, pnpm, or yarn.
 - Same memory graph reachable from Claude Code, Codex, Gemini, Cursor, and Claude Desktop through MCP, plus a direct CLI and structured query API.
-- O(1) entity updates and direct graph lookup replace document rewrites and embedding searches for state operations.
+- Indexed entity updates and direct graph lookup replace document rewrites and embedding searches for state operations.
 - FTS5 keyword search and immutable, hash-chained event log give fast retrieval without losing audit history.
 
 ## Technologies

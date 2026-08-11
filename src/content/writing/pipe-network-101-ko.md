@@ -1,7 +1,8 @@
 ---
 title: "Pipe Network 101: 왜 우리는 탈중앙 CDN이 필요한가?"
-description: "탈중앙 CDN이 풀려는 문제가 무엇이고 Pipe Network가 그것을 어떻게 다루는지 처음부터 짚는 한국어 입문 글. 같은 네트워크의 노드 설치 스크립트도 함께 배포했다 — 개념을 설명한 글과 직접 돌려볼 도구가 한 곳에서 나온 사례다."
+description: "탈중앙 CDN이 풀려는 문제가 무엇이고 Pipe Network가 그것을 어떻게 다루는지 처음부터 짚는 한국어 입문 글. 같은 네트워크의 노드 설치 스크립트도 따로 공개했다."
 date: 2025-06-01
+date_precision: "month"
 tags: ["DePIN", "CDN", "Node Operation", "Research"]
 draft: false
 publication: "X"

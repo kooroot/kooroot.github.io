@@ -26,15 +26,14 @@ const nodeExecutors = pick([
 const [flagship, ...supporting] = pick(['mapae', 'nerve', 'engram']);
 const localization = byId.get('claude-learn-ko');
 
-// Developer-facing work that predates the channel. Affiliation is carried per
-// item rather than on the section: the lecture series and the Tokamak Network
-// pieces are both Onther-tenure work, but the CTF was run with the Graylab team
-// before joining them, and collapsing the two would misstate who I did what for.
-const lecture = byId.get('smartcontract-lecture');
+// Material built for someone else to work through. Affiliation is carried per
+// item rather than on the section — the CTF was made with the Graylab team, the
+// localization was independent, and collapsing the two would misstate who I did
+// what for. Neither is a talk: nothing on this page claims lecturing, because
+// none of it was.
 const ctf = byId.get('ethcon2024-ctf');
 
-// Live sites for the flagship. These are the actual work sample for a docs role —
-// a reference implementation is a claim; its published documentation is the proof.
+// Live sites for the flagship: the product and the documentation that ships with it.
 const FLAGSHIP_LINKS = [
   { label: 'mapae.io', href: 'https://mapae.io', note: 'product', note_ko: '제품' },
   {
@@ -86,10 +85,6 @@ const TELEGRAM = {
   asOfKo: '2026년 8월',
 };
 
-// The byline on the Tokamak Network pieces. Linking work published under a
-// different name without saying so invites the reader to doubt the citation.
-const BYLINE = 'Ethan.K';
-
 // Contact channels, in the order a reader would actually use them. Each href was
 // checked from a signed-out client and resolves to real content.
 //
@@ -105,10 +100,24 @@ const CONTACTS = [
   { icon: 'linktree', label: 'Linktree — kooroot', href: 'https://linktr.ee/kooroot' },
 ];
 
-const fmt = (d) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-const fmtKo = (d) => d.toLocaleDateString('ko-KR', { year: 'numeric', month: 'short', day: 'numeric' });
+// Five writing entries were reconstructed from a listing that recorded only year
+// and month; their files declare date_precision: "month" and their day is a
+// placeholder. Printing "Jun 1, 2025" for those would invent a precision the
+// source itself disclaims, so the day is dropped from both the visible text and
+// the datetime attribute rather than being asserted to a machine.
+const byMonth = (e) => e.data.date_precision === 'month';
+const fmt = (e) =>
+  e.data.date.toLocaleDateString('en-US',
+    byMonth(e) ? { year: 'numeric', month: 'short' }
+               : { year: 'numeric', month: 'short', day: 'numeric' });
+const fmtKo = (e) =>
+  e.data.date.toLocaleDateString('ko-KR',
+    byMonth(e) ? { year: 'numeric', month: 'short' }
+               : { year: 'numeric', month: 'short', day: 'numeric' });
 // <time> needs a machine-readable value; the visible text is not a valid datetime.
-const iso = (d) => d.toISOString().slice(0, 10);
+// YYYY-MM is a valid datetime in its own right, so a month-precision entry stays
+// machine-readable without claiming a day.
+const iso = (e) => e.data.date.toISOString().slice(0, byMonth(e) ? 7 : 10);
 ---
 
 <BaseLayout
@@ -183,17 +192,20 @@ const iso = (d) => d.toISOString().slice(0, 10);
 
       <p class="rise mt-7 text-text-secondary text-lg leading-relaxed max-w-[64ch]" style="--d:150ms">
         <span data-en>
-          I've worked both ends of the loop — writing the docs, and sitting with the people who run
-          them. For two years at an L2 protocol company I published rollup deep-dives in Korean and
-          English and taught the university course that fed builders into it; since then I've run a
-          developer channel where I hear where people actually get stuck, and shipped the tooling
-          they asked for. Documentation is only proven on someone else's terminal.
+          I've worked both ends of the loop — writing the thing down, and being the one who has to
+          run it. At an L2 protocol company the chain we operated was posting a net loss on its own
+          rollup; I worked out how far the submission intervals could be stretched before the
+          security assumptions bend, it went into production, and the cost came down. Then I
+          published the analysis in Korean and English. I also run a developer channel and ship the
+          node tooling that turns a long setup into a handful of commands. Documentation is only
+          proven on someone else's terminal.
         </span>
         <span data-ko>
-          문서를 쓰는 일과, 그 문서를 따라 직접 돌려보는 일을 양쪽 다 해왔다. L2 프로토콜 회사에서
-          2년간 롤업 심층 분석을 국문과 영문으로 발행했고, 그 생태계로 빌더를 흘려보낸 대학 강의를
-          맡았다. 그 뒤로는 사람들이 실제로 어디서 막히는지가 들어오는 개발자 채널을 운영하면서,
-          거기서 요청받은 도구를 만들어 배포했다. 문서는 결국 남의 터미널에서 증명된다.
+          문서를 쓰는 일과, 그 문서대로 직접 돌려보는 일을 양쪽 다 해왔다. L2 프로토콜 회사에서는
+          우리가 운영하던 체인이 자체 롤업에서 순손실을 내고 있었다. 보안 가정이 깨지기 전까지 제출
+          주기를 어디까지 늘릴 수 있는지 분석했고, 실제 운영에 반영돼 비용이 내려갔다. 그 분석을
+          국문과 영문으로 발행했다. 개발자 채널도 운영하고, 긴 셋업 과정을 명령어 몇 줄로 줄이는
+          노드 도구를 만들어 배포한다. 문서는 결국 남의 터미널에서 증명된다.
         </span>
       </p>
 
@@ -217,11 +229,11 @@ const iso = (d) => d.toISOString().slice(0, 10);
           <dd class="text-sm text-text-secondary">
             <span data-en>
               <span class="text-text-primary">{networkCount} networks</span>
-              — one-command node installers, shipped from channel questions
+              — installers that collapse a multi-step node setup into a handful of commands
             </span>
             <span data-ko>
               <span class="text-text-primary">{networkCount}개 네트워크</span>
-              — 채널 질문에서 나온 원커맨드 노드 설치 스크립트
+              — 여러 단계짜리 노드 셋업을 명령어 몇 줄로 줄인 설치 스크립트
             </span>
           </dd>
         </div>
@@ -232,26 +244,24 @@ const iso = (d) => d.toISOString().slice(0, 10);
           <dd class="text-sm text-text-secondary">
             <span class="text-text-primary">{venues.join(' · ')}</span>
             <span data-en>
-              — {writingCards.length} pieces, {bilingualCount} of them rebuilt for a second language
-              rather than translated
+              — {writingCards.length} pieces, {bilingualCount} of them published in both languages
             </span>
             <span data-ko>
-              — {writingCards.length}편, 그중 {bilingualCount}편은 번역이 아니라 두 번째 독자를 위해
-              다시 쓴 것
+              — {writingCards.length}편, 그중 {bilingualCount}편은 국문·영문 양쪽으로 발행
             </span>
           </dd>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-[7.5rem_1fr] gap-x-6 gap-y-1 py-3.5 border-b border-border">
           <dt class="font-mono text-[11px] tracking-wider text-text-muted uppercase sm:pt-0.5">
-            <span data-en>Taught</span><span data-ko>강의</span>
+            <span data-en>Material</span><span data-ko>자료</span>
           </dt>
           <dd class="text-sm text-text-secondary">
             <span data-en>
-              <span class="text-text-primary">A university semester, a conference CTF</span>
+              <span class="text-text-primary">A conference CTF</span>
               — plus 388 lessons localized into Korean
             </span>
             <span data-ko>
-              <span class="text-text-primary">대학 한 학기, 컨퍼런스 CTF 하나</span>
+              <span class="text-text-primary">컨퍼런스 CTF 하나</span>
               — 그리고 한국어로 옮긴 388개 레슨
             </span>
           </dd>
@@ -267,12 +277,12 @@ const iso = (d) => d.toISOString().slice(0, 10);
     </h2>
     <p class="mt-3 text-text-secondary leading-relaxed max-w-[64ch]">
       <span data-en>
-        Questions arrive in the channel. Tooling and docs go back out. What comes back gets folded
-        in. Across {networkCount} networks, this is the same three steps every time.
+        Three surfaces: a channel I run alone, tooling for the step operators stall on, and
+        writing that explains why the step is there.
       </span>
       <span data-ko>
-        질문이 채널로 들어온다. 도구와 문서가 나간다. 되돌아온 것이 다시 반영된다. {networkCount}개
-        네트워크에서 매번 같은 세 단계를 반복했다.
+        세 개의 면 — 혼자 운영하는 채널, 운영자가 막히는 단계를 없애는 도구, 그 단계가 왜 있는지
+        설명하는 글.
       </span>
     </p>
 
@@ -307,14 +317,14 @@ const iso = (d) => d.toISOString().slice(0, 10);
             </h3>
             <p class="mt-3 text-text-secondary leading-relaxed max-w-[58ch]">
               <span data-en>
-                A developer community I run alone. During the node boom I built and shipped
-                automation scripts here and answered whatever came back; today it runs as on-chain
-                research and security curation. This is the room the rest of this page came out of.
+                A developer community I run alone. During the node boom I shared the automation
+                scripts I had already built and answered whatever came back; today it runs as
+                on-chain research and security curation.
               </span>
               <span data-ko>
-                혼자 운영하는 개발자 커뮤니티. 노드 붐 시기에 자동화 스크립트를 여기서 만들어
-                배포하고 올라오는 질문에 직접 답했고, 지금은 온체인 리서치와 보안 큐레이션으로
-                이어가고 있다. 이 페이지의 나머지가 나온 방이다.
+                혼자 운영하는 개발자 커뮤니티. 노드 붐 시기에 이미 만들어 둔 자동화 스크립트를
+                공유하고 올라오는 질문에 직접 답했고, 지금은 온체인 리서치와 보안 큐레이션으로
+                이어가고 있다.
               </span>
             </p>
             <span class="inline-block mt-5 text-sm text-accent">
@@ -342,15 +352,16 @@ const iso = (d) => d.toISOString().slice(0, 10);
           </h3>
           <p class="mt-3 text-text-secondary leading-relaxed max-w-[60ch]">
             <span data-en>
-              The repeated questions, moved into tooling. OS detection, GPU detection, dependency
-              install, session management, config patching — a new operator's first hour compressed
-              into a handful of commands. macOS support exists because people in the channel asked
-              for it.
+              Plenty of people wanted to run a node for the rewards and stalled on the setup. I had
+              already been running validators, so I moved what I knew into scripts: OS detection,
+              GPU detection, dependency install, session management, config patching — a new
+              operator's first hour compressed into a handful of commands, across Linux and macOS.
             </span>
             <span data-ko>
-              반복되던 질문을 도구로 옮긴 결과다. OS 감지, GPU 감지, 의존성 설치, 세션 관리, 설정
-              파일 패칭 — 신규 운영자의 첫 한 시간을 명령어 몇 줄로 줄였다. macOS 지원이 있는 건
-              채널에서 요청이 올라왔기 때문이다.
+              보상을 받으려고 노드를 돌려보려다 셋업에서 막히는 사람이 많았다. 나는 이미 밸리데이터를
+              운영하고 있었으니, 알고 있던 걸 스크립트로 옮겼다. OS 감지, GPU 감지, 의존성 설치,
+              세션 관리, 설정 파일 패칭 — 신규 운영자의 첫 한 시간을 명령어 몇 줄로 줄였고, Linux와
+              macOS 양쪽을 지원한다.
             </span>
           </p>
 
@@ -391,14 +402,11 @@ const iso = (d) => d.toISOString().slice(0, 10);
           </h3>
           <p class="mt-3 text-text-secondary leading-relaxed max-w-[60ch]">
             <span data-en>
-              Most recent first. The paired entries are one piece of work rebuilt for a second
-              audience — restructured, not translated. The Tokamak Network pieces are bylined
-              <span class="text-text-primary">{BYLINE}</span>, the name I worked under at Onther.
+              Most recent first. The paired entries are one piece of work published in both
+              languages.
             </span>
             <span data-ko>
-              최신순. 짝지어진 항목은 하나의 작업을 두 번째 독자를 위해 다시 만든 것이다 — 번역이
-              아니라 재구성이다. Tokamak Network 글의 바이라인
-              <span class="text-text-primary">{BYLINE}</span>은 Onther 재직 당시 쓰던 이름이다.
+              최신순. 짝지어진 항목은 하나의 작업을 국문과 영문 양쪽으로 발행한 것이다.
             </span>
           </p>
 
@@ -420,11 +428,11 @@ const iso = (d) => d.toISOString().slice(0, 10);
                     )}
                   </div>
                   <time
-                    datetime={iso(lead.data.date)}
+                    datetime={iso(lead)}
                     class="font-mono text-[11px] text-text-muted whitespace-nowrap"
                   >
-                    <span data-en>{fmt(lead.data.date)}</span>
-                    <span data-ko>{fmtKo(lead.data.date)}</span>
+                    <span data-en>{fmt(lead)}</span>
+                    <span data-ko>{fmtKo(lead)}</span>
                   </time>
                 </div>
 
@@ -497,64 +505,33 @@ const iso = (d) => d.toISOString().slice(0, 10);
             <span data-en>All writing &rarr;</span><span data-ko>글 전체 보기 &rarr;</span>
           </a>
 
-          <p class="mt-9 font-mono text-xs text-text-muted">
-            <span aria-hidden="true">&#8634;</span>
-            &nbsp;<span data-en>and the answers come back as the next question</span><span data-ko
-              >그리고 그 답이 다음 질문으로 되돌아온다</span
-            >
-          </p>
         </div>
       </li>
     </ol>
   </section>
 
-  <!-- ── Teaching ─────────────────────────────────────────────── -->
+  <!-- ── Material built for other people to work through ──────── -->
   <section class="border-t border-border">
     <div class="max-w-5xl mx-auto px-6 py-16 md:py-20">
       <h2 class="text-2xl md:text-3xl font-bold text-text-primary">
-        <span data-en>In front of a room</span><span data-ko>강단에서</span>
+        <span data-en>Made for other people to work through</span>
+        <span data-ko>남이 직접 풀어보는 자료</span>
       </h2>
       <p class="mt-3 text-text-secondary leading-relaxed max-w-[64ch]">
         <span data-en>
-          A channel scales answers. A room scales the moment someone decides the thing is learnable
-          at all. Affiliation is listed per item because these were not all the same job.
+          Neither of these is a talk — they are things someone else sits down and works through: a
+          challenge set to solve, a curriculum to study. Affiliation is per item because they were
+          not the same job.
         </span>
         <span data-ko>
-          채널은 답을 확장한다. 강의실은 "이건 배울 수 있는 것"이라고 결심하는 순간을 확장한다.
-          소속을 항목마다 따로 적은 건, 이 셋이 같은 일이 아니었기 때문이다.
+          둘 다 강연이 아니다. 남이 직접 앉아서 풀어보는 것들이다 — 풀어야 할 문제 세트 하나,
+          공부할 커리큘럼 하나. 소속을 항목마다 적은 건 같은 일이 아니었기 때문이다.
         </span>
       </p>
 
-      <!-- A ledger, not cards: three entries that differ in kind read better as rows
-           with a shared spine than as three boxes pretending to be siblings. -->
+      <!-- A ledger, not cards: two entries that differ in kind read better as rows
+           with a shared spine than as two boxes pretending to be siblings. -->
       <dl class="mt-10 border-t border-border">
-        {lecture && (
-          <div class="grid md:grid-cols-[9rem_1fr] gap-x-8 gap-y-2 py-6 border-b border-border">
-            <dt class="font-mono text-[11px] text-text-muted md:pt-1.5">
-              2023 <span class="text-text-secondary">· Onther</span>
-            </dt>
-            <dd>
-              <a href={`/projects/${lecture.id}`} class="group">
-                <h3 class="text-lg font-semibold text-text-primary group-hover:text-accent transition-colors">
-                  <span data-en>Korea University &times; Onther — smart contract lecture series</span>
-                  <span data-ko>고려대학교 &times; Onther — 스마트컨트랙트 강의 시리즈</span>
-                </h3>
-              </a>
-              <p class="mt-2 text-sm text-text-secondary leading-relaxed max-w-[62ch]">
-                <span data-en>
-                  A semester of curriculum, sequenced so security comes last — students meet the
-                  vulnerability catalog only once they can place it. Course materials published for
-                  reference after the course ended.
-                </span>
-                <span data-ko>
-                  한 학기 분량의 커리큘럼. 보안이 마지막에 오도록 순서를 짰다 — 취약점 목록은 학생이
-                  그것을 놓을 자리를 갖게 된 뒤에야 만난다. 강의 자료는 종료 후에도 참고할 수 있도록
-                  공개했다.
-                </span>
-              </p>
-            </dd>
-          </div>
-        )}
         {ctf && (
           <div class="grid md:grid-cols-[9rem_1fr] gap-x-8 gap-y-2 py-6 border-b border-border">
             <dt class="font-mono text-[11px] text-text-muted md:pt-1.5">
@@ -572,14 +549,14 @@ const iso = (d) => d.toISOString().slice(0, 10);
               </a>
               <p class="mt-2 text-sm text-text-secondary leading-relaxed max-w-[62ch]">
                 <span data-en>
-                  Authored the challenge set across contract exploitation, cryptography and bytecode
-                  reversing on a beginner-to-advanced ladder, ran the scoring platform live, and
-                  supported players on the floor for the length of the conference.
+                  With the Graylab team: a challenge set spanning contract exploitation,
+                  cryptography and bytecode reversing on a beginner-to-advanced ladder, and the
+                  scoring platform it ran on during the conference.
                 </span>
                 <span data-ko>
-                  컨트랙트 익스플로잇, 암호학, 바이트코드 리버싱까지 초급에서 고급으로 이어지는
-                  사다리로 문제를 출제하고, 스코어링 플랫폼을 실시간으로 운영했으며, 컨퍼런스 기간
-                  내내 현장에서 참가자를 지원했다.
+                  Graylab 팀과 함께. 컨트랙트 익스플로잇, 암호학, 바이트코드 리버싱까지 초급에서
+                  고급으로 이어지는 사다리로 문제를 출제하고, 컨퍼런스 기간 동안 스코어링 플랫폼을
+                  운영했다.
                 </span>
               </p>
             </dd>
@@ -601,13 +578,12 @@ const iso = (d) => d.toISOString().slice(0, 10);
               </a>
               <p class="mt-2 text-sm text-text-secondary leading-relaxed max-w-[62ch]">
                 <span data-en>
-                  The same instinct pointed at someone else's docs: 13 courses and 388 lessons
-                  brought into Korean, with the English source kept beside each translation so the
-                  result can be audited rather than trusted.
+                  13 courses and 388 lessons brought into Korean, with the English source kept
+                  beside each translation so the result can be audited rather than trusted.
                 </span>
                 <span data-ko>
-                  같은 습관을 남의 문서에 적용한 것: 13개 코스 388개 레슨을 한국어로 옮기고, 번역마다
-                  영문 원문을 나란히 남겨 결과를 신뢰가 아니라 검증의 대상으로 만들었다.
+                  13개 코스 388개 레슨을 한국어로 옮겼다. 번역마다 영문 원문을 나란히 남겨, 결과를
+                  신뢰가 아니라 검증의 대상으로 만들었다.
                 </span>
               </p>
             </dd>
@@ -625,14 +601,14 @@ const iso = (d) => d.toISOString().slice(0, 10);
       </h2>
       <p class="mt-3 text-text-secondary leading-relaxed max-w-[64ch]">
         <span data-en>
-          "How much on-chain authority should an AI agent have, and how do you bound it?" — the
-          question I'm building against right now. A reference implementation is a claim; the docs
-          that ship with it are the part a builder actually meets first, so I write those too.
+          Mapae is what I'm building right now — bounded, revocable on-chain spend authority for AI
+          agents. I wrote its documentation too: quickstart, runbooks, error model. Both links
+          below go to the running thing.
         </span>
         <span data-ko>
-          "AI 에이전트에게 온체인 권한을 어디까지 주고, 어떻게 묶을 것인가" — 지금 붙들고 만들고 있는
-          질문이다. 레퍼런스 구현은 주장이고, 빌더가 실제로 먼저 만나는 건 그와 함께 나가는 문서다.
-          그래서 그 문서도 직접 쓴다.
+          지금 만들고 있는 건 Mapae다 — AI 에이전트에게 범위가 제한되고 취소 가능한 온체인 지출
+          권한을 주는 인프라. 문서도 직접 썼다. 퀵스타트, 런북, 에러 모델. 아래 링크 둘 다 실제로
+          돌아가는 것으로 연결된다.
         </span>
       </p>
 
@@ -646,11 +622,11 @@ const iso = (d) => d.toISOString().slice(0, 10);
               {flagship.data.title}
             </h3>
             <time
-              datetime={iso(flagship.data.date)}
+              datetime={iso(flagship)}
               class="font-mono text-[11px] text-text-muted whitespace-nowrap"
             >
-              <span data-en>{fmt(flagship.data.date)}</span>
-              <span data-ko>{fmtKo(flagship.data.date)}</span>
+              <span data-en>{fmt(flagship)}</span>
+              <span data-ko>{fmtKo(flagship)}</span>
             </time>
           </div>
           <p class="mt-4 text-text-secondary leading-relaxed max-w-[62ch]">
@@ -698,11 +674,11 @@ const iso = (d) => d.toISOString().slice(0, 10);
                 {p.data.title}
               </h3>
               <time
-                datetime={iso(p.data.date)}
+                datetime={iso(p)}
                 class="font-mono text-[11px] text-text-muted whitespace-nowrap"
               >
-                <span data-en>{fmt(p.data.date)}</span>
-                <span data-ko>{fmtKo(p.data.date)}</span>
+                <span data-en>{fmt(p)}</span>
+                <span data-ko>{fmtKo(p)}</span>
               </time>
             </div>
             <p class="mt-2.5 text-sm text-text-secondary leading-relaxed">

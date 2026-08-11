@@ -43,6 +43,13 @@ const writing = defineCollection({
     title: z.string(),
     description: z.string(),
     date: z.coerce.date(),
+    // How much of `date` is actually known. Several entries were reconstructed
+    // from the author's own prior listing, which recorded only year and month —
+    // the day in those files is a placeholder `01`. Rendering that as "Jun 1,
+    // 2025" and stamping it into a machine-readable datetime invents a precision
+    // the source disclaims, so those entries declare "month" and the renderers
+    // drop the day. Default "day" keeps every confirmed date rendering as-is.
+    date_precision: z.enum(["day", "month"]).default("day"),
     updated: z.coerce.date().optional(),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(true),

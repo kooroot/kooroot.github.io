@@ -15,7 +15,6 @@ EthCon Korea 2024 needed a hands-on security track that went beyond talks — de
 ## Approach
 - **Progressive difficulty laddering** from beginner to advanced so newcomers gain footing on early challenges before confronting subtle exploits that would otherwise discourage them.
 - **Coverage across attack classes** (reentrancy, access control, logic flaws, cryptography, bytecode reverse engineering) rather than depth in a single class, to match the heterogeneous skill set of a conference audience.
-- **Full solvability testing** for every challenge before release, because an unsolvable or ambiguous CTF challenge destroys participant trust for the remainder of the event.
 - **CTFd over a custom scoreboard** for battle-tested dynamic scoring, team management, and registration under live-event pressure.
 - **Dockerized deployments** so challenge environments could be reset, scaled, and torn down without interfering with scoring.
 
@@ -25,7 +24,6 @@ EthCon Korea 2024 needed a hands-on security track that went beyond talks — de
 - Created smart contract vulnerability challenges covering common attack vectors
 - Designed progressive difficulty levels from beginner to advanced
 - Built challenges around reentrancy, access control, and logic flaws
-- Tested all challenges for solvability and expected difficulty calibration
 
 ### Challenge Categories
 - **Smart Contract Exploitation**: Identifying and exploiting Solidity vulnerabilities
@@ -36,7 +34,6 @@ EthCon Korea 2024 needed a hands-on security track that went beyond talks — de
 - Deployed and configured CTFd platform for the competition
 - Managed dynamic scoring and real-time leaderboard
 - Handled participant registration and team management
-- Provided live support during the competition
 
 ## Outcome
 - Successfully hosted the CTF event at EthCon Korea 2024, one of Korea's premier Ethereum conferences.

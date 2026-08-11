@@ -2,6 +2,7 @@
 title: "바운드리스: ZK 연산의 금융화"
 description: "Boundless를 프로토콜이 아니라 시장으로 읽는다 — 희소한 영지식 증명 연산 자원이 어떻게 가격이 매겨지고 배분되며 거래 가능한 자산이 되는가."
 date: 2025-06-01
+date_precision: "month"
 tags: ["ZK", "Market Structure", "Research"]
 draft: false
 publication: "X"

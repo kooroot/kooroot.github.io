@@ -2,6 +2,7 @@
 title: "Boundless: The Financialization of ZK Compute"
 description: "Reading Boundless as a market rather than a protocol — how scarce zero-knowledge proving capacity gets priced, allocated, and turned into a tradable resource."
 date: 2025-06-01
+date_precision: "month"
 tags: ["ZK", "Market Structure", "Research"]
 draft: false
 publication: "X"

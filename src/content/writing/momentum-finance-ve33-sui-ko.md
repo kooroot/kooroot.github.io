@@ -2,6 +2,7 @@
 title: "Momentum Finance: Sui 생태계의 ve(3,3) DEX"
 description: "Sui 위에서 동작하는 ve(3,3) DEX인 Momentum Finance를 한국어로 정리한다. EVM 밖의 설계 언어(Sui / Move)를 읽어내 설명으로 옮긴 글."
 date: 2025-10-01
+date_precision: "month"
 tags: ["Sui", "DeFi", "DEX", "Research"]
 draft: false
 publication: "X"

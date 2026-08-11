@@ -2,7 +2,7 @@ export const SITE = {
   title: "kooroot",
   subtitle: "Blockchain Researcher & Engineer",
   description:
-    "Blockchain Researcher & Engineer with 4+ years of experience in Ethereum L2, DeFi, prediction markets, and node infrastructure.",
+    "Blockchain Researcher & Engineer with 5 years of experience in Ethereum L2, DeFi, prediction markets, and node infrastructure.",
   email: "alswo9085@gmail.com",
   location: "Seoul, South Korea",
   url: "https://kooroot.dev",
@@ -43,4 +43,4 @@ export const AWARDS = [
   { name: "Special Prize for Hacking Defence at the Korea Air Force Information and Communications Competition", year: "2017" },
 ] as const;
 
-export const YEARS_XP = "4+" as const;
+export const YEARS_XP = "5" as const;

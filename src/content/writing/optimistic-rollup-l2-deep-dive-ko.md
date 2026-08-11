@@ -1,7 +1,8 @@
 ---
 title: "옵티미스틱 롤업 L2 심층 분석 시리즈"
-description: "옵티미스틱 롤업 기반 L2의 구조를 처음부터 끝까지 따라가는 한국어 심층 분석 시리즈. L2 프로젝트의 공식 퍼블리케이션에 편집 검토를 거쳐 게재됐다."
+description: "옵티미스틱 롤업 기반 L2의 구조를 처음부터 끝까지 따라가는 한국어 심층 분석 시리즈. 재직 중이던 Tokamak Network 퍼블리케이션에 게재됐다."
 date: 2023-09-01
+date_precision: "month"
 tags: ["L2", "Optimistic Rollup", "Tokamak Network"]
 draft: false
 publication: "Tokamak Network"
