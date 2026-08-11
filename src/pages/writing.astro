@@ -1,19 +1,28 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
+import { byDateDesc, hrefOf, isExternal, toCards } from '../lib/writing';
 
 const all = await getCollection('writing');
-const byDateDesc = (a, b) => b.data.date.getTime() - a.data.date.getTime();
+
+// Used to resolve `related_project` slugs to titles for the "shipped alongside"
+// link — an explainer and the tool it describes coming from the same person.
+const projectTitles = new Map(
+  (await getCollection('projects')).map((p) => [p.id, p.data.title])
+);
 
 const published = all.filter((p) => !p.data.draft).sort(byDateDesc);
 const planned = all.filter((p) => p.data.draft).sort(byDateDesc);
+const cards = toCards(published);
 
 const fmt = (d) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+// <time> needs a machine-readable value; the visible text is not a valid datetime.
+const iso = (d) => d.toISOString().slice(0, 10);
 ---
 
 <BaseLayout
   title="Writing"
-  description="Standalone technical deep dives on DeFi protocols, prediction-market infrastructure, account abstraction, and blockchain security."
+  description="Technical deep dives on rollup economics, DeFi protocols, prediction-market infrastructure, and blockchain security — published in Korean and English."
 >
   <!-- Banner -->
   <section class="relative py-20 md:py-28 overflow-hidden">
@@ -21,35 +30,112 @@ const fmt = (d) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'shor
     <div class="max-w-4xl mx-auto px-6 relative z-10">
       <h1 class="text-4xl md:text-5xl font-bold text-text-primary mb-4">Writing</h1>
       <p class="text-text-secondary text-lg max-w-2xl">
-        Standalone technical deep dives — protocol mechanics, attack surfaces, and infrastructure
-        notes drawn from hands-on research and engineering.
+        Protocol mechanics, attack surfaces, and infrastructure notes drawn from hands-on research
+        and engineering — written for Korean and English readers.
       </p>
     </div>
   </section>
 
   <section class="max-w-4xl mx-auto px-6 pb-20">
-    {published.length > 0 && (
+    {cards.length > 0 && (
       <div class="space-y-4 mb-16">
-        {published.map((post) => (
-          <a
-            href={`/writing/${post.id}`}
-            class="group block bg-card border border-border rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:border-accent/50 hover:shadow-xl"
-          >
+        {cards.map(({ lead, versions }) => (
+          <article class="bg-card border border-border rounded-2xl p-6 transition-all duration-300 hover:border-accent/50 hover:shadow-xl">
             <div class="flex items-baseline justify-between gap-4 mb-2">
-              <h2 class="text-xl font-semibold text-text-primary group-hover:text-accent transition-colors">
-                {post.data.title}
-              </h2>
-              <time class="text-text-muted text-xs whitespace-nowrap">{fmt(post.data.date)}</time>
+              <div class="flex flex-wrap items-center gap-2">
+                <!-- No bg-accent/10 fill on accent-colored chips: the tint lifts the
+                     surface enough to drop accent-on-card from 4.92:1 to 4.40:1, under
+                     AA for 12px text. Border instead of fill. -->
+                {lead.data.publication && (
+                  <span class="px-2.5 py-1 rounded-md text-xs font-medium text-accent border border-accent/30">
+                    {lead.data.publication}
+                  </span>
+                )}
+                {versions.length > 1 && (
+                  <span class="px-2.5 py-1 rounded-md text-xs font-medium bg-secondary border border-border text-text-muted uppercase">
+                    {versions.map((v) => v.data.lang).join(' + ')}
+                  </span>
+                )}
+              </div>
+              <time datetime={iso(lead.data.date)} class="text-text-muted text-xs whitespace-nowrap">
+                {fmt(lead.data.date)}
+              </time>
             </div>
-            <p class="text-text-secondary text-sm leading-relaxed mb-4">{post.data.description}</p>
-            <div class="flex flex-wrap gap-2">
-              {post.data.tags.map((t) => (
+
+            {versions.length > 1 ? (
+              <h2 lang={lead.data.lang} class="text-xl font-semibold text-text-primary mb-2">
+                {lead.data.title}
+              </h2>
+            ) : (
+              <a
+                href={hrefOf(lead)}
+                target={isExternal(lead) ? '_blank' : undefined}
+                rel={isExternal(lead) ? 'noopener noreferrer' : undefined}
+                class="group inline-flex items-start gap-1.5"
+              >
+                <h2
+                  lang={lead.data.lang}
+                  class="text-xl font-semibold text-text-primary group-hover:text-accent transition-colors mb-2"
+                >
+                  {lead.data.title}
+                  {isExternal(lead) && <span class="text-text-muted group-hover:text-accent ml-1.5 text-sm align-middle">&#8599;</span>}
+                </h2>
+              </a>
+            )}
+
+            <p lang={lead.data.lang} class="text-text-secondary text-sm leading-relaxed mb-4">
+              {lead.data.description}
+            </p>
+
+            {versions.length > 1 && (
+              <div class="grid gap-2 mb-4">
+                {versions.map((v) => (
+                  <a
+                    href={hrefOf(v)}
+                    target={isExternal(v) ? '_blank' : undefined}
+                    rel={isExternal(v) ? 'noopener noreferrer' : undefined}
+                    class="group flex items-center justify-between gap-3 px-3 py-2.5 rounded-lg bg-secondary/60 border border-border hover:border-accent/50 transition-colors"
+                  >
+                    <span class="flex items-center gap-2.5 min-w-0">
+                      <span class="px-1.5 py-0.5 rounded text-[10px] font-semibold uppercase text-accent border border-accent/30">
+                        {v.data.lang}
+                      </span>
+                      <span
+                        lang={v.data.lang}
+                        class="text-sm text-text-secondary group-hover:text-text-primary transition-colors truncate"
+                      >
+                        {v.data.title}
+                      </span>
+                    </span>
+                    <span class="text-text-muted text-xs whitespace-nowrap">
+                      {v.data.read_time}
+                      {isExternal(v) && <span class="ml-1.5">&#8599;</span>}
+                    </span>
+                  </a>
+                ))}
+              </div>
+            )}
+
+            <div class="flex flex-wrap items-center gap-2">
+              {versions.length <= 1 && lead.data.read_time && (
+                <span class="text-text-muted text-xs mr-1">{lead.data.read_time}</span>
+              )}
+              {lead.data.tags.map((t) => (
                 <span class="px-2.5 py-1 bg-secondary border border-border rounded-md text-xs font-medium text-text-muted">
                   {t}
                 </span>
               ))}
             </div>
-          </a>
+
+            {lead.data.related_project && projectTitles.has(lead.data.related_project) && (
+              <a
+                href={`/projects/${lead.data.related_project}`}
+                class="inline-block mt-4 text-xs text-accent hover:underline"
+              >
+                Shipped alongside: {projectTitles.get(lead.data.related_project)} &rarr;
+              </a>
+            )}
+          </article>
         ))}
       </div>
     )}
@@ -61,14 +147,21 @@ const fmt = (d) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'shor
         </h2>
         <div class="space-y-3">
           {planned.map((post) => (
-            <div class="block bg-secondary/40 border border-dashed border-border rounded-2xl p-6 opacity-80">
+            <!-- No `opacity-80` wrapper: it composited every descendant, dragging the
+                 body copy to 3.51:1. The dashed border and recessive text tokens carry
+                 the "not yet written" reading on their own, at full contrast. -->
+            <div class="block bg-secondary/40 border border-dashed border-border rounded-2xl p-6">
               <div class="flex items-baseline justify-between gap-4 mb-2">
-                <h3 class="text-lg font-medium text-text-secondary">{post.data.title}</h3>
-                <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20 whitespace-nowrap">
+                <h3 lang={post.data.lang} class="text-lg font-medium text-text-secondary">
+                  {post.data.title}
+                </h3>
+                <span class="px-2.5 py-1 rounded-full text-xs font-medium text-amber-400 border border-amber-500/30 whitespace-nowrap">
                   Planned
                 </span>
               </div>
-              <p class="text-text-muted text-sm leading-relaxed mb-4">{post.data.description}</p>
+              <p lang={post.data.lang} class="text-text-muted text-sm leading-relaxed mb-4">
+                {post.data.description}
+              </p>
               <div class="flex flex-wrap gap-2">
                 {post.data.tags.map((t) => (
                   <span class="px-2.5 py-1 bg-card border border-border rounded-md text-xs font-medium text-text-muted">
@@ -82,7 +175,7 @@ const fmt = (d) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'shor
       </div>
     )}
 
-    {published.length === 0 && planned.length === 0 && (
+    {cards.length === 0 && planned.length === 0 && (
       <p class="text-text-muted">No writing published yet.</p>
     )}
   </section>

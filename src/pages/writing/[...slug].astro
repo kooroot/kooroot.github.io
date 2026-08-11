@@ -3,9 +3,11 @@ import { getCollection, getEntry, render } from 'astro:content';
 import WritingLayout from '../../layouts/WritingLayout.astro';
 
 export async function getStaticPaths() {
+  // Externally published pieces have no local body — they link out instead,
+  // so they get no detail page here.
   // Drafts are previewable in `astro dev` but excluded from the production build.
   const posts = await getCollection('writing', ({ data }) =>
-    import.meta.env.PROD ? !data.draft : true
+    data.external_url ? false : import.meta.env.PROD ? !data.draft : true
   );
   return posts.map((post) => ({
     params: { slug: post.id },
