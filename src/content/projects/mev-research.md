@@ -5,7 +5,7 @@ image: /images/code-screen.jpg
 category: Blockchain Research
 show_tile: true
 tech_stack: ["Ethereum", "Flashbots", "MEV", "JavaScript", "Solidity"]
-github: https://github.com/graylab-team/MEV_HELLO_WORLD
+repo_private: true
 date: 2024-11-20
 ---
 

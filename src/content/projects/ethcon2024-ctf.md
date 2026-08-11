@@ -5,7 +5,7 @@ image: /images/security-lock.jpg
 category: Blockchain Development
 show_tile: true
 tech_stack: ["Python", "Solidity", "Security", "CTFd", "Smart Contract"]
-github: https://github.com/graylab-team/ethcon2024_ctf
+repo_private: true
 date: 2024-09-15
 ---
 

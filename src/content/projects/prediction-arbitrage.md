@@ -5,7 +5,7 @@ image: /images/prediction-market.jpg
 category: Blockchain Development
 show_tile: true
 tech_stack: ["TypeScript", "Bun", "Viem", "Polymarket", "Kalshi"]
-github: https://github.com/kooroot-company/Prediction-arbitrage
+repo_private: true
 date: 2025-10-01
 ---
 

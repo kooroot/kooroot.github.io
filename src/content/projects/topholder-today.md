@@ -5,7 +5,7 @@ image: /images/data-analytics.jpg
 category: Blockchain Development
 show_tile: true
 tech_stack: ["Next.js", "FastAPI", "Python", "TypeScript"]
-github: https://github.com/kooroot/Topholder-today
+repo_private: true
 date: 2025-11-18
 ---
 

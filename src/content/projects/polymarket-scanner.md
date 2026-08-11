@@ -5,7 +5,7 @@ image: /images/prediction-market.jpg
 category: Blockchain Development
 show_tile: true
 tech_stack: ["TypeScript", "Bun", "Telegram Bot", "Polymarket"]
-github: https://github.com/kooroot/polymarket-scanner
+repo_private: true
 date: 2025-11-19
 ---
 

@@ -5,7 +5,7 @@ image: /images/circuit-board.jpg
 category: Blockchain Research
 show_tile: true
 tech_stack: ["Solidity", "ERC-4337", "TypeScript", "Next.js", "Wagmi"]
-github: https://github.com/graylab-team/smart-wallet
+repo_private: true
 date: 2025-02-10
 ---
 

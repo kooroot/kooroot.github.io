@@ -5,7 +5,7 @@ image: /images/trading-chart.jpg
 category: Blockchain Development
 show_tile: true
 tech_stack: ["TypeScript", "Python", "Bun", "WebSocket"]
-github: https://github.com/kooroot/Lighter-sniper
+repo_private: true
 date: 2025-12-17
 ---
 

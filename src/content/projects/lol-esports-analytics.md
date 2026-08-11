@@ -5,7 +5,7 @@ image: /images/esports-gaming.jpg
 category: AI Engineering
 show_tile: true
 tech_stack: ["TypeScript", "Python", "React", "ML", "Polymarket"]
-github: https://github.com/kooroot/lol-polymarket
+repo_private: true
 date: 2026-01-20
 ---
 

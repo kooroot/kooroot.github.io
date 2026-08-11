@@ -5,7 +5,7 @@ image: /images/data-analytics.jpg
 category: Blockchain Research
 show_tile: true
 tech_stack: ["Python", "TypeScript", "Rust", "Polymarket", "Benchmark"]
-github: https://github.com/kooroot-company/polymarket-sdk-benchmark
+repo_private: true
 date: 2026-01-15
 ---
 
