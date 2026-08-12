@@ -17,11 +17,20 @@ import { icons } from './icons/index';
       </h1>
 
       <!-- Subtitle -->
-      <p class="text-text-secondary text-lg md:text-xl leading-relaxed mb-4">
-        Blockchain engineer with <strong class="text-text-primary">5 years</strong> of experience specializing in
-        <strong class="text-text-primary">Ethereum L2 & DeFi</strong>,
-        <strong class="text-text-primary">prediction market tools</strong>, and
-        <strong class="text-text-primary">node infrastructure</strong>.
+      <!--
+        text-balance evens the line lengths so the last line never orphans a
+        single word, and the nowrap span keeps "node infrastructure" from
+        splitting across a break. Only the first and last emphasis are bold:
+        three bolded fragments mid-sentence chopped the paragraph into blobs
+        and buried the one part that changes.
+      -->
+      <p class="text-text-secondary text-lg md:text-xl leading-relaxed mb-4 text-balance">
+        Blockchain engineer, <strong class="text-text-primary">5 years</strong>.
+        Ethereum L2, smart contract security, and
+        <span class="whitespace-nowrap">node infrastructure</span>.
+        I move early on new protocol surfaces and
+        <strong class="text-text-primary">take them to production</strong>.
+        Mostly AI right now, still shipping blockchain.
       </p>
 
       <!-- Status Badge -->
