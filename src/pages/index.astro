@@ -69,13 +69,17 @@ const featuredProjects = FEATURED_SLUGS.map((slug) => {
         From smart contract auditing to on-chain analytics and ML-based prediction systems.
       </p>
       <div class="flex flex-wrap gap-4">
-        <a href="/about" class="px-5 py-2.5 bg-accent-strong text-white rounded-lg text-sm font-medium hover:bg-[#1d4ed8] transition-colors flex items-center gap-2">
+        <a href="/about" class="px-5 py-2.5 bg-accent-strong text-white rounded-lg text-sm font-medium hover:bg-[#1d4ed8] transition-colors flex items-center gap-2 [&_svg]:h-4 [&_svg]:w-4">
           Learn More
-          <span set:html={icons.arrow} />
+          <span set:html={icons.arrow} aria-hidden="true" />
         </a>
-        <a href="https://github.com/kooroot" target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 bg-card border border-border text-text-primary rounded-lg text-sm font-medium hover:border-accent/50 transition-colors flex items-center gap-2">
-          <span set:html={icons.github} />
+        <a href="https://github.com/kooroot" target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 bg-card border border-border text-text-primary rounded-lg text-sm font-medium hover:border-accent/50 transition-colors flex items-center gap-2 [&_svg]:h-4 [&_svg]:w-4">
+          <span set:html={icons.github} aria-hidden="true" />
           GitHub
+        </a>
+        <a href="https://x.com/k00r00t" target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 bg-card border border-border text-text-primary rounded-lg text-sm font-medium hover:border-accent/50 transition-colors flex items-center gap-2 [&_svg]:h-4 [&_svg]:w-4">
+          <span set:html={icons.twitter} aria-hidden="true" />
+          @k00r00t
         </a>
       </div>
     </div>

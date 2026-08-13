@@ -15,7 +15,7 @@ export const SOCIALS = [
     url: "https://www.linkedin.com/in/kooroot",
     icon: "linkedin",
   },
-  { name: "Twitter", url: "https://twitter.com/k00r00t", icon: "twitter" },
+  { name: "X", url: "https://x.com/k00r00t", icon: "twitter" },
   { name: "Telegram", url: "https://t.me/kooroot", icon: "telegram" },
   {
     name: "Linktree",
