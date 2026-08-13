@@ -4,10 +4,11 @@ import Hero from '../components/Hero.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import { getCollection } from 'astro:content';
 import { icons } from '../components/icons/index';
+import { isFeaturedCategory } from '../lib/categories';
 
 const allProjects = await getCollection('projects');
 const featuredProjects = allProjects
-  .filter((p) => p.data.show_tile)
+  .filter((p) => p.data.show_tile && isFeaturedCategory(p.data.category))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
   .slice(0, 3);
 ---
