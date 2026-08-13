@@ -4,25 +4,85 @@ import { icons } from '../components/icons/index';
 import { CERTIFICATIONS, AWARDS } from '../consts';
 import { getCollection } from 'astro:content';
 
+/**
+ * A percentage on a skill bar has no referent — "Rust 40%" only tells a reader
+ * what I think of myself. Each row carries the work it stands on instead, so
+ * the claim is checkable against the projects on this site.
+ */
 const skills = {
   blockchain: [
-    { name: 'Ethereum & Layer 2 Solutions', level: 'Expert', width: 90 },
-    { name: 'Node Operation & Validation', level: 'Expert', width: 85 },
-    { name: 'DApp & DeFi Development', level: 'Expert', width: 85 },
-    { name: 'Smart Contract Development', level: 'Intermediate', width: 60 },
-    { name: 'Smart Contract Auditing', level: 'Intermediate', width: 55 },
+    {
+      name: 'Ethereum & Layer 2',
+      level: 'Expert',
+      evidence:
+        'Analyzed how far an Optimistic rollup can widen its transaction and state-root submission intervals before the security assumptions degrade; the change went into production at Onther and the operating cost came down.',
+    },
+    {
+      name: 'Node Operation & Validation',
+      level: 'Expert',
+      evidence:
+        'Node Executor install scripts for eight networks — Ritual, Nexus, Gensyn, Privasea, Hyperlane, Pipe Network, Gaianet, Soundness. Each absorbs OS/GPU detection, dependencies, session management and config patching. Validators monitored with Prometheus and Grafana.',
+    },
+    {
+      name: 'DApp & DeFi Development',
+      level: 'Expert',
+      evidence:
+        'Mapae runs x402 v2 payments over ERC-7710 delegation on GIWA Sepolia: a CREATE2 smart account deployed from a root delegation signed before the account exists, verified afterward through ERC-1271, so the payer spends no ETH.',
+    },
+    {
+      name: 'Smart Contract Development',
+      level: 'Advanced',
+      evidence:
+        'Agent spend limits held in deployed caveat-enforcer bytecode rather than a backend check. EIP-3009 transfer authorization and EIP-712 signing, built and deployed with Foundry. Four Anchor programs on Solana.',
+    },
+    {
+      name: 'Smart Contract Auditing',
+      level: 'Intermediate',
+      evidence:
+        'Solidity and Anchor audits at Graylab. Designed and hosted the EthCon Korea 2024 blockchain security CTF track — reentrancy, access control, logic flaws, cryptography, bytecode reversing — on CTFd with resettable Docker environments.',
+    },
   ],
   languages: [
-    { name: 'Python', level: 'Expert', width: 90 },
-    { name: 'Solidity', level: 'Intermediate', width: 75 },
-    { name: 'TypeScript/JavaScript', level: 'Intermediate', width: 70 },
-    { name: 'Go', level: 'Intermediate', width: 60 },
-    { name: 'Rust', level: 'Intermediate', width: 40 },
+    {
+      name: 'TypeScript / JavaScript',
+      level: 'Advanced',
+      evidence:
+        'Engram is 11.2k lines behind 259 tests, published to npm as @kooroot/engram. Mapae is TypeScript end to end — contracts through Cloudflare Workers, MCP server and docs.',
+    },
+    {
+      name: 'Rust',
+      level: 'Advanced',
+      evidence:
+        'Nerve reached v1.0.0 across 7 crates and 608 tests, with four-platform binaries. Its sandbox is per-OS at the syscall layer — Seatbelt SBPL, bubblewrap with Landlock, seccomp-bpf and cgroups v2 — and CI proves the jail on a real kernel instead of only compiling the path.',
+    },
+    {
+      name: 'Python',
+      level: 'Expert',
+      evidence:
+        'Rollup data collection and Dune analytics pipelines, ML prediction models over match data, and a contract static-analysis tool that scores similarity with FastText.',
+    },
+    {
+      name: 'Solidity',
+      level: 'Intermediate',
+      evidence:
+        'Delegation and caveat-enforcer contracts, prediction-market and vault systems, DEX mechanism work. Read far more of it than I have written — the audit work is where most of it lives.',
+    },
+    {
+      name: 'Go',
+      level: 'Intermediate',
+      evidence:
+        'Node operator tooling and deployment automation, on the infrastructure side rather than protocol implementation.',
+    },
   ],
 };
 
+/**
+ * Four tiers, not three: the old set forced everything between "I ship this
+ * daily" and "I can read it" into one bucket.
+ */
 const levelColors: Record<string, string> = {
   Expert: 'bg-green-500/15 text-green-400',
+  Advanced: 'bg-accent/10 text-accent',
   Intermediate: 'bg-yellow-500/15 text-yellow-400',
   Beginner: 'bg-orange-500/15 text-orange-400',
 };
@@ -151,22 +211,20 @@ const aboutProjects = [
     <!-- Skills Section -->
     <section class="fade-in-up">
       <h2 class="text-2xl font-bold text-text-primary mb-8 pb-4 border-b border-border">Skills</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
         <!-- Blockchain Development -->
         <div>
           <h3 class="text-lg font-semibold text-text-primary mb-4">Blockchain Development</h3>
-          <div class="space-y-4">
+          <div class="border-t border-border divide-y divide-border">
             {skills.blockchain.map((skill) => (
-              <div>
-                <div class="flex items-center justify-between mb-1.5">
-                  <span class="text-sm text-text-secondary">{skill.name}</span>
-                  <span class={`px-2 py-0.5 rounded-full text-xs font-medium ${levelColors[skill.level]}`}>
+              <div class="py-4">
+                <div class="flex items-baseline justify-between gap-3 mb-1.5">
+                  <h4 class="text-sm font-semibold text-text-primary">{skill.name}</h4>
+                  <span class={`shrink-0 px-2 py-0.5 rounded-full text-xs font-medium ${levelColors[skill.level]}`}>
                     {skill.level}
                   </span>
                 </div>
-                <div class="h-1.5 bg-card rounded-full overflow-hidden">
-                  <div class="h-full bg-accent rounded-full transition-all duration-1000" style={`width: ${skill.width}%`} />
-                </div>
+                <p class="text-sm text-text-secondary leading-relaxed text-pretty">{skill.evidence}</p>
               </div>
             ))}
           </div>
@@ -175,18 +233,16 @@ const aboutProjects = [
         <!-- Programming Languages -->
         <div>
           <h3 class="text-lg font-semibold text-text-primary mb-4">Programming Languages</h3>
-          <div class="space-y-4">
+          <div class="border-t border-border divide-y divide-border">
             {skills.languages.map((skill) => (
-              <div>
-                <div class="flex items-center justify-between mb-1.5">
-                  <span class="text-sm text-text-secondary">{skill.name}</span>
-                  <span class={`px-2 py-0.5 rounded-full text-xs font-medium ${levelColors[skill.level]}`}>
+              <div class="py-4">
+                <div class="flex items-baseline justify-between gap-3 mb-1.5">
+                  <h4 class="text-sm font-semibold text-text-primary">{skill.name}</h4>
+                  <span class={`shrink-0 px-2 py-0.5 rounded-full text-xs font-medium ${levelColors[skill.level]}`}>
                     {skill.level}
                   </span>
                 </div>
-                <div class="h-1.5 bg-card rounded-full overflow-hidden">
-                  <div class="h-full bg-accent rounded-full transition-all duration-1000" style={`width: ${skill.width}%`} />
-                </div>
+                <p class="text-sm text-text-secondary leading-relaxed text-pretty">{skill.evidence}</p>
               </div>
             ))}
           </div>
