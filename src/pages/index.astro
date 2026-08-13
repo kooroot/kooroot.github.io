@@ -4,13 +4,32 @@ import Hero from '../components/Hero.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import { getCollection } from 'astro:content';
 import { icons } from '../components/icons/index';
-import { isFeaturedCategory } from '../lib/categories';
+
+/**
+ * The three front-page slots, named and ordered.
+ *
+ * Two attempts at deriving them both failed the same way. Sorting all of them
+ * by date handed the page to whatever shipped last — two of three slots went to
+ * game projects, 2 of 59 entries. Narrowing to the relevant categories held up
+ * only until three hackathon projects landed on one date, at which point an
+ * arbitrary tiebreak among equals picked the front page again.
+ *
+ * A portfolio's best three are a judgement, not a query. These cover EVM agent
+ * payments, a Solana program settling on cryptographic proof, and Rust systems
+ * work — one axis each, no overlap.
+ */
+const FEATURED_SLUGS = ['mapae', 'proofmarket', 'nerve'] as const;
 
 const allProjects = await getCollection('projects');
-const featuredProjects = allProjects
-  .filter((p) => p.data.show_tile && isFeaturedCategory(p.data.category))
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-  .slice(0, 3);
+const byId = new Map(allProjects.map((p) => [p.id, p]));
+
+// Loudly, at build time: a renamed or deleted file must not silently shrink the
+// front page to two cards.
+const featuredProjects = FEATURED_SLUGS.map((slug) => {
+  const project = byId.get(slug);
+  if (!project) throw new Error(`Featured project "${slug}" has no entry in src/content/projects/`);
+  return project;
+});
 ---
 
 <BaseLayout>

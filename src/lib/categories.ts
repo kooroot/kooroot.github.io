@@ -73,24 +73,6 @@ export const PROJECT_CATEGORIES = [
 export type CategoryName = (typeof PROJECT_CATEGORIES)[number]['name'];
 
 /**
- * The categories the homepage's three featured slots draw from.
- *
- * The homepage used to sort every `show_tile` project by date and take the top
- * three, so the front page showed whatever happened to ship last. Game
- * Development is 2 of 56 projects and it held 2 of the 3 slots. Recency is
- * still the tiebreaker — it just picks from the work this site exists to show.
- */
-export const FEATURED_CATEGORIES = [
-  'Blockchain Development',
-  'AI Engineering',
-] as const satisfies readonly CategoryName[];
-
-const FEATURED = new Set<string>(FEATURED_CATEGORIES);
-
-/** Same tolerance for plain strings as `styleFor` — see the note there. */
-export const isFeaturedCategory = (name: string): boolean => FEATURED.has(name);
-
-/**
  * The tuple form `z.enum` needs. Deriving it here is the whole point: the
  * schema and the styling can no longer drift apart.
  */
