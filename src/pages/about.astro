@@ -5,73 +5,75 @@ import { CERTIFICATIONS, AWARDS } from '../consts';
 import { getCollection } from 'astro:content';
 
 /**
- * A percentage on a skill bar has no referent — "Rust 40%" only tells a reader
- * what I think of myself. Each row carries the work it stands on instead, so
- * the claim is checkable against the projects on this site.
+ * One line of work under each bar. A bar on its own is only a self-assessment;
+ * the line names what it is measuring, and every one of them is checkable
+ * against a project on this site.
+ *
+ * Ordered by width so each column reads as one descending shape.
  */
 const skills = {
   blockchain: [
     {
       name: 'Ethereum & Layer 2',
       level: 'Expert',
-      evidence:
-        'Analyzed how far an Optimistic rollup can widen its transaction and state-root submission intervals before the security assumptions degrade; the change went into production at Onther and the operating cost came down.',
+      width: 90,
+      evidence: 'Rollup submission-interval optimization, shipped to production',
     },
     {
       name: 'Node Operation & Validation',
       level: 'Expert',
-      evidence:
-        'Node Executor install scripts for eight networks — Ritual, Nexus, Gensyn, Privasea, Hyperlane, Pipe Network, Gaianet, Soundness. Each absorbs OS/GPU detection, dependencies, session management and config patching. Validators monitored with Prometheus and Grafana.',
+      width: 85,
+      evidence: 'Node Executor install scripts across eight networks',
     },
     {
       name: 'DApp & DeFi Development',
       level: 'Expert',
-      evidence:
-        'Mapae runs x402 v2 payments over ERC-7710 delegation on GIWA Sepolia: a CREATE2 smart account deployed from a root delegation signed before the account exists, verified afterward through ERC-1271, so the payer spends no ETH.',
+      width: 85,
+      evidence: 'Mapae: x402 v2 payments over ERC-7710 delegation',
     },
     {
       name: 'Smart Contract Development',
       level: 'Advanced',
-      evidence:
-        'Agent spend limits held in deployed caveat-enforcer bytecode rather than a backend check. EIP-3009 transfer authorization and EIP-712 signing, built and deployed with Foundry. Four Anchor programs on Solana.',
+      width: 70,
+      evidence: 'Caveat enforcers on EVM, four Anchor programs on Solana',
     },
     {
       name: 'Smart Contract Auditing',
       level: 'Intermediate',
-      evidence:
-        'Solidity and Anchor audits at Graylab. Designed and hosted the EthCon Korea 2024 blockchain security CTF track — reentrancy, access control, logic flaws, cryptography, bytecode reversing — on CTFd with resettable Docker environments.',
+      width: 55,
+      evidence: 'Solidity and Anchor audits, EthCon Korea 2024 CTF track',
     },
   ],
   languages: [
     {
+      name: 'Python',
+      level: 'Expert',
+      width: 90,
+      evidence: 'On-chain data pipelines, Dune analytics, ML prediction models',
+    },
+    {
       name: 'TypeScript / JavaScript',
       level: 'Advanced',
-      evidence:
-        'Engram is 11.2k lines behind 259 tests, published to npm as @kooroot/engram. Mapae is TypeScript end to end — contracts through Cloudflare Workers, MCP server and docs.',
+      width: 80,
+      evidence: 'Engram on npm, 259 tests; Mapae end to end',
     },
     {
       name: 'Rust',
       level: 'Advanced',
-      evidence:
-        'Nerve reached v1.0.0 across 7 crates and 608 tests, with four-platform binaries. Its sandbox is per-OS at the syscall layer — Seatbelt SBPL, bubblewrap with Landlock, seccomp-bpf and cgroups v2 — and CI proves the jail on a real kernel instead of only compiling the path.',
-    },
-    {
-      name: 'Python',
-      level: 'Expert',
-      evidence:
-        'Rollup data collection and Dune analytics pipelines, ML prediction models over match data, and a contract static-analysis tool that scores similarity with FastText.',
+      width: 75,
+      evidence: 'Nerve v1.0.0: 7 crates, 608 tests, per-OS sandboxing',
     },
     {
       name: 'Solidity',
       level: 'Intermediate',
-      evidence:
-        'Delegation and caveat-enforcer contracts, prediction-market and vault systems, DEX mechanism work. Read far more of it than I have written — the audit work is where most of it lives.',
+      width: 65,
+      evidence: 'Delegation, caveat enforcers, prediction markets, vaults',
     },
     {
       name: 'Go',
       level: 'Intermediate',
-      evidence:
-        'Node operator tooling and deployment automation, on the infrastructure side rather than protocol implementation.',
+      width: 50,
+      evidence: 'Node operator tooling and deployment automation',
     },
   ],
 };
@@ -215,16 +217,19 @@ const aboutProjects = [
         <!-- Blockchain Development -->
         <div>
           <h3 class="text-lg font-semibold text-text-primary mb-4">Blockchain Development</h3>
-          <div class="border-t border-border divide-y divide-border">
+          <div class="space-y-5">
             {skills.blockchain.map((skill) => (
-              <div class="py-4">
+              <div>
                 <div class="flex items-baseline justify-between gap-3 mb-1.5">
-                  <h4 class="text-sm font-semibold text-text-primary">{skill.name}</h4>
+                  <span class="text-sm text-text-primary">{skill.name}</span>
                   <span class={`shrink-0 px-2 py-0.5 rounded-full text-xs font-medium ${levelColors[skill.level]}`}>
                     {skill.level}
                   </span>
                 </div>
-                <p class="text-sm text-text-secondary leading-relaxed text-pretty">{skill.evidence}</p>
+                <div class="h-1.5 bg-card rounded-full overflow-hidden" aria-hidden="true">
+                  <div class="h-full bg-accent rounded-full" style={`width: ${skill.width}%`} />
+                </div>
+                <p class="mt-1.5 text-xs text-text-secondary">{skill.evidence}</p>
               </div>
             ))}
           </div>
@@ -233,16 +238,19 @@ const aboutProjects = [
         <!-- Programming Languages -->
         <div>
           <h3 class="text-lg font-semibold text-text-primary mb-4">Programming Languages</h3>
-          <div class="border-t border-border divide-y divide-border">
+          <div class="space-y-5">
             {skills.languages.map((skill) => (
-              <div class="py-4">
+              <div>
                 <div class="flex items-baseline justify-between gap-3 mb-1.5">
-                  <h4 class="text-sm font-semibold text-text-primary">{skill.name}</h4>
+                  <span class="text-sm text-text-primary">{skill.name}</span>
                   <span class={`shrink-0 px-2 py-0.5 rounded-full text-xs font-medium ${levelColors[skill.level]}`}>
                     {skill.level}
                   </span>
                 </div>
-                <p class="text-sm text-text-secondary leading-relaxed text-pretty">{skill.evidence}</p>
+                <div class="h-1.5 bg-card rounded-full overflow-hidden" aria-hidden="true">
+                  <div class="h-full bg-accent rounded-full" style={`width: ${skill.width}%`} />
+                </div>
+                <p class="mt-1.5 text-xs text-text-secondary">{skill.evidence}</p>
               </div>
             ))}
           </div>
