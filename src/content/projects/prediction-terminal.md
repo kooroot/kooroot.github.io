@@ -1,41 +1,40 @@
 ---
 title: Prediction Terminal
-description: Prediction Market Arbitrage Scanner with Terminal-style UI
+description: Arbitrage scanner across Polymarket, Predict.fun and Kalshi, with a collector service that polls each venue on its own rate-limit budget and pushes daily volume digests to Telegram
 image: /images/code-matrix.jpg
 category: Blockchain Development
 show_tile: true
-tech_stack: ["React", "TypeScript", "Cloudflare Workers", "Polymarket"]
+tech_stack: ["TypeScript", "TanStack Start", "Bun", "Cloudflare Workers", "Polymarket", "Predict.fun", "Kalshi", "Telegram"]
 github: https://github.com/kooroot/prediction-terminal
-date: 2025-12-14
+date: 2026-01-21
 ---
 
 ## Problem
-Prediction markets across Polymarket, Predict.fun, and Kalshi routinely misprice related contracts — binary YES/NO legs summing below 1.00, or multi-outcome markets whose ask prices leave room for a dutching book. Spotting these requires continuous orderbook scanning across venues, which manual traders cannot sustain. A real-time scanner surfacing these opportunities removes the manual overhead.
+Prediction markets misprice related contracts routinely: binary YES/NO legs whose asks sum below 1.00, or multi-outcome events where the summed asks leave room for a dutching book. Catching these means holding a current orderbook for every venue at once, and the three venues that matter do not let you read them the same way. Polymarket answers open REST calls, Predict.fun requires an API key behind a strict rate limit, and Kalshi wants every request signed. A scanner has to absorb all three access models before it can compare a single price.
 
 ## Approach
-- **Orderbook-driven detection** rather than mid-price heuristics, so opportunities reflect actually executable prices.
-- **Two arbitrage primitives**: binary arbitrage (`ask(YES) + ask(NO) < 1.00`) and dutching across multi-outcome markets.
-- **Cloudflare Workers** for globally distributed, low-latency market polling without persistent infrastructure.
-- **Terminal aesthetic** (JetBrains Mono, monochrome palette) to match the operator tool framing.
-- **TanStack React Start + Tailwind** for typed routing and utility-first styling.
+- **Executable prices only.** Detection runs on orderbook asks, so a flagged opportunity reflects what could actually be filled rather than a mid-price artifact.
+- **Two primitives, applied uniformly.** Binary arbitrage where `ask(YES) + ask(NO) < 1.00`, and dutching where the summed asks across mutually exclusive outcomes clear the same bar. Every venue implements both.
+- **Collector separated from the interface.** Polling lives in a long-lived Bun service that owns the credentials and holds the cache, and the edge-deployed UI only reads from it. Either side can be redeployed without touching the other.
+- **Poll interval set by the venue.** Each platform gets the cadence its rate limit allows, with a running flag per platform so a slow refresh cannot stack on itself.
+- **Terminal aesthetic** in JetBrains Mono and a monochrome palette, matching the operator-tool framing.
 
 ## Implementation
 
-### Arbitrage Detection
-Continuously scans venue orderbooks and flags two opportunity types: binary arbitrage when the combined ask of YES and NO on the same contract is below 1.00, and dutching across multi-outcome markets where summed ask prices leave positive expected value. Surfaces opportunities as real-time alerts in the UI.
+### Three venues, three access models
+Polymarket needs no credentials and refreshes every 15 seconds. Predict.fun runs on an API key under a strict rate limit, so it refreshes every 60. Kalshi authenticates with RSA-SHA256 signatures over `timestamp + method + path`, sent as `KALSHI-ACCESS-KEY`, `-SIGNATURE` and `-TIMESTAMP` headers, and refreshes every 20. Each collector exposes the same pair of entry points, `fetchBinaryMarkets` and `fetchDutchingEvents`, so the venue-specific response shapes get normalized before any comparison happens.
 
-### Platform Support
-Polymarket (Polygon) is live. Predict.fun (Blast) and Kalshi are on the roadmap.
+### Telegram digests
+A second scheduler reads the same cache and sends a top-20-by-24H-volume digest per venue plus a combined ranking, twice daily at 09:00 and 21:00 KST. Alert hours are configurable through the environment, and a per-hour guard stops the same digest from firing twice in one day. Each row carries volume, liquidity, YES/NO prices, margin, expiry, and a link back to the market.
 
-### Terminal UI
-Terminal-style aesthetic rendered in JetBrains Mono, built with TanStack React Start and Tailwind CSS, and deployed to Cloudflare Workers for edge-local response times.
+### Dashboard
+Routes cover each venue individually alongside a combined top-volume view. The status pill on the landing route is derived from what is actually sitting in the cache for that platform, so a venue reads as pending when its credentials are absent rather than when its integration is missing.
 
 ## Outcome
-- Live arbitrage scanner against Polymarket orderbooks with binary and dutching detection.
-- Edge-deployed UI on Cloudflare Workers.
-- Architecture prepared to add Predict.fun and Kalshi as secondary venues.
+- **4,420 LOC of TypeScript** across 23 files, split 2,473 in the interface and 1,947 in the collector service.
+- All three venues wired for both arbitrage primitives, including RSA-signed Kalshi access and rate-limit-aware Predict.fun polling.
+- Telegram alerting with a configurable schedule, duplicate suppression, and per-platform plus combined rankings.
+- Interface built against Cloudflare Workers through TanStack React Start, with the collector deployable independently as a Bun service.
 
 ## Technologies
-- **Frontend**: React, TanStack Start, Tailwind CSS
-- **Deployment**: Cloudflare Workers
-- **Markets**: Polymarket API, Polygon
+TypeScript · TanStack React Start · React · Tailwind CSS 4 · Bun · Cloudflare Workers · Wrangler · Polymarket CLOB API · Predict.fun API · Kalshi API · Telegram Bot API
